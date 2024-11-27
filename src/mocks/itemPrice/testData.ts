@@ -1,4 +1,4 @@
-export const CATEGORY_44410_data = {
+export const CATEGORY_44410_DATA = {
   result: 'success',
   data: [
     {
