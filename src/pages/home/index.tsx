@@ -1,31 +1,20 @@
-import {
-  AppBar,
-  Box,
-  Button,
-  CardMedia,
-  Grid2,
-  Typography,
-  Container,
-} from '@mui/material';
+import { AppBar, Box, Button, CardMedia, Grid2, Typography, Container } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import {
-  StyledTypography,
-  StyledCardContent,
-  StyledCard,
-  StyledToolbar,
-} from './styles/styles';
+import { StyledTypography, StyledCardContent, StyledCard, StyledToolbar } from './styles/styles';
 import { useTranslation } from 'react-i18next';
 import i18n from '@/locales/i18n';
+import ItemPriceDashboardImage from '@/assets/images/item-price-dashboard-image.png';
+import SimulationImage from '@/assets/images/simulation-image.png';
 
 const cardData = [
   {
-    img: './item-price-dashboard-image.png',
+    img: ItemPriceDashboardImage,
     tag: i18n.t('home.card.content1.tag'),
     title: i18n.t('home.card.content1.title'),
     description: i18n.t('home.card.content1.description'),
   },
   {
-    img: './simulation-image.png',
+    img: SimulationImage,
     tag: i18n.t('home.card.content2.tag'),
     title: i18n.t('home.card.content2.title'),
     description: i18n.t('home.card.content2.description'),
@@ -49,9 +38,7 @@ const Home = () => {
     >
       <Container maxWidth="lg">
         <StyledToolbar variant="dense" disableGutters>
-          <Box
-            sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', px: 0 }}
-          >
+          <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', px: 0 }}>
             <Box
               component={'img'}
               sx={{
@@ -63,9 +50,7 @@ const Home = () => {
               src=""
             />
             <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-              <Typography color="white">
-                {t('home.label.welcome_title')}
-              </Typography>
+              <Typography color="white">{t('home.label.welcome_title')}</Typography>
             </Box>
           </Box>
         </StyledToolbar>

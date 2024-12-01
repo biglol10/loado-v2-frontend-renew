@@ -1,13 +1,10 @@
-import axios, {
-  AxiosInstance,
-  AxiosResponse,
-  InternalAxiosRequestConfig,
-} from 'axios';
+import axios, { AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import queryString from 'query-string';
 import RequestLimitError from './RequestLimitError';
 import _ from 'lodash';
 import { hold } from '@/utils/utilityFunctions';
 import axiosCanceler from './AxiosCanceler';
+import { IApiResponseTemplate } from './types';
 
 export type TApiMethod = 'get' | 'post' | 'put' | 'delete';
 
@@ -21,8 +18,7 @@ interface IRequestParam {
 const RPS = 60 * 1020;
 const MAX_RETCNT = 2;
 
-const BASE_URL =
-  process.env.NODE_ENV === 'development' ? '' : process.env.REACT_APP_BASE_URL;
+const BASE_URL = process.env.NODE_ENV === 'development' ? '' : process.env.REACT_APP_BASE_URL;
 
 const BASE_PREFIX = '/lostark';
 
@@ -66,9 +62,7 @@ const handleResponseSuccess = (response: AxiosResponse<any, any>) => {
   const { url = '', data, method } = response.config;
   axiosCanceler.removeRequest({ url, data, method: method as TApiMethod });
 
-  if (response.status === 200) {
-    return response.data;
-  } else if (response.status === 429) {
+  if (response.status === 429) {
     return Promise.reject(new RequestLimitError('Api Request Limit'));
   }
 
@@ -112,15 +106,9 @@ class AxiosService {
   }
 
   setupInterceptors() {
-    this.axiosInstance.interceptors.request.use(
-      handleRequest,
-      handleRequestError
-    );
+    this.axiosInstance.interceptors.request.use(handleRequest, handleRequestError);
 
-    this.axiosInstance.interceptors.response.use(
-      handleResponseSuccess,
-      handleResponseError
-    );
+    this.axiosInstance.interceptors.response.use(handleResponseSuccess, handleResponseError);
   }
 
   async handleError(
@@ -147,7 +135,7 @@ class AxiosService {
     return error;
   }
 
-  async request(requestParam: IRequestParam) {
+  async request<T>(requestParam: IRequestParam): Promise<IApiResponseTemplate<T>> {
     const { method = 'get', url, data, retryCount = 0 } = requestParam;
 
     try {
@@ -174,17 +162,14 @@ class AxiosService {
 
       // if (url !== '/api/loadoCommon/userlog') store.dispatch(hideLoader());
 
-      return res;
+      return res.data;
     } catch (error) {
       // store.dispatch(hideLoader());
       return this.handleError(error, method, url, data, retryCount);
     }
   }
 
-  public get<T>(
-    url: string,
-    params?: Record<string, any>
-  ): Promise<AxiosResponse<T, any>> {
+  public get<T = any>(url: string, params?: Record<string, any>): Promise<IApiResponseTemplate<T>> {
     let urlWithParams = url;
 
     try {
@@ -201,10 +186,7 @@ class AxiosService {
     }
   }
 
-  public post<T>(
-    url: string,
-    data?: Record<string, any>
-  ): Promise<AxiosResponse<T, any>> {
+  public post<T = any>(url: string, data?: Record<string, any>): Promise<IApiResponseTemplate<T>> {
     return this.request({
       url,
       data,
@@ -212,10 +194,7 @@ class AxiosService {
     });
   }
 
-  public put<T>(
-    url: string,
-    data?: Record<string, any>
-  ): Promise<AxiosResponse<T, any>> {
+  public put<T = any>(url: string, data?: Record<string, any>): Promise<IApiResponseTemplate<T>> {
     return this.request({
       url,
       data,
@@ -223,7 +202,7 @@ class AxiosService {
     });
   }
 
-  public delete<T>(url: string): Promise<AxiosResponse<T, any>> {
+  public delete<T = any>(url: string): Promise<IApiResponseTemplate<T>> {
     return this.request({
       url,
       method: 'delete',
@@ -231,6 +210,6 @@ class AxiosService {
   }
 }
 
-const http = new AxiosService();
+const httpService = new AxiosService();
 
-export default http;
+export default httpService;
