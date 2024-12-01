@@ -17,7 +17,7 @@ export const useItemPriceQuery = (params: IItemPriceQueryParams) => {
   const { searchDate, staleTime } = params;
 
   const fetchFn = async (categoryCode: string) => {
-    return await httpService.get<IItemData[]>('/api/loadoPrice/getMargetPriceByCategoryCode', {
+    return await httpService.get<IItemData[]>('/api/loadoPrice/getMarketPriceByCategoryCode', {
       categoryCode,
       timeValue: searchDate,
     });
