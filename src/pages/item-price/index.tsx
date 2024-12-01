@@ -9,6 +9,7 @@ import { useItemPriceQuery } from '@/apis/itemPrice/useItemPriceQuery';
 import dayjs from 'dayjs';
 import { styled } from '@mui/material/styles';
 import DenseTable from './DenseTable';
+import DenseTableExample from './DenseTableExample';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: '#fff',
@@ -130,7 +131,7 @@ const ItemPricePage = () => {
         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
           <Grid item xs={6}>
             <Item>
-              <DenseTable />
+              <DenseTableExample />
             </Item>
           </Grid>
           <Grid item xs={6}>
