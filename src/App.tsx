@@ -1,4 +1,3 @@
-import setupLocatorUI from '@locator/runtime';
 import './App.css';
 import { createTheme, ThemeProvider } from '@mui/material';
 import { QueryClientProvider } from '@tanstack/react-query';
@@ -11,10 +10,6 @@ import BrowserActivity from './components/atomic/BrowserActivity';
 function App() {
   const isLocal = process.env.MODE === 'local';
   const isUseMsw = process.env.USE_MSW === 'true';
-
-  if (isLocal) {
-    setupLocatorUI();
-  }
 
   const theme = createTheme({
     palette: {

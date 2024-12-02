@@ -47,6 +47,7 @@ export default defineConfig(({ mode }) => {
         '/api': {
           target: loadoApiUrl ?? 'http://localhost:8090',
           changeOrigin: true,
+          secure: false, // https://stackoverflow.com/questions/74033733/vite-self-signed-certificate-error-when-calling-local-api
         },
       },
     },
