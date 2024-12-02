@@ -1,6 +1,5 @@
 import { Tab, Tabs, Grid, Paper, Box } from '@mui/material';
 import { Outlet, useNavigate } from 'react-router-dom';
-import Home from '../home';
 import { useEffect, useMemo, useState } from 'react';
 import * as ComponentTypes from '@/apis/itemPrice/types';
 import userStore from '@/store/user/userStore';
@@ -8,13 +7,8 @@ import { isEmpty, orderBy } from 'lodash';
 import { useItemPriceQuery } from '@/apis/itemPrice/useItemPriceQuery';
 import dayjs from 'dayjs';
 import { styled } from '@mui/material/styles';
-import DenseTable from './DenseTable';
-<<<<<<< HEAD
 import ComponentWithSkeleton from '../../components/atomic/ComponentWithSkeleton';
 import DensePriceTable from './DensePriceTable';
-=======
-import DenseTableExample from './DenseTableExample';
->>>>>>> 3bc608c248f6432279661fe68bcf89af6e03b5a3
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: '#fff',
