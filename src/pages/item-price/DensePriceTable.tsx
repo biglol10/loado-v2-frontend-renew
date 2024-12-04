@@ -11,6 +11,7 @@ import { Avatar, Box, Button, Divider, Typography } from '@mui/material';
 import { imageSrcCollection } from './const/imageSrcCollection';
 import GoldImage from '@/assets/images/goldImage_noBackground.webp';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
+import { useNavigate } from 'react-router-dom';
 
 const headers = ['아이템명', '최소가격', '평균가격', '최대가격', '시세조회'];
 
@@ -21,18 +22,26 @@ interface IDensePriceTableProps {
 }
 
 const DensePriceTable = ({ title, rows, type }: IDensePriceTableProps) => {
+  const navigate = useNavigate();
+
   const PriceCellWithAvatar = React.memo(
     ({ imgSrc, alt, price }: { imgSrc: string; alt: string; price: number }) => {
       return (
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'end' }}>
-          <Avatar src={imgSrc} alt={alt} />
-          <Typography sx={{ fontSize: '0.0875rem', fontWeight: '400' }}>
+          <Typography sx={{ fontSize: '12px', fontWeight: '400' }}>
             {Math.floor(price).toLocaleString()}
           </Typography>
+          <Avatar src={imgSrc} alt={alt} />
         </Box>
       );
     }
   );
+
+  const openSingleItemHistoryPriceModal = (item: IItemData) => {
+    navigate(`/item-price/${item.itemId}`, {
+      state: item,
+    });
+  };
 
   return (
     <TableContainer component={Paper}>
@@ -104,7 +113,11 @@ const DensePriceTable = ({ title, rows, type }: IDensePriceTableProps) => {
                   </TableCell>
                   <TableCell align="right">
                     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'end' }}>
-                      <Button>
+                      <Button
+                        onClick={() => {
+                          openSingleItemHistoryPriceModal(item);
+                        }}
+                      >
                         <MonetizationOnIcon />
                       </Button>
                     </Box>

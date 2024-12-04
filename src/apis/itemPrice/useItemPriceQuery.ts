@@ -1,4 +1,4 @@
-import { useQueries } from '@tanstack/react-query';
+import { keepPreviousData, useQueries } from '@tanstack/react-query';
 import httpService from '../utils/AxiosInstance';
 import { IItemData } from './types';
 
@@ -29,6 +29,7 @@ export const useItemPriceQuery = (params: IItemPriceQueryParams) => {
         queryKey: generateQueryKey(searchDate, categoryCode),
         queryFn: () => fetchFn(categoryCode),
         staleTime,
+        keepPreviousData: true,
       };
     }),
     combine: (result) => {

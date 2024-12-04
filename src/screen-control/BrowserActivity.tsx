@@ -19,17 +19,17 @@ const BrowserActivity = () => {
   }, [setIsMobile]);
 
   useEffect(() => {
-    window.onpopstate = (event) => {
-      console.log(event);
-      eventEmit('@back', 'string'); // event.detail = 'string'
-    };
+    // window.onpopstate = (event) => {
+    //   console.log(event);
+    //   eventEmit('@back', 'string'); // event.detail = 'string'
+    // };
 
     const listener = (e: Event) => {
       const event = e as CustomEvent<string>;
       const data = event.detail;
 
       console.log(data);
-      alert('@back');
+      navigate(-1);
     };
 
     const goToLoginPage = () => {

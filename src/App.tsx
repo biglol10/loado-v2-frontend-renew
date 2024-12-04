@@ -5,7 +5,7 @@ import queryClient from './apis/utils/queryClient';
 import MockProvider from './screen-control/MockProvider';
 import { BrowserRouter } from 'react-router-dom';
 import Router from './routers';
-import BrowserActivity from './components/atomic/BrowserActivity';
+import BrowserActivity from './screen-control/BrowserActivity';
 
 function App() {
   const isLocal = process.env.MODE === 'local';

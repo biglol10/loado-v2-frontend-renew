@@ -24,7 +24,7 @@ const routeElements = [
       },
       {
         path: '/item-price/:id',
-        element: lazyload(() => import('@/pages/item-price/SingleItemPrice')),
+        element: lazyload(() => import('@/pages/item-price/modal/SingleItemPriceModal')),
       },
       {
         path: '/admin-dashboard',
