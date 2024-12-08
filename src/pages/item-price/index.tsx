@@ -105,6 +105,8 @@ const ItemPricePage = () => {
     }
   }, [isMobile]);
 
+  const a = 'asdf';
+
   const columnsForBook = useMemo(() => {
     if (isMobile) {
       return ['아이템명', '최소가격', '시세조회'];
