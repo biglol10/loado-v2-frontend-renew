@@ -1,6 +1,5 @@
 import { Tab, Tabs, Grid, Paper, Box } from '@mui/material';
 import { Outlet, useNavigate } from 'react-router-dom';
-import Home from '../home';
 import { useEffect, useMemo, useState } from 'react';
 import * as ComponentTypes from '@/apis/itemPrice/types';
 import userStore from '@/store/user/userStore';

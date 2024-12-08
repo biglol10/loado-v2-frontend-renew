@@ -1,4 +1,4 @@
-import { keepPreviousData, useQueries } from '@tanstack/react-query';
+import { useQueries } from '@tanstack/react-query';
 import httpService from '../utils/AxiosInstance';
 import { IItemData } from './types';
 
