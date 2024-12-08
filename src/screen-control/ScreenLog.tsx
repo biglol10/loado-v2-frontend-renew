@@ -17,7 +17,6 @@ const ScreenLog = () => {
           color: 'text.primary',
         }}
         height={'100vh'}
-        width={'100vw'}
       >
         <Outlet />
       </Box>

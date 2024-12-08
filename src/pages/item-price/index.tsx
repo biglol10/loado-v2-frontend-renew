@@ -1,4 +1,4 @@
-import { Tab, Tabs, Grid, Paper, Box } from '@mui/material';
+import { Tab, Tabs, Grid, Paper, Box, Container } from '@mui/material';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useEffect, useMemo, useState } from 'react';
 import * as ComponentTypes from '@/apis/itemPrice/types';
@@ -9,6 +9,8 @@ import dayjs from 'dayjs';
 import { styled } from '@mui/material/styles';
 import ComponentWithSkeleton from '../../components/atomic/ComponentWithSkeleton';
 import DensePriceTable from './DensePriceTable';
+import Layout from '../layout/Layout';
+import { StyledToolbar } from '../home/styles/styles';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: '#fff',
@@ -115,87 +117,95 @@ const ItemPricePage = () => {
     }
   }, [isMobile]);
 
-  const handleTabChange = (_: React.SyntheticEvent, value: any) => {
+  const handleTabChange = (_: React.SyntheticEvent, value: ComponentTypes.TActiveTabType) => {
     console.log('value is ', value);
   };
 
   return (
-    <Box sx={{ width: '100%', bgcolor: 'background.paper' }}>
-      <Tabs value={tabValue} onChange={handleTabChange} centered>
-        <Tab label="전체" value="전체" />
-        <Tab label="각인서" value="각인서" />
-        <Tab label="재련재료" value="재련재료" />
-        <Tab label="에스더/보석" value="에스더/보석" />
-      </Tabs>
+    <Layout>
+      <Box sx={{ width: '100%', bgcolor: 'background.paper', marginTop: '50px' }}>
+        <Container maxWidth="lg">
+          <StyledToolbar variant="dense" disableGutters>
+            <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', px: 0 }}>
+              <Tabs value={tabValue} onChange={handleTabChange} centered>
+                <Tab label="전체" value="전체" />
+                <Tab label="각인서" value="각인서" />
+                <Tab label="재련재료" value="재련재료" />
+                <Tab label="에스더/보석" value="에스더/보석" />
+              </Tabs>
+            </Box>
+          </StyledToolbar>
+        </Container>
 
-      <Box sx={{ width: '100%', padding: '50px' }}>
-        <Grid container columnSpacing={{ xs: 1, sm: 2, md: 10 }} xs={12}>
-          <Grid item xs={6}>
-            <Item>
-              <Grid container rowSpacing={5}>
-                <Grid item xs={12}>
-                  <ComponentWithSkeleton
-                    sx={{ height: 250 }}
-                    animation="wave"
-                    variant="rectangular"
-                    isLoading={isLoading}
-                  >
-                    <DensePriceTable title="재련 재료" rows={refinement} />
-                  </ComponentWithSkeleton>
+        <Box sx={{ width: '100%', padding: '50px' }}>
+          <Grid container columnSpacing={{ xs: 1, sm: 2, md: 10 }} xs={12}>
+            <Grid item xs={6}>
+              <Item>
+                <Grid container rowSpacing={5}>
+                  <Grid item xs={12}>
+                    <ComponentWithSkeleton
+                      sx={{ height: 250 }}
+                      animation="wave"
+                      variant="rectangular"
+                      isLoading={isLoading}
+                    >
+                      <DensePriceTable title="재련 재료" rows={refinement} />
+                    </ComponentWithSkeleton>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <ComponentWithSkeleton
+                      sx={{ height: 250 }}
+                      animation="wave"
+                      variant="rectangular"
+                      isLoading={isLoading}
+                    >
+                      <DensePriceTable title="재련 추가 재료" rows={refinementAdditional} />
+                    </ComponentWithSkeleton>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <ComponentWithSkeleton
+                      sx={{ height: 250 }}
+                      animation="wave"
+                      variant="rectangular"
+                      isLoading={isLoading}
+                    >
+                      <DensePriceTable title="에스더의 기운 / 보석" rows={[...esder, ...jewelry]} />
+                    </ComponentWithSkeleton>
+                  </Grid>
                 </Grid>
-                <Grid item xs={12}>
-                  <ComponentWithSkeleton
-                    sx={{ height: 250 }}
-                    animation="wave"
-                    variant="rectangular"
-                    isLoading={isLoading}
-                  >
-                    <DensePriceTable title="재련 추가 재료" rows={refinementAdditional} />
-                  </ComponentWithSkeleton>
+              </Item>
+            </Grid>
+            <Grid item xs={6}>
+              <Item>
+                <Grid container rowSpacing={5}>
+                  <Grid item xs={12}>
+                    <ComponentWithSkeleton
+                      sx={{ height: 250 }}
+                      animation="wave"
+                      variant="rectangular"
+                      isLoading={isLoading}
+                    >
+                      <DensePriceTable title="각인서" rows={engravings} type="book" />
+                    </ComponentWithSkeleton>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <ComponentWithSkeleton
+                      sx={{ height: 250 }}
+                      animation="wave"
+                      variant="rectangular"
+                      isLoading={isLoading}
+                    >
+                      <DensePriceTable title="직업 각인서" rows={characterEngravings} type="book" />
+                    </ComponentWithSkeleton>
+                  </Grid>
                 </Grid>
-                <Grid item xs={12}>
-                  <ComponentWithSkeleton
-                    sx={{ height: 250 }}
-                    animation="wave"
-                    variant="rectangular"
-                    isLoading={isLoading}
-                  >
-                    <DensePriceTable title="에스더의 기운 / 보석" rows={[...esder, ...jewelry]} />
-                  </ComponentWithSkeleton>
-                </Grid>
-              </Grid>
-            </Item>
+              </Item>
+            </Grid>
           </Grid>
-          <Grid item xs={6}>
-            <Item>
-              <Grid container rowSpacing={5}>
-                <Grid item xs={12}>
-                  <ComponentWithSkeleton
-                    sx={{ height: 250 }}
-                    animation="wave"
-                    variant="rectangular"
-                    isLoading={isLoading}
-                  >
-                    <DensePriceTable title="각인서" rows={engravings} type="book" />
-                  </ComponentWithSkeleton>
-                </Grid>
-                <Grid item xs={12}>
-                  <ComponentWithSkeleton
-                    sx={{ height: 250 }}
-                    animation="wave"
-                    variant="rectangular"
-                    isLoading={isLoading}
-                  >
-                    <DensePriceTable title="직업 각인서" rows={characterEngravings} type="book" />
-                  </ComponentWithSkeleton>
-                </Grid>
-              </Grid>
-            </Item>
-          </Grid>
-        </Grid>
+        </Box>
+        <Outlet />
       </Box>
-      <Outlet />
-    </Box>
+    </Layout>
   );
 };
 

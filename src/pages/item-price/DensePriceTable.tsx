@@ -71,7 +71,8 @@ const DensePriceTable = ({ title, rows, type }: IDensePriceTableProps) => {
         </TableHead>
         <TableBody>
           {rows.map((item, idx) => {
-            if (imageSrcCollection.hasOwnProperty(item.itemId) || type === 'book') {
+            const itemId = item.itemId as keyof typeof imageSrcCollection;
+            if (imageSrcCollection[itemId] || type === 'book') {
               return (
                 <TableRow
                   key={`${title}_${idx}`}
@@ -81,13 +82,13 @@ const DensePriceTable = ({ title, rows, type }: IDensePriceTableProps) => {
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                       <Avatar
                         src={
-                          type !== 'book'
-                            ? imageSrcCollection[item.itemId as keyof typeof imageSrcCollection]
-                            : imageSrcCollection['book']
+                          type !== 'book' ? imageSrcCollection[itemId] : imageSrcCollection['book']
                         }
                         alt={item.itemName}
                       />
-                      <Typography sx={{ fontSize: '12px' }}>{item.itemName}</Typography>
+                      <Typography sx={{ fontSize: '12px', marginLeft: '5px' }}>
+                        {item.itemName}
+                      </Typography>
                     </Box>
                   </TableCell>
                   <TableCell align="right">
