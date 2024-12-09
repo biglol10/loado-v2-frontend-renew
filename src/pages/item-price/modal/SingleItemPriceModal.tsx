@@ -1,15 +1,6 @@
 import { eventEmit } from '@/utils/events';
 import { Box, Button, Typography, Modal, Backdrop, styled, css } from '@mui/material';
 
-const blue = {
-  200: '#99CCFF',
-  300: '#66B2FF',
-  400: '#3399FF',
-  500: '#007FFF',
-  600: '#0072E5',
-  700: '#0066CC',
-};
-
 const grey = {
   50: '#F3F6F9',
   100: '#E5EAF2',
@@ -73,9 +64,10 @@ const StyledBackdrop = styled(Backdrop)`
   -webkit-tap-highlight-color: transparent;
 `;
 
-const SingleItemPriceModal = () => {
+const SingleItemPriceModal = ({ closeModal }: { closeModal: () => void }) => {
   const historyBack = () => {
-    eventEmit('@back');
+    // eventEmit('@back');
+    closeModal();
   };
 
   return (

@@ -11,7 +11,6 @@ import { Avatar, Box, Button, Divider, Typography } from '@mui/material';
 import { imageSrcCollection } from './const/imageSrcCollection';
 import GoldImage from '@/assets/images/goldImage_noBackground.webp';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
-import { useNavigate } from 'react-router-dom';
 
 const headers = ['아이템명', '최소가격', '평균가격', '최대가격', '시세조회'];
 
@@ -19,11 +18,10 @@ interface IDensePriceTableProps {
   title: string;
   rows: IItemData[];
   type?: 'book';
+  setSelectedItemId: (id: string) => void;
 }
 
-const DensePriceTable = ({ title, rows, type }: IDensePriceTableProps) => {
-  const navigate = useNavigate();
-
+const DensePriceTable = ({ title, rows, type, setSelectedItemId }: IDensePriceTableProps) => {
   const PriceCellWithAvatar = React.memo(
     ({ imgSrc, alt, price }: { imgSrc: string; alt: string; price: number }) => {
       return (
@@ -38,14 +36,12 @@ const DensePriceTable = ({ title, rows, type }: IDensePriceTableProps) => {
   );
 
   const openSingleItemHistoryPriceModal = (item: IItemData) => {
-    navigate(`/item-price/${item.itemId}`, {
-      state: item,
-    });
+    setSelectedItemId(item.itemId);
   };
 
   return (
     <TableContainer component={Paper}>
-      <Typography gutterBottom variant="h5" component={'div'} sx={{ marginTop: '1px' }}>
+      <Typography gutterBottom variant="h5" component={'div'} sx={{ marginTop: '10px' }}>
         {title}
       </Typography>
 

@@ -11,6 +11,7 @@ import ComponentWithSkeleton from '../../components/atomic/ComponentWithSkeleton
 import DensePriceTable from './DensePriceTable';
 import Layout from '../layout/Layout';
 import { StyledToolbar } from '../home/styles/styles';
+import SingleItemPriceModal from './modal/SingleItemPriceModal';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: '#fff',
@@ -36,7 +37,7 @@ const ItemPricePage = () => {
   const [characterEngravings, setCharacterEngravings] = useState<ComponentTypes.IItemData[]>([]);
   const [jewelry, setJewelry] = useState<ComponentTypes.IItemData[]>([]);
 
-  const [tabValue, setTabValue] = useState('전체');
+  const [itemIdToOpen, setItemIdToOpen] = useState<string>();
 
   const { isMobile } = userStore();
 
@@ -118,7 +119,11 @@ const ItemPricePage = () => {
   }, [isMobile]);
 
   const handleTabChange = (_: React.SyntheticEvent, value: ComponentTypes.TActiveTabType) => {
-    console.log('value is ', value);
+    setActiveTab(value);
+  };
+
+  const closeSingleItemPriceModal = () => {
+    setItemIdToOpen(undefined);
   };
 
   return (
@@ -127,11 +132,11 @@ const ItemPricePage = () => {
         <Container maxWidth="lg">
           <StyledToolbar variant="dense" disableGutters>
             <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', px: 0 }}>
-              <Tabs value={tabValue} onChange={handleTabChange} centered>
-                <Tab label="전체" value="전체" />
-                <Tab label="각인서" value="각인서" />
-                <Tab label="재련재료" value="재련재료" />
-                <Tab label="에스더/보석" value="에스더/보석" />
+              <Tabs value={activeTab} onChange={handleTabChange} centered>
+                <Tab label="전체" value={'ALL'} />
+                <Tab label="각인서" value={'BOOK'} />
+                <Tab label="재련재료" value={'MATERIAL'} />
+                <Tab label="에스더/보석" value={'ESDER_AND_GEM'} />
               </Tabs>
             </Box>
           </StyledToolbar>
@@ -149,7 +154,11 @@ const ItemPricePage = () => {
                       variant="rectangular"
                       isLoading={isLoading}
                     >
-                      <DensePriceTable title="재련 재료" rows={refinement} />
+                      <DensePriceTable
+                        title="재련 재료"
+                        rows={refinement}
+                        setSelectedItemId={setItemIdToOpen}
+                      />
                     </ComponentWithSkeleton>
                   </Grid>
                   <Grid item xs={12}>
@@ -159,7 +168,11 @@ const ItemPricePage = () => {
                       variant="rectangular"
                       isLoading={isLoading}
                     >
-                      <DensePriceTable title="재련 추가 재료" rows={refinementAdditional} />
+                      <DensePriceTable
+                        title="재련 추가 재료"
+                        rows={refinementAdditional}
+                        setSelectedItemId={setItemIdToOpen}
+                      />
                     </ComponentWithSkeleton>
                   </Grid>
                   <Grid item xs={12}>
@@ -169,7 +182,11 @@ const ItemPricePage = () => {
                       variant="rectangular"
                       isLoading={isLoading}
                     >
-                      <DensePriceTable title="에스더의 기운 / 보석" rows={[...esder, ...jewelry]} />
+                      <DensePriceTable
+                        title="에스더의 기운 / 보석"
+                        rows={[...esder, ...jewelry]}
+                        setSelectedItemId={setItemIdToOpen}
+                      />
                     </ComponentWithSkeleton>
                   </Grid>
                 </Grid>
@@ -185,7 +202,12 @@ const ItemPricePage = () => {
                       variant="rectangular"
                       isLoading={isLoading}
                     >
-                      <DensePriceTable title="각인서" rows={engravings} type="book" />
+                      <DensePriceTable
+                        title="각인서"
+                        rows={engravings}
+                        type="book"
+                        setSelectedItemId={setItemIdToOpen}
+                      />
                     </ComponentWithSkeleton>
                   </Grid>
                   <Grid item xs={12}>
@@ -195,7 +217,12 @@ const ItemPricePage = () => {
                       variant="rectangular"
                       isLoading={isLoading}
                     >
-                      <DensePriceTable title="직업 각인서" rows={characterEngravings} type="book" />
+                      <DensePriceTable
+                        title="직업 각인서"
+                        rows={characterEngravings}
+                        type="book"
+                        setSelectedItemId={setItemIdToOpen}
+                      />
                     </ComponentWithSkeleton>
                   </Grid>
                 </Grid>
@@ -205,6 +232,7 @@ const ItemPricePage = () => {
         </Box>
         <Outlet />
       </Box>
+      {itemIdToOpen && <SingleItemPriceModal closeModal={closeSingleItemPriceModal} />}
     </Layout>
   );
 };
