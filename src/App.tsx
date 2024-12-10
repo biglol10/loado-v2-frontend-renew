@@ -6,6 +6,8 @@ import MockProvider from './screen-control/MockProvider';
 import { BrowserRouter } from 'react-router-dom';
 import Router from './routers';
 import BrowserActivity from './screen-control/BrowserActivity';
+import { I18nextProvider } from 'react-i18next';
+import i18n from './locales/i18n';
 
 function App() {
   const isLocal = process.env.MODE === 'local';
@@ -19,17 +21,19 @@ function App() {
 
   return (
     <>
-      <ThemeProvider theme={theme}>
-        <QueryClientProvider client={queryClient}>
-          <MockProvider enable={isLocal && isUseMsw}>
-            <BrowserRouter>
-              <Router />
-              {/* <RouterProvider router={rootRouer} /> */}
-              <BrowserActivity />
-            </BrowserRouter>
-          </MockProvider>
-        </QueryClientProvider>
-      </ThemeProvider>
+      <I18nextProvider i18n={i18n}>
+        <ThemeProvider theme={theme}>
+          <QueryClientProvider client={queryClient}>
+            <MockProvider enable={isLocal && isUseMsw}>
+              <BrowserRouter>
+                <Router />
+                {/* <RouterProvider router={rootRouer} /> */}
+                <BrowserActivity />
+              </BrowserRouter>
+            </MockProvider>
+          </QueryClientProvider>
+        </ThemeProvider>
+      </I18nextProvider>
     </>
   );
 }
