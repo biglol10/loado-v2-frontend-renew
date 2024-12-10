@@ -9,7 +9,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "postinstall": "husky install",
+    "postinstall": "husky init",
     "prepare": "husky"
   },
   "dependencies": {

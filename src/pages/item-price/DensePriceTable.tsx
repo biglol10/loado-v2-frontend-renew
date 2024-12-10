@@ -11,6 +11,7 @@ import { Avatar, Box, Button, Divider, Typography } from '@mui/material';
 import { imageSrcCollection } from './const/imageSrcCollection';
 import GoldImage from '@/assets/images/goldImage_noBackground.webp';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
+import itemPriceStore from '@/store/item-price/itemPriceStore';
 
 const headers = ['아이템명', '최소가격', '평균가격', '최대가격', '시세조회'];
 
@@ -18,10 +19,11 @@ interface IDensePriceTableProps {
   title: string;
   rows: IItemData[];
   type?: 'book';
-  setSelectedItemId: (id: string) => void;
 }
 
-const DensePriceTable = ({ title, rows, type, setSelectedItemId }: IDensePriceTableProps) => {
+const DensePriceTable = ({ title, rows, type }: IDensePriceTableProps) => {
+  const { setSelectedItemIdToView } = itemPriceStore();
+
   const PriceCellWithAvatar = React.memo(
     ({ imgSrc, alt, price }: { imgSrc: string; alt: string; price: number }) => {
       return (
@@ -36,7 +38,7 @@ const DensePriceTable = ({ title, rows, type, setSelectedItemId }: IDensePriceTa
   );
 
   const openSingleItemHistoryPriceModal = (item: IItemData) => {
-    setSelectedItemId(item.itemId);
+    setSelectedItemIdToView(item.itemId);
   };
 
   return (

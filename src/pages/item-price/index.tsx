@@ -12,6 +12,7 @@ import DensePriceTable from './DensePriceTable';
 import Layout from '../layout/Layout';
 import { StyledToolbar } from '../home/styles/styles';
 import SingleItemPriceModal from './modal/SingleItemPriceModal';
+import itemPriceStore from '@/store/item-price/itemPriceStore';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: '#fff',
@@ -27,6 +28,7 @@ const Item = styled(Paper)(({ theme }) => ({
 const ItemPricePage = () => {
   const navigate = useNavigate();
   const { setIsMobile } = userStore();
+  const { selectedItemIdToView } = itemPriceStore();
 
   const [activeTab, setActiveTab] = useState<ComponentTypes.TActiveTabType>('ALL');
   const [refinement, setRefinement] = useState<ComponentTypes.IItemData[]>([]);
@@ -122,10 +124,6 @@ const ItemPricePage = () => {
     setActiveTab(value);
   };
 
-  const closeSingleItemPriceModal = () => {
-    setItemIdToOpen(undefined);
-  };
-
   return (
     <Layout>
       <Box sx={{ width: '100%', bgcolor: 'background.paper', marginTop: '50px' }}>
@@ -154,11 +152,7 @@ const ItemPricePage = () => {
                       variant="rectangular"
                       isLoading={isLoading}
                     >
-                      <DensePriceTable
-                        title="재련 재료"
-                        rows={refinement}
-                        setSelectedItemId={setItemIdToOpen}
-                      />
+                      <DensePriceTable title="재련 재료" rows={refinement} />
                     </ComponentWithSkeleton>
                   </Grid>
                   <Grid item xs={12}>
@@ -168,11 +162,7 @@ const ItemPricePage = () => {
                       variant="rectangular"
                       isLoading={isLoading}
                     >
-                      <DensePriceTable
-                        title="재련 추가 재료"
-                        rows={refinementAdditional}
-                        setSelectedItemId={setItemIdToOpen}
-                      />
+                      <DensePriceTable title="재련 추가 재료" rows={refinementAdditional} />
                     </ComponentWithSkeleton>
                   </Grid>
                   <Grid item xs={12}>
@@ -182,11 +172,7 @@ const ItemPricePage = () => {
                       variant="rectangular"
                       isLoading={isLoading}
                     >
-                      <DensePriceTable
-                        title="에스더의 기운 / 보석"
-                        rows={[...esder, ...jewelry]}
-                        setSelectedItemId={setItemIdToOpen}
-                      />
+                      <DensePriceTable title="에스더의 기운 / 보석" rows={[...esder, ...jewelry]} />
                     </ComponentWithSkeleton>
                   </Grid>
                 </Grid>
@@ -202,12 +188,7 @@ const ItemPricePage = () => {
                       variant="rectangular"
                       isLoading={isLoading}
                     >
-                      <DensePriceTable
-                        title="각인서"
-                        rows={engravings}
-                        type="book"
-                        setSelectedItemId={setItemIdToOpen}
-                      />
+                      <DensePriceTable title="각인서" rows={engravings} type="book" />
                     </ComponentWithSkeleton>
                   </Grid>
                   <Grid item xs={12}>
@@ -217,12 +198,7 @@ const ItemPricePage = () => {
                       variant="rectangular"
                       isLoading={isLoading}
                     >
-                      <DensePriceTable
-                        title="직업 각인서"
-                        rows={characterEngravings}
-                        type="book"
-                        setSelectedItemId={setItemIdToOpen}
-                      />
+                      <DensePriceTable title="직업 각인서" rows={characterEngravings} type="book" />
                     </ComponentWithSkeleton>
                   </Grid>
                 </Grid>
@@ -232,7 +208,7 @@ const ItemPricePage = () => {
         </Box>
         <Outlet />
       </Box>
-      {itemIdToOpen && <SingleItemPriceModal closeModal={closeSingleItemPriceModal} />}
+      {selectedItemIdToView && <SingleItemPriceModal />}
     </Layout>
   );
 };

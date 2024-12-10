@@ -1,4 +1,8 @@
 {
+  "layout": {
+    "itemPrice": "아이템시세",
+    "simulation": "재련시뮬레이션"
+  },
   "home": {
     "label": {
       "welcome_title": "리뉴얼된 Loado에 오신걸 환영합니다"

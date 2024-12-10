@@ -1,5 +1,5 @@
-import { eventEmit } from '@/utils/events';
-import { Box, Button, Typography, Modal, Backdrop, styled, css } from '@mui/material';
+import itemPriceStore from '@/store/item-price/itemPriceStore';
+import { Modal, Backdrop, styled, css } from '@mui/material';
 
 const grey = {
   50: '#F3F6F9',
@@ -64,10 +64,11 @@ const StyledBackdrop = styled(Backdrop)`
   -webkit-tap-highlight-color: transparent;
 `;
 
-const SingleItemPriceModal = ({ closeModal }: { closeModal: () => void }) => {
+const SingleItemPriceModal = () => {
+  const { setSelectedItemIdToView } = itemPriceStore();
+
   const historyBack = () => {
-    // eventEmit('@back');
-    closeModal();
+    setSelectedItemIdToView(undefined);
   };
 
   return (

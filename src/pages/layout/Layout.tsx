@@ -1,10 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Tab, Tabs, Box, Typography } from '@mui/material';
 import { StyledToolbar } from '../home/styles/styles';
 import RefineAnimation from '@/assets/images/refine/refineAnimation.gif';
 import GoldImage from '@/assets/images/goldImage.png';
+import itemPriceStore from '@/store/item-price/itemPriceStore';
+import { useTranslation } from 'react-i18next';
+
+type TCurrentPage = 'ALL' | 'SIMULATION';
 
 const Layout = ({ children }: React.PropsWithChildren) => {
+  const { t } = useTranslation();
+  const { setSelectedItemIdToView } = itemPriceStore();
+  const [currentPage, setCurrentPage] = useState<TCurrentPage>('ALL');
+
+  const handleTabChange = (_: React.SyntheticEvent, value: TCurrentPage) => {
+    setSelectedItemIdToView(undefined);
+    setCurrentPage(value);
+  };
+
   return (
     <Box width={'100%'}>
       <StyledToolbar variant="dense" disableGutters>
