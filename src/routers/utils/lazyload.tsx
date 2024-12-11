@@ -1,18 +1,5 @@
 import { ComponentType, lazy, Suspense } from 'react';
-import { CircularProgress, Box } from '@mui/material';
-
-const FallbackLoader = () => (
-  <Box
-    sx={{
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      height: '100vh',
-    }}
-  >
-    <CircularProgress />
-  </Box>
-);
+import FallbackLoader from './FallbackLoader';
 
 const lazyload = (componentImport: () => Promise<{ default: ComponentType<any> }>) => {
   try {

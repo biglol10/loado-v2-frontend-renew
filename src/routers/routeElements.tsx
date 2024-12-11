@@ -1,9 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import { Navigate } from 'react-router-dom';
 import lazyload from './utils/lazyload';
 import Home from '@/pages/home';
 import ScreenLog from '@/screen-control/ScreenLog';
 import PrivateRoute from './utils/PrivateRoute';
+import AppLayout from '@/screen-control/AppLayout';
 
 const routeElements = [
   {
@@ -13,18 +14,28 @@ const routeElements = [
       { path: '/home', element: <Home /> },
       { path: '/example', element: lazyload(() => import('@/pages/example')) },
       {
-        path: '/item-price',
-        element: lazyload(() => import('@/pages/item-price')),
+        path: '',
+        element: <AppLayout />,
         children: [
           {
-            path: 'notice',
-            element: lazyload(() => import('@/pages/item-price/notice')),
+            path: '/item-price',
+            element: lazyload(() => import('@/pages/item-price')),
+            children: [
+              {
+                path: 'notice',
+                element: lazyload(() => import('@/pages/item-price/notice')),
+              },
+            ],
+          },
+          {
+            path: '/item-price/:id',
+            element: lazyload(() => import('@/pages/item-price/modal/SingleItemPriceModal')),
+          },
+          {
+            path: '/simulation',
+            element: lazyload(() => import('@/pages/simulation/SimulationPage')),
           },
         ],
-      },
-      {
-        path: '/item-price/:id',
-        element: lazyload(() => import('@/pages/item-price/modal/SingleItemPriceModal')),
       },
       {
         path: '/admin-dashboard',

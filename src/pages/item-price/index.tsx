@@ -1,6 +1,6 @@
 import { Tab, Tabs, Grid, Paper, Box, Container } from '@mui/material';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { useEffect, useMemo, useState } from 'react';
+import { lazy, Suspense, useEffect, useMemo, useState } from 'react';
 import * as ComponentTypes from '@/apis/itemPrice/types';
 import userStore from '@/store/user/userStore';
 import { isEmpty, orderBy } from 'lodash';
@@ -11,8 +11,8 @@ import ComponentWithSkeleton from '../../components/atomic/ComponentWithSkeleton
 import DensePriceTable from './DensePriceTable';
 import Layout from '../layout/Layout';
 import { StyledToolbar } from '../home/styles/styles';
-import SingleItemPriceModal from './modal/SingleItemPriceModal';
 import itemPriceStore from '@/store/item-price/itemPriceStore';
+import { useTranslation } from 'react-i18next';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: '#fff',
@@ -25,7 +25,10 @@ const Item = styled(Paper)(({ theme }) => ({
   }),
 }));
 
+const SingleItemPriceModal = lazy(() => import('./modal/SingleItemPriceModal'));
+
 const ItemPricePage = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { setIsMobile } = userStore();
   const { selectedItemIdToView } = itemPriceStore();
@@ -110,8 +113,6 @@ const ItemPricePage = () => {
     }
   }, [isMobile]);
 
-  const a = 'asdf';
-
   const columnsForBook = useMemo(() => {
     if (isMobile) {
       return ['아이템명', '최소가격', '시세조회'];
@@ -131,7 +132,7 @@ const ItemPricePage = () => {
           <StyledToolbar variant="dense" disableGutters>
             <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', px: 0 }}>
               <Tabs value={activeTab} onChange={handleTabChange} centered>
-                <Tab label="전체" value={'ALL'} />
+                <Tab label={t('item-price.label.tab1')} value={'ALL'} />
                 <Tab label="각인서" value={'BOOK'} />
                 <Tab label="재련재료" value={'MATERIAL'} />
                 <Tab label="에스더/보석" value={'ESDER_AND_GEM'} />
@@ -208,7 +209,12 @@ const ItemPricePage = () => {
         </Box>
         <Outlet />
       </Box>
-      {selectedItemIdToView && <SingleItemPriceModal />}
+      {/* Suspense로 안 감싸면 FallbackLoader가 표시되면서 화면이 리랜더링 */}
+      {selectedItemIdToView && (
+        <Suspense>
+          <SingleItemPriceModal />
+        </Suspense>
+      )}
     </Layout>
   );
 };
