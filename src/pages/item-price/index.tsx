@@ -9,7 +9,6 @@ import dayjs from 'dayjs';
 import { styled } from '@mui/material/styles';
 import ComponentWithSkeleton from '../../components/atomic/ComponentWithSkeleton';
 import DensePriceTable from './DensePriceTable';
-import Layout from '../layout/Layout';
 import { StyledToolbar } from '../home/styles/styles';
 import itemPriceStore from '@/store/item-price/itemPriceStore';
 import { useTranslation } from 'react-i18next';
@@ -126,7 +125,7 @@ const ItemPricePage = () => {
   };
 
   return (
-    <Layout>
+    <>
       <Box sx={{ width: '100%', bgcolor: 'background.paper', marginTop: '50px' }}>
         <Container maxWidth="lg">
           <StyledToolbar variant="dense" disableGutters>
@@ -215,7 +214,7 @@ const ItemPricePage = () => {
           <SingleItemPriceModal />
         </Suspense>
       )}
-    </Layout>
+    </>
   );
 };
 

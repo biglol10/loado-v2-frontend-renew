@@ -1,5 +1,7 @@
+import SharpDivider from '@/components/atomic/SharpDivider';
 import itemPriceStore from '@/store/item-price/itemPriceStore';
-import { Modal, Backdrop, styled, css } from '@mui/material';
+import { Modal, Backdrop, styled, css, Typography, Container, Box } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 const grey = {
   50: '#F3F6F9',
@@ -65,6 +67,7 @@ const StyledBackdrop = styled(Backdrop)`
 `;
 
 const SingleItemPriceModal = () => {
+  const { t } = useTranslation();
   const { setSelectedItemIdToView } = itemPriceStore();
 
   const historyBack = () => {
@@ -79,10 +82,23 @@ const SingleItemPriceModal = () => {
       aria-describedby="modal-modal-description"
       slots={{ backdrop: StyledBackdrop }}
     >
-      <ModalContent sx={[style, { width: '240px' }]}>
-        <h2 id="child-modal-title" className="modal-title">
-          Text in a child modal
-        </h2>
+      <ModalContent sx={[style, { width: '1140px' }]}>
+        <Typography
+          variant="h5"
+          className="modal-title"
+          sx={{ display: 'flex', justifyContent: 'center' }}
+        >
+          {t('item-price.modal.title')}
+        </Typography>
+
+        <SharpDivider dividerColor="orange" />
+
+        <Container>
+          <Box width="100%" sx={{ display: 'flex', flexDirection: 'column' }}>
+            asdf
+          </Box>
+        </Container>
+
         <p id="child-modal-description" className="modal-description">
           Lorem ipsum, dolor sit amet consectetur adipisicing elit.
         </p>

@@ -41,7 +41,7 @@ const AppLayout = ({ children }: React.PropsWithChildren) => {
                     src={GoldImage}
                   />
                   <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                    <Typography color="white">{t('layout.')}</Typography>
+                    <Typography color="white">{t('layout.itemPrice')}</Typography>
                   </Box>
                 </Box>
               }
@@ -57,7 +57,7 @@ const AppLayout = ({ children }: React.PropsWithChildren) => {
                     src={RefineAnimation}
                   />
                   <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                    <Typography color="white">{`재련시뮬레이션`}</Typography>
+                    <Typography color="white">{t('layout.simulation')}</Typography>
                   </Box>
                 </Box>
               }
