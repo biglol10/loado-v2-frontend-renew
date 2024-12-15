@@ -6,7 +6,6 @@ import {
   styled,
   css,
   Typography,
-  Container,
   Box,
   Select,
   MenuItem,
@@ -100,6 +99,17 @@ const SelectStyled = styled(Select)(({ theme }) => ({
   '& .MuiSelect-icon': {
     color: 'white',
   },
+}));
+
+const FormError = styled(Typography)(({ theme }) => ({
+  color: theme.palette.error.main,
+  fontSize: '0.75rem',
+  marginTop: '4px',
+  position: 'absolute',
+  top: '100%',
+  left: '50%',
+  transform: 'translateX(-50%)',
+  whiteSpace: 'nowrap',
 }));
 
 const SingleItemPriceModal = () => {
@@ -213,6 +223,13 @@ const SingleItemPriceModal = () => {
             >
               조회
             </Button>
+
+            {/* 에러 메시지 표시 */}
+            {(errors.year || errors.month || errors.root) && (
+              <FormError>
+                {errors.year?.message || errors.month?.message || errors.root?.message}
+              </FormError>
+            )}
           </Box>
         </HeaderContainer>
 
