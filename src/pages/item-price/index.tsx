@@ -12,6 +12,7 @@ import DensePriceTable from './DensePriceTable';
 import { StyledToolbar } from '../home/styles/styles';
 import itemPriceStore from '@/store/item-price/itemPriceStore';
 import { useTranslation } from 'react-i18next';
+import SingleItemPriceModal from './modal/SingleItemPriceModal';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: '#fff',
@@ -24,13 +25,13 @@ const Item = styled(Paper)(({ theme }) => ({
   }),
 }));
 
-const SingleItemPriceModal = lazy(() => import('./modal/SingleItemPriceModal'));
+// const SingleItemPriceModal = lazy(() => import('./modal/SingleItemPriceModal'));
 
 const ItemPricePage = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { setIsMobile } = userStore();
-  const { selectedItemIdToView } = itemPriceStore();
+  const { selectedItemToView } = itemPriceStore();
 
   const [activeTab, setActiveTab] = useState<ComponentTypes.TActiveTabType>('ALL');
   const [refinement, setRefinement] = useState<ComponentTypes.IItemData[]>([]);
@@ -132,9 +133,9 @@ const ItemPricePage = () => {
             <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', px: 0 }}>
               <Tabs value={activeTab} onChange={handleTabChange} centered>
                 <Tab label={t('item-price.label.tab1')} value={'ALL'} />
-                <Tab label="각인서" value={'BOOK'} />
-                <Tab label="재련재료" value={'MATERIAL'} />
-                <Tab label="에스더/보석" value={'ESDER_AND_GEM'} />
+                <Tab label={t('item-price.label.tab2')} value={'BOOK'} />
+                <Tab label={t('item-price.label.tab3')} value={'MATERIAL'} />
+                <Tab label={t('item-price.label.tab4')} value={'ESDER_AND_GEM'} />
               </Tabs>
             </Box>
           </StyledToolbar>
@@ -208,12 +209,13 @@ const ItemPricePage = () => {
         </Box>
         <Outlet />
       </Box>
+      {selectedItemToView && <SingleItemPriceModal />}
       {/* Suspense로 안 감싸면 FallbackLoader가 표시되면서 화면이 리랜더링 */}
-      {selectedItemIdToView && (
+      {/* {selectedItemToView && (
         <Suspense>
           <SingleItemPriceModal />
         </Suspense>
-      )}
+      )} */}
     </>
   );
 };

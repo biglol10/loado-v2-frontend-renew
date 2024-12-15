@@ -22,7 +22,7 @@ interface IDensePriceTableProps {
 }
 
 const DensePriceTable = ({ title, rows, type }: IDensePriceTableProps) => {
-  const { setSelectedItemIdToView } = itemPriceStore();
+  const { setSelectedItemToView } = itemPriceStore();
 
   const PriceCellWithAvatar = React.memo(
     ({ imgSrc, alt, price }: { imgSrc: string; alt: string; price: number }) => {
@@ -38,7 +38,7 @@ const DensePriceTable = ({ title, rows, type }: IDensePriceTableProps) => {
   );
 
   const openSingleItemHistoryPriceModal = (item: IItemData) => {
-    setSelectedItemIdToView(item.itemId);
+    setSelectedItemToView({ itemId: item.itemId, itemName: item.itemName });
   };
 
   return (

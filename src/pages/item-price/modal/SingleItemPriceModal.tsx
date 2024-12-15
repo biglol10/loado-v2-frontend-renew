@@ -1,7 +1,25 @@
 import SharpDivider from '@/components/atomic/SharpDivider';
 import itemPriceStore from '@/store/item-price/itemPriceStore';
-import { Modal, Backdrop, styled, css, Typography, Container, Box } from '@mui/material';
+import {
+  Modal,
+  Backdrop,
+  styled,
+  css,
+  Typography,
+  Container,
+  Box,
+  Select,
+  MenuItem,
+  Button,
+} from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { imageSrcCollection } from '../const/imageSrcCollection';
+import { useSingleItemPriceQuery } from '@/apis/itemPrice/useSingleItemPriceQuery';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { searchFormSchema, type SearchFormData } from './schema';
+import { Controller } from 'react-hook-form';
 
 const grey = {
   50: '#F3F6F9',
@@ -66,17 +84,66 @@ const StyledBackdrop = styled(Backdrop)`
   -webkit-tap-highlight-color: transparent;
 `;
 
+const HeaderContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  padding: theme.spacing(2),
+  backgroundColor: '#1e2124',
+  color: 'white',
+}));
+
+const SelectStyled = styled(Select)(({ theme }) => ({
+  backgroundColor: 'transparent',
+  color: 'white',
+  marginRight: theme.spacing(2),
+  '& .MuiSelect-icon': {
+    color: 'white',
+  },
+}));
+
 const SingleItemPriceModal = () => {
   const { t } = useTranslation();
-  const { setSelectedItemIdToView } = itemPriceStore();
+  const { selectedItemToView, setSelectedItemToView } = itemPriceStore();
+
+  // State for actual query parameters (only updated when search is clicked)
+  const [queryParams, setQueryParams] = useState({
+    itemId: selectedItemToView?.itemId || '',
+    yearValue: 2024,
+    monthValue: 12,
+  });
+
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<SearchFormData>({
+    resolver: zodResolver(searchFormSchema),
+    defaultValues: {
+      year: '2024',
+      month: '12',
+    },
+  });
+
+  const { data, isLoading, error } = useSingleItemPriceQuery(queryParams);
+
+  const onSubmit = (data: SearchFormData) => {
+    setQueryParams({
+      itemId: selectedItemToView?.itemId || '',
+      yearValue: parseInt(data.year),
+      monthValue: parseInt(data.month),
+    });
+  };
 
   const historyBack = () => {
-    setSelectedItemIdToView(undefined);
+    setSelectedItemToView(undefined);
   };
+
+  console.log('data is ', data);
 
   return (
     <Modal
-      open
+      open={!!selectedItemToView}
       onClose={historyBack}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
@@ -93,16 +160,79 @@ const SingleItemPriceModal = () => {
 
         <SharpDivider dividerColor="orange" />
 
-        <Container>
-          <Box width="100%" sx={{ display: 'flex', flexDirection: 'column' }}>
-            asdf
+        <HeaderContainer>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Box
+              component={'img'}
+              src={
+                imageSrcCollection[selectedItemToView!.itemId! as keyof typeof imageSrcCollection]
+              }
+            />
+            <Typography variant="h6" sx={{ marginLeft: '10px' }}>
+              {selectedItemToView!.itemName}
+            </Typography>
           </Box>
-        </Container>
+
+          <Box
+            component="form"
+            sx={{ display: 'flex', alignItems: 'center' }}
+            onSubmit={handleSubmit(onSubmit)}
+          >
+            <Controller
+              name="year"
+              control={control}
+              render={({ field }) => (
+                <SelectStyled {...field} size="small" error={!!errors.year}>
+                  <MenuItem value="2023">2023년</MenuItem>
+                  <MenuItem value="2024">2024년</MenuItem>
+                </SelectStyled>
+              )}
+            />
+
+            <Controller
+              name="month"
+              control={control}
+              render={({ field }) => (
+                <SelectStyled {...field} size="small" error={!!errors.month}>
+                  {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => (
+                    <MenuItem key={month} value={String(month)}>
+                      {month}월
+                    </MenuItem>
+                  ))}
+                </SelectStyled>
+              )}
+            />
+
+            <Button
+              type="submit"
+              variant="outlined"
+              sx={{
+                color: 'white',
+                borderColor: 'rgba(255, 255, 255, 0.3)',
+              }}
+            >
+              조회
+            </Button>
+          </Box>
+        </HeaderContainer>
 
         <p id="child-modal-description" className="modal-description">
           Lorem ipsum, dolor sit amet consectetur adipisicing elit.
         </p>
         {/* <ModalButton onClick={handleClose}>Close Child Modal</ModalButton> */}
+
+        {isLoading && <div>Loading...</div>}
+        {error && <div>Error occurred</div>}
+        {data && (
+          // Render your data here
+          <div>{/* Your data visualization */}</div>
+        )}
+
+        {(errors.year || errors.month) && (
+          <Typography color="error" sx={{ mt: 1 }}>
+            {errors.year?.message || errors.month?.message}
+          </Typography>
+        )}
       </ModalContent>
     </Modal>
   );

@@ -1,13 +1,18 @@
 import { create } from 'zustand';
 
+export interface ISelectedItemToView {
+  itemId: string;
+  itemName: string;
+}
+
 interface IItemPriceStore {
-  selectedItemIdToView?: string;
-  setSelectedItemIdToView: (value?: string) => void;
+  selectedItemToView?: ISelectedItemToView;
+  setSelectedItemToView: (value?: ISelectedItemToView) => void;
 }
 
 const itemPriceStore = create<IItemPriceStore>((set) => ({
-  selectedItemIdToView: undefined,
-  setSelectedItemIdToView: (value) => set({ selectedItemIdToView: value }),
+  selectedItemToView: undefined,
+  setSelectedItemToView: (value) => set({ selectedItemToView: value }),
 }));
 
 export default itemPriceStore;
