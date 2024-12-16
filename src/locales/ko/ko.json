@@ -1,4 +1,8 @@
 {
+  "label": {
+    "year": "년",
+    "month": "월"
+  },
   "layout": {
     "itemPrice": "아이템시세",
     "simulation": "재련시뮬레이션"
@@ -21,14 +25,30 @@
     }
   },
   "item-price": {
+    "modal": {
+      "title": "거래소 시세 확인"
+    },
     "label": {
       "tab1": "전체",
       "tab2": "각인서",
-      "tab3": "재련재료",
+      "tab3": "재련",
       "tab4": "에스더/보석"
     },
-    "modal": {
-      "title": "거래소 시세 확인"
+    "table": {
+      "title": {
+        "refinement": "재련 재료",
+        "refinement-additional": "재련 추가 재료",
+        "esder-gem": "에스더의 기운 / 보석",
+        "engraving": "각인서",
+        "character-engraving": "직업 각인서"
+      },
+      "columns": {
+        "item-name": "아이템명",
+        "min-price": "최소가격",
+        "avg-price": "평균가격",
+        "max-price": "최대가격",
+        "price-check": "시세조회"
+      }
     }
   }
 }

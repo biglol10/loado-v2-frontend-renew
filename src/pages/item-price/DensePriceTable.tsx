@@ -12,8 +12,7 @@ import { imageSrcCollection } from './const/imageSrcCollection';
 import GoldImage from '@/assets/images/goldImage_noBackground.webp';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import itemPriceStore from '@/store/item-price/itemPriceStore';
-
-const headers = ['아이템명', '최소가격', '평균가격', '최대가격', '시세조회'];
+import { useTranslation } from 'react-i18next';
 
 interface IDensePriceTableProps {
   title: string;
@@ -23,6 +22,15 @@ interface IDensePriceTableProps {
 
 const DensePriceTable = ({ title, rows, type }: IDensePriceTableProps) => {
   const { setSelectedItemToView } = itemPriceStore();
+  const { t } = useTranslation();
+
+  const headers = [
+    t('item-price.table.columns.item-name'),
+    t('item-price.table.columns.min-price'),
+    t('item-price.table.columns.avg-price'),
+    t('item-price.table.columns.max-price'),
+    t('item-price.table.columns.price-check'),
+  ];
 
   const PriceCellWithAvatar = React.memo(
     ({ imgSrc, alt, price }: { imgSrc: string; alt: string; price: number }) => {

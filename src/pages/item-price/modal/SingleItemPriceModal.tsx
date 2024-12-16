@@ -17,8 +17,9 @@ import { useSingleItemPriceQuery } from '@/apis/itemPrice/useSingleItemPriceQuer
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { searchFormSchema, type SearchFormData } from './schema';
+import { searchFormSchema, type SearchFormData } from '../model/schema';
 import { Controller } from 'react-hook-form';
+import dayjs from 'dayjs';
 
 const grey = {
   50: '#F3F6F9',
@@ -123,17 +124,19 @@ const SingleItemPriceModal = () => {
     monthValue: 12,
   });
 
+  const method = useForm<SearchFormData>({
+    resolver: zodResolver(searchFormSchema),
+    defaultValues: {
+      year: `${dayjs().get('year')}`,
+      month: `${dayjs().get('month') + 1}`,
+    },
+  });
+
   const {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm<SearchFormData>({
-    resolver: zodResolver(searchFormSchema),
-    defaultValues: {
-      year: '2024',
-      month: '12',
-    },
-  });
+  } = method;
 
   const { data, isLoading, error } = useSingleItemPriceQuery(queryParams);
 
@@ -148,8 +151,6 @@ const SingleItemPriceModal = () => {
   const historyBack = () => {
     setSelectedItemToView(undefined);
   };
-
-  console.log('data is ', data);
 
   return (
     <Modal
@@ -191,10 +192,18 @@ const SingleItemPriceModal = () => {
             <Controller
               name="year"
               control={control}
-              render={({ field }) => (
-                <SelectStyled {...field} size="small" error={!!errors.year}>
-                  <MenuItem value="2023">2023년</MenuItem>
-                  <MenuItem value="2024">2024년</MenuItem>
+              render={({ field: { onChange, value } }) => (
+                <SelectStyled onChange={onChange} value={value} size="small" error={!!errors.year}>
+                  {Array.from({ length: dayjs().diff('2023', 'year') + 1 }).map((_, index) => {
+                    const year = `${2023 + index}`;
+
+                    return (
+                      <MenuItem key={`Menu-${year}`} value={year}>
+                        {year}
+                        {t('label.year')}
+                      </MenuItem>
+                    );
+                  })}
                 </SelectStyled>
               )}
             />
@@ -206,7 +215,8 @@ const SingleItemPriceModal = () => {
                 <SelectStyled {...field} size="small" error={!!errors.month}>
                   {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => (
                     <MenuItem key={month} value={String(month)}>
-                      {month}월
+                      {month}
+                      {t('label.month')}
                     </MenuItem>
                   ))}
                 </SelectStyled>
@@ -223,15 +233,14 @@ const SingleItemPriceModal = () => {
             >
               조회
             </Button>
-
-            {/* 에러 메시지 표시 */}
-            {(errors.year || errors.month || errors.root) && (
-              <FormError>
-                {errors.year?.message || errors.month?.message || errors.root?.message}
-              </FormError>
-            )}
           </Box>
         </HeaderContainer>
+
+        {(errors.year || errors.month) && (
+          <Typography color="error" sx={{ mt: 1 }}>
+            {errors.year?.message || errors.month?.message}
+          </Typography>
+        )}
 
         <p id="child-modal-description" className="modal-description">
           Lorem ipsum, dolor sit amet consectetur adipisicing elit.

@@ -1,4 +1,8 @@
 {
+  "label": {
+    "year": "년",
+    "month": "월"
+  },
   "layout": {
     "itemPrice": "아이템시세",
     "simulation": "재련시뮬레이션"
@@ -21,11 +25,30 @@
     }
   },
   "item-price": {
+    "modal": {
+      "title": "거래소 시세 확인"
+    },
     "label": {
-      "tab1": "전체",
-      "tab2": "각인서",
-      "tab3": "재련재료",
-      "tab4": "에스더/보석"
+      "tab1": "All",
+      "tab2": "Engraving Books",
+      "tab3": "Materials",
+      "tab4": "Esther/Gems"
+    },
+    "table": {
+      "title": {
+        "refinement": "Refinement Materials",
+        "refinement-additional": "Additional Refinement Materials",
+        "esder-gem": "Esther's Breath / Gems",
+        "engraving": "Engraving Books",
+        "character-engraving": "Class Engraving Books"
+      },
+      "columns": {
+        "item-name": "Item Name",
+        "min-price": "Min Price",
+        "avg-price": "Avg Price",
+        "max-price": "Max Price",
+        "price-check": "Check Price"
+      }
     }
   },
   "modal": {

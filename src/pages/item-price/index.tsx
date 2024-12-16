@@ -107,19 +107,39 @@ const ItemPricePage = () => {
 
   const columns = useMemo(() => {
     if (isMobile) {
-      return ['아이템명', '최소가격', '시세조회'];
+      return [
+        t('item-price.table.columns.item-name'),
+        t('item-price.table.columns.min-price'),
+        t('item-price.table.columns.price-check'),
+      ];
     } else {
-      return ['아이템명', '최소가격', '평균가격', '최대가격', '시세조회'];
+      return [
+        t('item-price.table.columns.item-name'),
+        t('item-price.table.columns.min-price'),
+        t('item-price.table.columns.avg-price'),
+        t('item-price.table.columns.max-price'),
+        t('item-price.table.columns.price-check'),
+      ];
     }
-  }, [isMobile]);
+  }, [isMobile, t]);
 
   const columnsForBook = useMemo(() => {
     if (isMobile) {
-      return ['아이템명', '최소가격', '시세조회'];
+      return [
+        t('item-price.table.columns.item-name'),
+        t('item-price.table.columns.min-price'),
+        t('item-price.table.columns.price-check'),
+      ];
     } else {
-      return ['아이템명', '최소가격', '평균가격', '최대가격', '시세조회'];
+      return [
+        t('item-price.table.columns.item-name'),
+        t('item-price.table.columns.min-price'),
+        t('item-price.table.columns.avg-price'),
+        t('item-price.table.columns.max-price'),
+        t('item-price.table.columns.price-check'),
+      ];
     }
-  }, [isMobile]);
+  }, [isMobile, t]);
 
   const handleTabChange = (_: React.SyntheticEvent, value: ComponentTypes.TActiveTabType) => {
     setActiveTab(value);
@@ -153,7 +173,10 @@ const ItemPricePage = () => {
                       variant="rectangular"
                       isLoading={isLoading}
                     >
-                      <DensePriceTable title="재련 재료" rows={refinement} />
+                      <DensePriceTable
+                        title={t('item-price.table.title.refinement')}
+                        rows={refinement}
+                      />
                     </ComponentWithSkeleton>
                   </Grid>
                   <Grid item xs={12}>
@@ -163,7 +186,10 @@ const ItemPricePage = () => {
                       variant="rectangular"
                       isLoading={isLoading}
                     >
-                      <DensePriceTable title="재련 추가 재료" rows={refinementAdditional} />
+                      <DensePriceTable
+                        title={t('item-price.table.title.refinement-additional')}
+                        rows={refinementAdditional}
+                      />
                     </ComponentWithSkeleton>
                   </Grid>
                   <Grid item xs={12}>
@@ -173,7 +199,10 @@ const ItemPricePage = () => {
                       variant="rectangular"
                       isLoading={isLoading}
                     >
-                      <DensePriceTable title="에스더의 기운 / 보석" rows={[...esder, ...jewelry]} />
+                      <DensePriceTable
+                        title={t('item-price.table.title.esder-gem')}
+                        rows={[...esder, ...jewelry]}
+                      />
                     </ComponentWithSkeleton>
                   </Grid>
                 </Grid>
@@ -189,7 +218,11 @@ const ItemPricePage = () => {
                       variant="rectangular"
                       isLoading={isLoading}
                     >
-                      <DensePriceTable title="각인서" rows={engravings} type="book" />
+                      <DensePriceTable
+                        title={t('item-price.table.title.engraving')}
+                        rows={engravings}
+                        type="book"
+                      />
                     </ComponentWithSkeleton>
                   </Grid>
                   <Grid item xs={12}>
@@ -199,7 +232,11 @@ const ItemPricePage = () => {
                       variant="rectangular"
                       isLoading={isLoading}
                     >
-                      <DensePriceTable title="직업 각인서" rows={characterEngravings} type="book" />
+                      <DensePriceTable
+                        title={t('item-price.table.title.character-engraving')}
+                        rows={characterEngravings}
+                        type="book"
+                      />
                     </ComponentWithSkeleton>
                   </Grid>
                 </Grid>

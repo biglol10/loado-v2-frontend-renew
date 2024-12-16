@@ -10,7 +10,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "postinstall": "husky init",
-    "prepare": "husky"
+    "prepare": "husky install"
   },
   "dependencies": {
     "@emotion/react": "^11.13.3",
