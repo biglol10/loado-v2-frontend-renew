@@ -1,3 +1,5 @@
+import { styled, Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import {
   ResponsiveContainer,
   ComposedChart,
@@ -17,13 +19,62 @@ export const colorMapping = {
   minCurrentMinPrice: '#ECB32B',
 };
 
-const PriceChart = () => {
+const StyledLabel = styled(Typography)`
+  font-style: italic;
+  color: ${({ color }) => color};
+`;
+
+const PriceChart = ({ data }: any) => {
+  const { t } = useTranslation();
+
   return (
-    <ComposedChart data={[]}>
-      <CartesianGrid stroke="#f5f5f5" />
-      <XAxis dataKey="date" scale="band" />
-      <YAxis />
-      <Tooltip content={<></>} />
-    </ComposedChart>
+    <ResponsiveContainer>
+      <ComposedChart data={[]}>
+        <CartesianGrid stroke="#f5f5f5" />
+        <XAxis dataKey="date" scale="band" />
+        <YAxis />
+        <Tooltip content={<></>} />
+        <Legend
+          payload={[
+            {
+              value: (
+                <StyledLabel color={colorMapping.avgCurrentMinPrice}>
+                  {t('item-price.table.columns.avg-price')}
+                </StyledLabel>
+              ),
+              type: 'rect',
+              color: colorMapping.avgCurrentMinPrice,
+            },
+            {
+              value: (
+                <StyledLabel color={colorMapping.minCurrentMinPrice}>
+                  {t('item-price.table.columns.min-price')}
+                </StyledLabel>
+              ),
+              type: 'line',
+              color: colorMapping.minCurrentMinPrice,
+            },
+            {
+              value: (
+                <StyledLabel color={colorMapping.maxCurrentMinPrice}>
+                  {t('item-price.table.columns.max-price')}
+                </StyledLabel>
+              ),
+              type: 'rect',
+              color: colorMapping.maxCurrentMinPrice,
+            },
+          ]}
+        />
+        <Bar dataKey="minCurrentMinPrice" barSize={16} fill={colorMapping.minCurrentMinPrice} />
+        <Line
+          type="monotone"
+          dataKey="avgCurrentMinPrice"
+          stroke={colorMapping.avgCurrentMinPrice}
+        />
+        <Scatter dataKey="maxCurrentMinPrice" fill={colorMapping.maxCurrentMinPrice} />
+      </ComposedChart>
+    </ResponsiveContainer>
   );
 };
+
+export default PriceChart;

@@ -1,7 +1,8 @@
 {
   "label": {
     "year": "년",
-    "month": "월"
+    "month": "월",
+    "search": "조회"
   },
   "layout": {
     "itemPrice": "아이템시세",

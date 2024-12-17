@@ -1,32 +1,33 @@
 {
   "label": {
-    "year": "년",
-    "month": "월"
+    "year": "Year",
+    "month": "Month",
+    "search": "Search"
   },
   "layout": {
-    "itemPrice": "아이템시세",
-    "simulation": "재련시뮬레이션"
+    "itemPrice": "Item Price",
+    "simulation": "Refinement Simulation"
   },
   "home": {
     "label": {
-      "welcome_title": "리뉴얼된 Loado에 오신걸 환영합니다"
+      "welcome_title": "Welcome to the renewed Loado"
     },
     "card": {
       "content1": {
-        "tag": "시세",
-        "title": "로스트아크 재련재료 및 아이템 시세",
-        "description": "무기강화에 필요한 파괴강석부터 보석, 에스더기운까지 시세를 확인하세요"
+        "tag": "Price",
+        "title": "Lost Ark Refinement Materials and Item Prices",
+        "description": "Check prices from Destruction Stone to Gems and Esther's Energy"
       },
       "content2": {
-        "tag": "시뮬레이션",
-        "title": "로스트아크 재련 시뮬레이션",
-        "description": "재련 시뮬레이션을 통해 상위 몇% 운이면 비용이 얼마나 들어갈지 확인하세요"
+        "tag": "Simulation",
+        "title": "Lost Ark Refinement Simulation",
+        "description": "Check how much it would cost based on your luck percentage through refinement simulation"
       }
     }
   },
   "item-price": {
     "modal": {
-      "title": "거래소 시세 확인"
+      "title": "Market Price Check"
     },
     "label": {
       "tab1": "All",
@@ -38,7 +39,7 @@
       "title": {
         "refinement": "Refinement Materials",
         "refinement-additional": "Additional Refinement Materials",
-        "esder-gem": "Esther's Breath / Gems",
+        "esder-gem": "Esther / Gems",
         "engraving": "Engraving Books",
         "character-engraving": "Class Engraving Books"
       },
@@ -52,6 +53,6 @@
     }
   },
   "modal": {
-    "title": "거래소 시세 확인"
+    "title": "Market Price Check"
   }
 }

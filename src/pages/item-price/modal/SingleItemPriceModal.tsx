@@ -1,16 +1,6 @@
 import SharpDivider from '@/components/atomic/SharpDivider';
 import itemPriceStore from '@/store/item-price/itemPriceStore';
-import {
-  Modal,
-  Backdrop,
-  styled,
-  css,
-  Typography,
-  Box,
-  Select,
-  MenuItem,
-  Button,
-} from '@mui/material';
+import { Modal, Backdrop, styled, css, Typography, Box, Button } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { imageSrcCollection } from '../const/imageSrcCollection';
 import { useSingleItemPriceQuery } from '@/apis/itemPrice/useSingleItemPriceQuery';
@@ -18,8 +8,8 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { searchFormSchema, type SearchFormData } from '../model/schema';
-import { Controller } from 'react-hook-form';
 import dayjs from 'dayjs';
+import FormSelect from '@/components/common/FormSelect';
 
 const grey = {
   50: '#F3F6F9',
@@ -91,26 +81,6 @@ const HeaderContainer = styled(Box)(({ theme }) => ({
   padding: theme.spacing(2),
   backgroundColor: '#1e2124',
   color: 'white',
-}));
-
-const SelectStyled = styled(Select)(({ theme }) => ({
-  backgroundColor: 'transparent',
-  color: 'white',
-  marginRight: theme.spacing(2),
-  '& .MuiSelect-icon': {
-    color: 'white',
-  },
-}));
-
-const FormError = styled(Typography)(({ theme }) => ({
-  color: theme.palette.error.main,
-  fontSize: '0.75rem',
-  marginTop: '4px',
-  position: 'absolute',
-  top: '100%',
-  left: '50%',
-  transform: 'translateX(-50%)',
-  whiteSpace: 'nowrap',
 }));
 
 const SingleItemPriceModal = () => {
@@ -189,38 +159,21 @@ const SingleItemPriceModal = () => {
             sx={{ display: 'flex', alignItems: 'center' }}
             onSubmit={handleSubmit(onSubmit)}
           >
-            <Controller
+            <FormSelect<string>
               name="year"
               control={control}
-              render={({ field: { onChange, value } }) => (
-                <SelectStyled onChange={onChange} value={value} size="small" error={!!errors.year}>
-                  {Array.from({ length: dayjs().diff('2023', 'year') + 1 }).map((_, index) => {
-                    const year = `${2023 + index}`;
-
-                    return (
-                      <MenuItem key={`Menu-${year}`} value={year}>
-                        {year}
-                        {t('label.year')}
-                      </MenuItem>
-                    );
-                  })}
-                </SelectStyled>
-              )}
+              options={Array.from({ length: dayjs().diff('2023', 'year') + 1 }).map((_, index) => {
+                const year = `${2023 + index}`;
+                return { label: year, value: year };
+              })}
             />
 
-            <Controller
+            <FormSelect<string>
               name="month"
               control={control}
-              render={({ field }) => (
-                <SelectStyled {...field} size="small" error={!!errors.month}>
-                  {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => (
-                    <MenuItem key={month} value={String(month)}>
-                      {month}
-                      {t('label.month')}
-                    </MenuItem>
-                  ))}
-                </SelectStyled>
-              )}
+              options={Array.from({ length: 12 }, (_, i) => i + 1).map((month) => {
+                return { label: month, value: String(month) };
+              })}
             />
 
             <Button
