@@ -10,6 +10,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { searchFormSchema, type SearchFormData } from '../model/schema';
 import dayjs from 'dayjs';
 import FormSelect from '@/components/common/FormSelect';
+import PriceChart from '../components/PriceChart';
+import userStore from '@/store/user/userStore';
+import ComponentWithSkeleton from '@/components/atomic/ComponentWithSkeleton';
 
 const grey = {
   50: '#F3F6F9',
@@ -85,13 +88,14 @@ const HeaderContainer = styled(Box)(({ theme }) => ({
 
 const SingleItemPriceModal = () => {
   const { t } = useTranslation();
+  const { isMobile } = userStore();
   const { selectedItemToView, setSelectedItemToView } = itemPriceStore();
 
   // State for actual query parameters (only updated when search is clicked)
   const [queryParams, setQueryParams] = useState({
     itemId: selectedItemToView?.itemId || '',
-    yearValue: 2024,
-    monthValue: 12,
+    yearValue: dayjs().year(),
+    monthValue: dayjs().month() + 1,
   });
 
   const method = useForm<SearchFormData>({
@@ -110,12 +114,14 @@ const SingleItemPriceModal = () => {
 
   const { data, isLoading, error } = useSingleItemPriceQuery(queryParams);
 
-  const onSubmit = (data: SearchFormData) => {
-    setQueryParams({
+  const onSubmit = (formData: SearchFormData) => {
+    const newParams = {
       itemId: selectedItemToView?.itemId || '',
-      yearValue: parseInt(data.year),
-      monthValue: parseInt(data.month),
-    });
+      yearValue: parseInt(formData.year),
+      monthValue: parseInt(formData.month),
+    };
+
+    setQueryParams(newParams);
   };
 
   const historyBack = () => {
@@ -164,7 +170,7 @@ const SingleItemPriceModal = () => {
               control={control}
               options={Array.from({ length: dayjs().diff('2023', 'year') + 1 }).map((_, index) => {
                 const year = `${2023 + index}`;
-                return { label: year, value: year };
+                return { label: `${year}${t('label.year')}`, value: year };
               })}
             />
 
@@ -172,7 +178,7 @@ const SingleItemPriceModal = () => {
               name="month"
               control={control}
               options={Array.from({ length: 12 }, (_, i) => i + 1).map((month) => {
-                return { label: month, value: String(month) };
+                return { label: `${month}${t('label.month')}`, value: String(month) };
               })}
             />
 
@@ -184,34 +190,26 @@ const SingleItemPriceModal = () => {
                 borderColor: 'rgba(255, 255, 255, 0.3)',
               }}
             >
-              조회
+              {t('label.search')}
             </Button>
           </Box>
         </HeaderContainer>
 
-        {(errors.year || errors.month) && (
+        {/* {(errors.year || errors.month) && (
           <Typography color="error" sx={{ mt: 1 }}>
             {errors.year?.message || errors.month?.message}
           </Typography>
-        )}
+        )} */}
 
-        <p id="child-modal-description" className="modal-description">
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-        </p>
-        {/* <ModalButton onClick={handleClose}>Close Child Modal</ModalButton> */}
-
-        {isLoading && <div>Loading...</div>}
-        {error && <div>Error occurred</div>}
-        {data && (
-          // Render your data here
-          <div>{/* Your data visualization */}</div>
-        )}
-
-        {(errors.year || errors.month) && (
-          <Typography color="error" sx={{ mt: 1 }}>
-            {errors.year?.message || errors.month?.message}
-          </Typography>
-        )}
+        <ComponentWithSkeleton
+          sx={{ height: 300 }}
+          animation="wave"
+          variant="rectangular"
+          isLoading={isLoading}
+        >
+          {data && <PriceChart data={data} isMobile={isMobile} />}
+          {error && <div>{t('common.error.unknown')}</div>}
+        </ComponentWithSkeleton>
       </ModalContent>
     </Modal>
   );

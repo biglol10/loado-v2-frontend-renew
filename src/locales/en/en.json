@@ -49,10 +49,39 @@
         "avg-price": "Avg Price",
         "max-price": "Max Price",
         "price-check": "Check Price"
+      },
+      "price-list": {
+        "date": "Date",
+        "min": "Min",
+        "avg": "Avg",
+        "max": "Max"
+      }
+    },
+    "chart": {
+      "period": "Period",
+      "legend": {
+        "min": "MinPrice",
+        "avg": "AvgPrice",
+        "max": "MaxPrice"
       }
     }
   },
   "modal": {
     "title": "Market Price Check"
+  },
+  "common": {
+    "error": {
+      "network": "Internet connection lost. Please check your internet connection and try again.",
+      "api": "An error occurred while processing the request",
+      "unknown": "An unknown error occurred",
+      "server": "A server error occurred",
+      "badRequest": "Invalid request",
+      "unauthorized": "Unauthorized request",
+      "forbidden": "Access denied",
+      "notFound": "The requested resource was not found"
+    },
+    "success": {
+      "mutation": "Successfully processed the request"
+    }
   }
 }

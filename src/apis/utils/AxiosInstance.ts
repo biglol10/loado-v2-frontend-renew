@@ -34,22 +34,21 @@ const AxiosBaseInstance = axios.create({
 const handleRequest = (config: InternalAxiosRequestConfig<any>) => {
   const { url = '', data, headers, method } = config;
 
-  if (url.endsWith(LOSTARK_API_MARKET) || url.endsWith(LOSTARK_API_AUCTION)) {
+  const PROTECTED_ENDPOINTS = [LOSTARK_API_MARKET, LOSTARK_API_AUCTION];
+
+  if (PROTECTED_ENDPOINTS.some((endpoint) => url.endsWith(endpoint))) {
     Object.assign(headers, {
       Authorization: `bearer ${process.env.SIMEGATE_TOKEN}`,
     });
   }
 
-  axiosCanceler.addRequest({
-    url,
-    data,
-    method: method as TApiMethod,
-  });
-  config.cancelToken = axiosCanceler.getCancelToken({
-    url,
-    data,
-    method: method as TApiMethod,
-  })?.token;
+  try {
+    const requestKey = { url, data, method: method as TApiMethod };
+    axiosCanceler.addRequest(requestKey);
+    config.cancelToken = axiosCanceler.getCancelToken(requestKey)?.token;
+  } catch (error) {
+    console.error('Error adding request to axiosCanceler:', error);
+  }
 
   return config;
 };
@@ -69,6 +68,7 @@ const handleResponseSuccess = (response: AxiosResponse<any, any>) => {
   return response;
 };
 
+// 잘못된 url, 잘못된 데이터, 잘못된 메서드 등 예외 처리
 const handleResponseError = (error: any) => {
   console.error('error in handleResponseError in handleResponseError');
 
@@ -80,6 +80,7 @@ const handleResponseError = (error: any) => {
 
   if (axios.isCancel(error)) {
     console.log('API request canceled: ', error);
+    return Promise.reject(error);
   } else {
     console.log('API response error: ', error);
   }

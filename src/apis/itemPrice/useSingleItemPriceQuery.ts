@@ -20,8 +20,8 @@ export const useSingleItemPriceQuery = (params: IItemPriceQueryParams) => {
       '/api/loadoPrice/getPeriodYearMonthMarketItemPrice',
       {
         itemId,
-        yearValue,
-        monthValue,
+        year: yearValue,
+        month: monthValue,
       }
     );
   };
@@ -31,6 +31,7 @@ export const useSingleItemPriceQuery = (params: IItemPriceQueryParams) => {
     queryFn: () => fetchFn(itemId, yearValue, monthValue),
     staleTime: 1000 * 60 * 5,
     select: (result) => result.data,
+    enabled: !!itemId && !!yearValue && !!monthValue,
   });
 
   return query;

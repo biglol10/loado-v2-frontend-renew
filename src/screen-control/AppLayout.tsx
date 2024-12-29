@@ -6,17 +6,18 @@ import itemPriceStore from '@/store/item-price/itemPriceStore';
 import { useTranslation } from 'react-i18next';
 import { StyledToolbar } from '@/pages/home/styles/styles';
 import { Outlet, useNavigate } from 'react-router-dom';
+import LanguageSelector from '@/components/common/LanguageSelector';
 
 type TCurrentPage = 'ITEM_PRICE' | 'SIMULATION';
 
-const AppLayout = ({ children }: React.PropsWithChildren) => {
+const AppLayout = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { setSelectedItemIdToView } = itemPriceStore();
+  const { setSelectedItemToView } = itemPriceStore();
   const [currentPage, setCurrentPage] = useState<TCurrentPage>('ITEM_PRICE');
 
   const handleTabChange = (_: React.SyntheticEvent, value: TCurrentPage) => {
-    setSelectedItemIdToView(undefined);
+    setSelectedItemToView(undefined);
     setCurrentPage(value);
     if (value === 'ITEM_PRICE') navigate('/item-price');
     if (value === 'SIMULATION') navigate('/simulation');
@@ -65,6 +66,9 @@ const AppLayout = ({ children }: React.PropsWithChildren) => {
               sx={{ padding: '0 25px' }}
             />
           </Tabs>
+        </Box>
+        <Box sx={{ position: 'fixed', right: '3%' }}>
+          <LanguageSelector />
         </Box>
       </StyledToolbar>
 

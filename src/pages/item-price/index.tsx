@@ -1,9 +1,9 @@
 import { Tab, Tabs, Grid, Paper, Box, Container } from '@mui/material';
-import { Outlet, useNavigate } from 'react-router-dom';
-import { lazy, Suspense, useEffect, useMemo, useState } from 'react';
+import { Outlet } from 'react-router-dom';
+import { useEffect, useMemo, useState } from 'react';
 import * as ComponentTypes from '@/apis/itemPrice/types';
 import userStore from '@/store/user/userStore';
-import { isEmpty, orderBy } from 'lodash';
+import { isEmpty } from 'lodash';
 import { useItemPriceQuery } from '@/apis/itemPrice/useItemPriceQuery';
 import dayjs from 'dayjs';
 import { styled } from '@mui/material/styles';
@@ -29,8 +29,6 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const ItemPricePage = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
-  const { setIsMobile } = userStore();
   const { selectedItemToView } = itemPriceStore();
 
   const [activeTab, setActiveTab] = useState<ComponentTypes.TActiveTabType>('ALL');
@@ -42,19 +40,7 @@ const ItemPricePage = () => {
   const [characterEngravings, setCharacterEngravings] = useState<ComponentTypes.IItemData[]>([]);
   const [jewelry, setJewelry] = useState<ComponentTypes.IItemData[]>([]);
 
-  const [itemIdToOpen, setItemIdToOpen] = useState<string>();
-
   const { isMobile } = userStore();
-
-  const returnDataByStringArray = (data: ComponentTypes.IItemData[], arr: string[]) => {
-    const orderedData = orderBy(data, (item) => {
-      const index = arr.indexOf(item.itemName);
-
-      return index !== -1 ? index : Math.max();
-    });
-
-    return orderedData;
-  };
 
   const {
     data: queryResults,
@@ -150,8 +136,16 @@ const ItemPricePage = () => {
       <Box sx={{ width: '100%', bgcolor: 'background.paper', marginTop: '50px' }}>
         <Container maxWidth="lg">
           <StyledToolbar variant="dense" disableGutters>
-            <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', px: 0 }}>
-              <Tabs value={activeTab} onChange={handleTabChange} centered>
+            <Box
+              sx={{
+                flexGrow: 1,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                px: 0,
+              }}
+            >
+              <Tabs value={activeTab} onChange={handleTabChange}>
                 <Tab label={t('item-price.label.tab1')} value={'ALL'} />
                 <Tab label={t('item-price.label.tab2')} value={'BOOK'} />
                 <Tab label={t('item-price.label.tab3')} value={'MATERIAL'} />

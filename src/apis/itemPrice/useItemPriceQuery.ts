@@ -1,6 +1,7 @@
 import { useQueries } from '@tanstack/react-query';
 import httpService from '../utils/AxiosInstance';
 import { IItemData } from './types';
+// import { AxiosError, AxiosHeaders } from 'axios';
 
 interface IItemPriceQueryParams {
   searchDate: string;
@@ -17,6 +18,25 @@ export const useItemPriceQuery = (params: IItemPriceQueryParams) => {
   const { searchDate, staleTime } = params;
 
   const fetchFn = async (categoryCode: string) => {
+    // ? handleError 테스트용
+    // throw new AxiosError(
+    //   'Simulated API Error',
+    //   'ECONNABORTED',
+    //   {
+    //     headers: new AxiosHeaders(),
+    //     config: {} as any,
+    //     request: {},
+    //   },
+    //   null,
+    //   {
+    //     status: 500,
+    //     statusText: 'Internal Server Error',
+    //     headers: new AxiosHeaders(),
+    //     config: {} as AxiosHeaders,
+    //     data: { message: '서버 에러가 발생했습니다.' },
+    //   }
+    // );
+
     return await httpService.get<IItemData[]>('/api/loadoPrice/getMarketPriceByCategoryCode', {
       categoryCode,
       timeValue: searchDate,

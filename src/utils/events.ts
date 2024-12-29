@@ -1,4 +1,4 @@
-const eventRegister = (type: string, listener: (event: Event) => void) => {
+const eventRegister = (type: keyof WindowEventMap | string, listener: (event: Event) => void) => {
   document.addEventListener(type, listener);
 };
 
