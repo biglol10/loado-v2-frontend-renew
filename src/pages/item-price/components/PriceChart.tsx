@@ -54,6 +54,8 @@ const PriceChart = ({ data, isMobile }: IPriceChart) => {
     return dayjs(value).format('MM-DD');
   };
 
+  console.log('chartData', chartData);
+
   return (
     <Container
       sx={{
@@ -116,21 +118,21 @@ const PriceChart = ({ data, isMobile }: IPriceChart) => {
                       payload={[
                         {
                           value: (
-                            <StyledLabel color={colorMapping.avgCurrentMinPrice}>
+                            <StyledLabel color={colorMapping.minCurrentMinPrice}>
                               {t('item-price.table.price-list.min')}
                             </StyledLabel>
                           ),
                           type: 'rect',
-                          color: colorMapping.avgCurrentMinPrice,
+                          color: colorMapping.minCurrentMinPrice,
                         },
                         {
                           value: (
-                            <StyledLabel color={colorMapping.minCurrentMinPrice}>
+                            <StyledLabel color={colorMapping.avgCurrentMinPrice}>
                               {t('item-price.table.price-list.avg')}
                             </StyledLabel>
                           ),
                           type: 'line',
-                          color: colorMapping.minCurrentMinPrice,
+                          color: colorMapping.avgCurrentMinPrice,
                         },
                         {
                           value: (
@@ -165,55 +167,6 @@ const PriceChart = ({ data, isMobile }: IPriceChart) => {
         </Grid>
       </Grid>
     </Container>
-  );
-
-  return (
-    <ResponsiveContainer>
-      <ComposedChart data={[]}>
-        <CartesianGrid stroke="#f5f5f5" />
-        <XAxis dataKey="date" scale="band" />
-        <YAxis />
-        <Tooltip content={<></>} />
-        <Legend
-          payload={[
-            {
-              value: (
-                <StyledLabel color={colorMapping.avgCurrentMinPrice}>
-                  {t('item-price.table.columns.avg-price')}
-                </StyledLabel>
-              ),
-              type: 'rect',
-              color: colorMapping.avgCurrentMinPrice,
-            },
-            {
-              value: (
-                <StyledLabel color={colorMapping.minCurrentMinPrice}>
-                  {t('item-price.table.columns.min-price')}
-                </StyledLabel>
-              ),
-              type: 'line',
-              color: colorMapping.minCurrentMinPrice,
-            },
-            {
-              value: (
-                <StyledLabel color={colorMapping.maxCurrentMinPrice}>
-                  {t('item-price.table.columns.max-price')}
-                </StyledLabel>
-              ),
-              type: 'rect',
-              color: colorMapping.maxCurrentMinPrice,
-            },
-          ]}
-        />
-        <Bar dataKey="minCurrentMinPrice" barSize={16} fill={colorMapping.minCurrentMinPrice} />
-        <Line
-          type="monotone"
-          dataKey="avgCurrentMinPrice"
-          stroke={colorMapping.avgCurrentMinPrice}
-        />
-        <Scatter dataKey="maxCurrentMinPrice" fill={colorMapping.maxCurrentMinPrice} />
-      </ComposedChart>
-    </ResponsiveContainer>
   );
 };
 

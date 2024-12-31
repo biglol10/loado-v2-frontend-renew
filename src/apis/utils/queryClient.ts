@@ -18,7 +18,7 @@ export const getQueryClient = (handleError: any) => {
         retry: 0,
         throwOnError: false,
         onError: (error: any) => {
-          // queires와 동일한 에러 처리
+          // queries와 동일한 에러 처리
           if (error.message === 'Network Error') {
             showErrorToast(i18n.t('common.error.network'));
             return;
@@ -56,8 +56,8 @@ const queryClient = new QueryClient({
     mutations: {
       retry: 0,
       throwOnError: false,
-      onError: (error) => {
-        // queires와 동일한 에러 처리
+      onError: (error: any) => {
+        // queries와 동일한 에러 처리
         if (error.message === 'Network Error') {
           showErrorToast(i18n.t('common.error.network'));
           return;
@@ -75,9 +75,6 @@ const queryClient = new QueryClient({
       },
     },
   },
-  queryCache: new QueryCache({
-    onError: handleError,
-  }),
 });
 
 export default queryClient;

@@ -66,6 +66,46 @@
       }
     }
   },
+  "simulation": {
+    "tier": {
+      "T3": "Tier 3",
+      "T4": "Tier 4"
+    },
+    "armor": {
+      "weapon": "Weapon",
+      "armor": "Armor"
+    },
+    "sections": {
+      "materials": "Materials",
+      "probability": "Probability Info"
+    },
+    "probability": {
+      "title": "Base Refinement Probability",
+      "baseRate": "Success Rate",
+      "artisanEnergy": "Artisan Energy"
+    },
+    "buttons": {
+      "startSimulation": "Start Simulation",
+      "debug": "Debug"
+    },
+    "results": {
+      "successRate": "Success Rate: {{rate}}",
+      "requiredGold": "Required Gold: {{gold}}"
+    },
+    "materials": {
+      "fragmentAndBook": "Honor Shard + Book",
+      "fragment": "Honor Shard",
+      "book": "Book",
+      "stone": "Stone",
+      "redStone": "Destruction Stone",
+      "blueStone": "Guardian Stone",
+      "blueCommonStone": "Crystallized Guardian Stone",
+      "refinementStone": "Additional Materials",
+      "solarGrace": "Solar Grace",
+      "solarBlessing": "Solar Blessing",
+      "solarProtection": "Solar Protection"
+    }
+  },
   "modal": {
     "title": "Market Price Check"
   },

@@ -13,6 +13,7 @@ import { StyledToolbar } from '../home/styles/styles';
 import itemPriceStore from '@/store/item-price/itemPriceStore';
 import { useTranslation } from 'react-i18next';
 import SingleItemPriceModal from './modal/SingleItemPriceModal';
+import { StyledTabs, StyledTab } from '@/components/common/CustomTab';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: '#fff',
@@ -145,12 +146,12 @@ const ItemPricePage = () => {
                 px: 0,
               }}
             >
-              <Tabs value={activeTab} onChange={handleTabChange}>
-                <Tab label={t('item-price.label.tab1')} value={'ALL'} />
-                <Tab label={t('item-price.label.tab2')} value={'BOOK'} />
-                <Tab label={t('item-price.label.tab3')} value={'MATERIAL'} />
-                <Tab label={t('item-price.label.tab4')} value={'ESDER_AND_GEM'} />
-              </Tabs>
+              <StyledTabs value={activeTab} onChange={handleTabChange}>
+                <StyledTab label={t('item-price.label.tab1')} value={'ALL'} />
+                <StyledTab label={t('item-price.label.tab2')} value={'BOOK'} />
+                <StyledTab label={t('item-price.label.tab3')} value={'MATERIAL'} />
+                <StyledTab label={t('item-price.label.tab4')} value={'ESDER_AND_GEM'} />
+              </StyledTabs>
             </Box>
           </StyledToolbar>
         </Container>

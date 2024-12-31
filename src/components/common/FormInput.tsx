@@ -1,5 +1,6 @@
 import { Box, TextField, styled } from '@mui/material';
-import { Control, Controller, FieldValues, Path } from 'react-hook-form';
+import { Control, Controller, FieldValues, Path, PathValue } from 'react-hook-form';
+import { formatNumber, parseFormattedNumber } from '@/utils/numberFormat';
 
 const ErrorMessage = styled('div')({
   color: 'white',
@@ -11,10 +12,10 @@ const ErrorMessage = styled('div')({
 const StyeldTextField = styled(TextField)(({ theme }) => ({
   '& .MuiOutlinedInput-root': {
     borderRadius: '8px',
-    backgroundColor: '#1e2124',
-    '& input': {
-      color: 'white',
-    },
+    // backgroundColor: '#1e2124',
+    // '& input': {
+    //   color: 'white',
+    // },
     '&:hover fieldset': {
       borderColor: theme.palette.primary.main,
     },
@@ -44,8 +45,8 @@ const ErrorContainer = styled(Box)({
   borderRadius: '4px',
 });
 
-interface FormInputProps<T extends FieldValues> {
-  name: Path<T>;
+interface FormInputProps<T extends FieldValues, K extends Path<T>> {
+  name: K;
   control: Control<T>;
   label?: string;
   placeholder?: string;
@@ -53,9 +54,27 @@ interface FormInputProps<T extends FieldValues> {
   required?: boolean;
   disabled?: boolean;
   fullWidth?: boolean;
+  size?: 'small' | 'medium';
+  onChangeValue?: (value: PathValue<T, K>) => PathValue<T, K>;
+  numberFormat?: boolean;
+  percentageFormat?: boolean;
 }
 
-const FormInput = <T extends FieldValues>({
+const formatValue = (
+  value: string | number,
+  numberFormat?: boolean,
+  percentageFormat?: boolean
+) => {
+  if (numberFormat) {
+    return formatNumber(value);
+  }
+  if (percentageFormat) {
+    return `${value}%`;
+  }
+  return value;
+};
+
+const FormInput = <T extends FieldValues, K extends Path<T>>({
   name,
   control,
   label,
@@ -64,13 +83,17 @@ const FormInput = <T extends FieldValues>({
   required = false,
   disabled = false,
   fullWidth = true,
-}: FormInputProps<T>) => {
+  size = 'small',
+  onChangeValue,
+  numberFormat,
+  percentageFormat,
+}: FormInputProps<T, K>) => {
   return (
     <Controller
       name={name}
       control={control}
       render={({ field, fieldState: { error } }) => (
-        <Box position={'relative'} mb={3}>
+        <Box position={'relative'} width={fullWidth ? '100%' : 'auto'}>
           <StyeldTextField
             {...field}
             label={label}
@@ -80,9 +103,50 @@ const FormInput = <T extends FieldValues>({
             disabled={disabled}
             fullWidth={fullWidth}
             error={!!error}
-            onChange={(e) => {
-              field.onChange(e);
+            size={size}
+            value={formatValue(field.value, numberFormat, percentageFormat)}
+            onChange={(event) => {
+              const value = event.target.value;
+
+              if (numberFormat) {
+                // 숫자와 콤마만 허용
+                const sanitizedValue = value.replace(/[^0-9,]/g, '');
+                const numberValue = parseFormattedNumber(sanitizedValue);
+
+                if (onChangeValue) {
+                  const customValue = onChangeValue(numberValue as PathValue<T, K>);
+                  field.onChange(customValue);
+                  return;
+                } else {
+                  field.onChange(numberValue);
+                  return;
+                }
+              }
+
+              if (percentageFormat) {
+                // 숫자만 허용
+                const sanitizedValue = value.replace(/[^0-9]/g, '');
+                const numberValue = parseFormattedNumber(sanitizedValue);
+
+                if (onChangeValue) {
+                  const customValue = onChangeValue(numberValue as PathValue<T, K>);
+                  field.onChange(customValue);
+                  return;
+                } else {
+                  field.onChange(numberValue);
+                  return;
+                }
+              }
+
+              if (onChangeValue) {
+                const customValue = onChangeValue(value as PathValue<T, K>);
+                field.onChange(customValue);
+                return;
+              }
+
+              field.onChange(value);
             }}
+            InputProps={{ sx: { backgroundColor: 'background.paper' } }}
           />
           {error && (
             <ErrorContainer>

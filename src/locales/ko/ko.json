@@ -66,6 +66,46 @@
       }
     }
   },
+  "simulation": {
+    "tier": {
+      "T3": "티어 3",
+      "T4": "티어 4"
+    },
+    "armor": {
+      "weapon": "무기",
+      "armor": "방어구"
+    },
+    "sections": {
+      "materials": "귀속재료",
+      "probability": "확률정보입력"
+    },
+    "probability": {
+      "title": "기본 재련 확률 정보",
+      "baseRate": "재련 확률",
+      "artisanEnergy": "장인의기운"
+    },
+    "buttons": {
+      "startSimulation": "시뮬레이션 시작",
+      "debug": "디버그"
+    },
+    "results": {
+      "successRate": "성공확률: {{rate}}",
+      "requiredGold": "필요 골드: {{gold}}"
+    },
+    "materials": {
+      "fragmentAndBook": "명파 + 책",
+      "fragment": "명예의 파편",
+      "book": "책",
+      "stone": "강화석",
+      "redStone": "정제된파괴강석",
+      "blueStone": "정제된수호강석",
+      "blueCommonStone": "찬명돌",
+      "refinementStone": "보조재련석",
+      "solarGrace": "태양의 가호",
+      "solarBlessing": "태양의 축복",
+      "solarProtection": "태양의 은총"
+    }
+  },
   "common": {
     "error": {
       "network": "인터넷 연결이 끊겼습니다. 인터넷 연결을 확인하고 다시 시도해주세요.",

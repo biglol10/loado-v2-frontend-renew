@@ -5,6 +5,7 @@ import _ from 'lodash';
 import { hold } from '@/utils/utilityFunctions';
 import axiosCanceler from './AxiosCanceler';
 import { IApiResponseTemplate } from './types';
+import { debounce } from 'lodash';
 
 export type TApiMethod = 'get' | 'post' | 'put' | 'delete';
 
@@ -100,6 +101,23 @@ const handleResponseError = (error: any) => {
 class AxiosService {
   axiosInstance: AxiosInstance;
 
+  private debounceUserLog = debounce(
+    (logs: any[]) => {
+      // 누적된 로그들을 한번에 전송
+      // sendUserLog('request', null, { requests: logs });
+    },
+    1000,
+    { maxWait: 2000 }
+  );
+
+  private logQueue: any[] = [];
+
+  // 로그를 누적시키고 누적된 로그를 한번에 보낼 수 있도록
+  private queueUserLog(dataLog: any) {
+    this.logQueue.push(dataLog);
+    this.debounceUserLog(this.logQueue);
+  }
+
   constructor() {
     this.axiosInstance = AxiosBaseInstance;
 
@@ -150,9 +168,7 @@ class AxiosService {
           data ? { data: JSON.stringify(data).substring(0, 100) } : {}
         );
 
-        setTimeout(() => {
-          // sendUserLog('request', null, userRequestDataLog);
-        }, 1000);
+        // this.queueUserLog(userRequestDataLog);
       }
 
       // if (!store.getState().modal.modalOpen && url !== '/api/loadoCommon/userlog') {
