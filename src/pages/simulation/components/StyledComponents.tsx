@@ -14,4 +14,13 @@ const MaterialSection = styled(Box)(({ theme }) => ({
   marginBottom: theme.spacing(1),
 }));
 
-export { StyledPaper, MaterialSection };
+const HeaderContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  padding: theme.spacing(2),
+  backgroundColor: '#1e2124',
+  color: 'white',
+}));
+
+export { StyledPaper, MaterialSection, HeaderContainer };

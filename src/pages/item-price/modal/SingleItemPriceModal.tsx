@@ -13,6 +13,11 @@ import FormSelect from '@/components/common/FormSelect';
 import PriceChart from '../components/PriceChart';
 import userStore from '@/store/user/userStore';
 import ComponentWithSkeleton from '@/components/atomic/ComponentWithSkeleton';
+import { isEmpty } from 'lodash';
+import SearchOffIcon from '@mui/icons-material/SearchOff';
+import ErrorIcon from '@mui/icons-material/Error';
+import { HeaderContainer } from '@/pages/simulation/components/StyledComponents';
+import en from '@/locales/en';
 
 const grey = {
   50: '#F3F6F9',
@@ -77,14 +82,35 @@ const StyledBackdrop = styled(Backdrop)`
   -webkit-tap-highlight-color: transparent;
 `;
 
-const HeaderContainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  padding: theme.spacing(2),
-  backgroundColor: '#1e2124',
-  color: 'white',
-}));
+const EmptyState = ({ type }: { type: 'empty' | 'error' | 'not_enabled' }) => {
+  const { t } = useTranslation();
+
+  const Icon = type === 'empty' ? SearchOffIcon : ErrorIcon;
+
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '100%',
+        gap: 2,
+        py: 4,
+      }}
+    >
+      <Icon sx={{ fontSize: 64, color: 'text.secondary', opacity: 0.5 }} />
+      <Typography variant="h6" color="text.secondary" sx={{ textAlign: 'center', fontWeight: 500 }}>
+        {type === 'empty' && t('item-price.modal.noData')}
+        {type === 'error' && t('item-price.modal.error')}
+        {type === 'not_enabled' && t('item-price.modal.not-enabled')}
+      </Typography>
+      <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center', opacity: 0.8 }}>
+        {t('item-price.modal.tryDifferentDate')}
+      </Typography>
+    </Box>
+  );
+};
 
 const SingleItemPriceModal = () => {
   const { t } = useTranslation();
@@ -96,6 +122,7 @@ const SingleItemPriceModal = () => {
     itemId: selectedItemToView?.itemId || '',
     yearValue: dayjs().year(),
     monthValue: dayjs().month() + 1,
+    enabled: false,
   });
 
   const method = useForm<SearchFormData>({
@@ -119,6 +146,7 @@ const SingleItemPriceModal = () => {
       itemId: selectedItemToView?.itemId || '',
       yearValue: parseInt(formData.year),
       monthValue: parseInt(formData.month),
+      enabled: true,
     };
 
     setQueryParams(newParams);
@@ -152,7 +180,12 @@ const SingleItemPriceModal = () => {
             <Box
               component={'img'}
               src={
-                imageSrcCollection[selectedItemToView!.itemId! as keyof typeof imageSrcCollection]
+                imageSrcCollection[
+                  selectedItemToView!.itemName.includes('(유물)') &&
+                  selectedItemToView!.itemName.includes('각인서')
+                    ? 'relicBook'
+                    : (selectedItemToView!.itemId! as keyof typeof imageSrcCollection)
+                ]
               }
             />
             <Typography variant="h6" sx={{ marginLeft: '10px' }}>

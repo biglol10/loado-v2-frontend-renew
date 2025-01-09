@@ -1,4 +1,4 @@
-export type TActiveTabType = 'ALL' | 'BOOK' | 'MATERIAL' | 'MY_LIST' | 'ESDER_AND_GEM';
+export type TActiveTabType = 'ALL' | 'T3' | 'T4';
 
 export interface IItemData {
   recordId: string;

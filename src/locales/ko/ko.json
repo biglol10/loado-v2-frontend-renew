@@ -27,13 +27,16 @@
   },
   "item-price": {
     "modal": {
-      "title": "거래소 시세 확인"
+      "title": "거래소 시세 확인",
+      "noData": "조회된 데이터가 없습니다",
+      "tryDifferentDate": "다른 날짜를 선택해보세요",
+      "error": "오류가 발생했습니다",
+      "not-enabled": "날짜를 선택하고 조회해주세요"
     },
     "label": {
       "tab1": "전체",
-      "tab2": "각인서",
-      "tab3": "재련",
-      "tab4": "에스더/보석"
+      "tab2": "티어 3",
+      "tab3": "티어 4"
     },
     "table": {
       "title": {
@@ -77,12 +80,14 @@
     },
     "sections": {
       "materials": "귀속재료",
-      "probability": "확률정보입력"
+      "probability": "확률정보입력",
+      "targetRefine": "목표 재련"
     },
     "probability": {
       "title": "기본 재련 확률 정보",
       "baseRate": "재련 확률",
-      "artisanEnergy": "장인의기운"
+      "artisanEnergy": "장인의기운",
+      "additionalSuccessRate": "추가 재련 확률"
     },
     "buttons": {
       "startSimulation": "시뮬레이션 시작",

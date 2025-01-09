@@ -27,13 +27,16 @@
   },
   "item-price": {
     "modal": {
-      "title": "Market Price Check"
+      "title": "Market Price Check",
+      "noData": "No data found",
+      "tryDifferentDate": "Try selecting a different date",
+      "error": "Error Occurred",
+      "not-enabled": "Select date and search"
     },
     "label": {
       "tab1": "All",
-      "tab2": "Engraving Books",
-      "tab3": "Materials",
-      "tab4": "Esther/Gems"
+      "tab2": "Tier 3",
+      "tab3": "Tier 4"
     },
     "table": {
       "title": {
@@ -77,12 +80,14 @@
     },
     "sections": {
       "materials": "Materials",
-      "probability": "Probability Info"
+      "probability": "Probability Info",
+      "targetRefine": "Target Refine"
     },
     "probability": {
       "title": "Base Refinement Probability",
       "baseRate": "Success Rate",
-      "artisanEnergy": "Artisan Energy"
+      "artisanEnergy": "Artisan Energy",
+      "additionalSuccessRate": "Additional Success Rate"
     },
     "buttons": {
       "startSimulation": "Start Simulation",

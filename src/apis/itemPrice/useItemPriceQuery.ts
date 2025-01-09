@@ -8,7 +8,7 @@ interface IItemPriceQueryParams {
   staleTime: number;
 }
 
-const categoryCodes = ['44410', '44420', '50010', '50020', '51100', '210000'];
+const categoryCodes = ['44410', '50010', '50020', '51100', '210000']; // '44420' 앜패로 인한 직업각인서 제회
 
 const generateQueryKey = (searchDate: string, categoryCode: string) => {
   return ['itemPrice', searchDate, categoryCode];

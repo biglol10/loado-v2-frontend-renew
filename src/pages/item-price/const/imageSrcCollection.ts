@@ -4,6 +4,7 @@ import 정제된파괴강석 from '@/assets/images/items/정제된파괴강석.w
 import 태양의가호 from '@/assets/images/items/태양의가호.webp';
 import 태양의축복 from '@/assets/images/items/태양의축복.webp';
 import 태양의은총 from '@/assets/images/items/태양의은총.webp';
+import RelicBookImage from '@/assets/images/items/유물각인서.jpg';
 
 export const imageSrcCollection = {
   // 에스더
@@ -11,6 +12,9 @@ export const imageSrcCollection = {
 
   // 전각
   book: BookImage,
+
+  // 유물 각인서
+  relicBook: RelicBookImage,
 
   // 명예의 파편 주머니(대)
   '66130133': 'https://cdn-lostark.game.onstove.com/EFUI_IconAtlas/Use/Use_8_227.png',

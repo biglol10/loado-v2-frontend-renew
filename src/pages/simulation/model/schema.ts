@@ -32,7 +32,9 @@ export const existingResourceSchema = z.object({
 // 확률정보 스키마
 export const probabilityInfoSchema = z.object({
   baseSuccessRate: percentageSchema,
+  additionalSuccessRate: percentageSchema,
   artisanEnergy: percentageSchema,
+  bookProbability: percentageSchema,
 });
 
 // 통합 스키마

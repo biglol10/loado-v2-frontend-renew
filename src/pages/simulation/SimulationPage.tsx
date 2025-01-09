@@ -21,7 +21,7 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 
 const SimulationPage = () => {
   const { t } = useTranslation();
-  const [tier, setTier] = useState<ETier>(ETier.T4);
+  const [tier, setTier] = useState<ETier>(ETier.T3);
   const [armorOrWeapon, setArmorOrWeapon] = useState<EArmor>(EArmor.WEAPON);
 
   const methods = useForm<TSimulationFormData>({
@@ -49,12 +49,18 @@ const SimulationPage = () => {
 
   const onSubmit = (data: TSimulationFormData) => {
     console.log('data', data);
+    alert('ASDF');
   };
 
   const aa = () => {
     const a = getValues();
 
     console.log('a', a);
+  };
+
+  const onError = (errors: any) => {
+    alert('error');
+    console.log('errors is ', errors);
   };
 
   return (
@@ -132,9 +138,11 @@ const SimulationPage = () => {
 
       {/* 재료 섹션 */}
       <FormProvider {...methods}>
-        <Box component="form" onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit, onError)}>
           <SectionTitle>{t('simulation.sections.materials')}</SectionTitle>
           {tier === ETier.T3 && <T3ExistingResources armor={armorOrWeapon} />}
+          <Divider sx={{ margin: '25px 0px' }} />
+          <SectionTitle>{t('simulation.sections.targetRefine')}</SectionTitle>
           <Divider sx={{ margin: '25px 0px' }} />
           <SectionTitle>{t('simulation.sections.probability')}</SectionTitle>
           <ProbabilityInfo />
@@ -142,7 +150,7 @@ const SimulationPage = () => {
           <Button type="submit" variant="outlined">
             {t('simulation.buttons.startSimulation')}
           </Button>
-        </Box>
+        </form>
       </FormProvider>
 
       <Button onClick={aa}>aa</Button>

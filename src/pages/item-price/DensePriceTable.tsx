@@ -5,7 +5,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { IItemData } from '@/apis/itemPrice/types';
+import { IItemData, TActiveTabType } from '@/apis/itemPrice/types';
 import React from 'react';
 import { Avatar, Box, Button, Divider, Typography } from '@mui/material';
 import { imageSrcCollection } from './const/imageSrcCollection';
@@ -13,14 +13,16 @@ import GoldImage from '@/assets/images/goldImage_noBackground.webp';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import itemPriceStore from '@/store/item-price/itemPriceStore';
 import { useTranslation } from 'react-i18next';
+import { tier3ItemIds, tier4ItemIds } from './const/itemTierInfo';
 
 interface IDensePriceTableProps {
   title: string;
   rows: IItemData[];
   type?: 'book';
+  activeTab?: TActiveTabType;
 }
 
-const DensePriceTable = ({ title, rows, type }: IDensePriceTableProps) => {
+const DensePriceTable = ({ title, rows, type, activeTab = 'ALL' }: IDensePriceTableProps) => {
   const { setSelectedItemToView } = itemPriceStore();
   const { t } = useTranslation();
 
@@ -76,63 +78,78 @@ const DensePriceTable = ({ title, rows, type }: IDensePriceTableProps) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((item, idx) => {
-            const itemId = item.itemId as keyof typeof imageSrcCollection;
-            if (imageSrcCollection[itemId] || type === 'book') {
-              return (
-                <TableRow
-                  key={`${title}_${idx}`}
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
-                  <TableCell component={'th'} scope="row">
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                      <Avatar
-                        src={
-                          type !== 'book' ? imageSrcCollection[itemId] : imageSrcCollection['book']
-                        }
-                        alt={item.itemName}
+          {rows
+            .filter((item) => {
+              if (activeTab === 'ALL') {
+                return item;
+              } else if (activeTab === 'T3') {
+                return tier3ItemIds.includes(item.itemId);
+              } else {
+                return tier4ItemIds.includes(item.itemId);
+              }
+            })
+            .map((item, idx) => {
+              const itemId = item.itemId as keyof typeof imageSrcCollection;
+              const itemName = item.itemName;
+              if (imageSrcCollection[itemId] || type === 'book') {
+                return (
+                  <TableRow
+                    key={`${title}_${idx}`}
+                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                  >
+                    <TableCell component={'th'} scope="row">
+                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Avatar
+                          src={
+                            type !== 'book'
+                              ? imageSrcCollection[itemId]
+                              : imageSrcCollection[
+                                  itemName.includes('(유물)') ? 'relicBook' : 'book'
+                                ]
+                          }
+                          alt={item.itemName}
+                        />
+                        <Typography sx={{ fontSize: '12px', marginLeft: '5px' }}>
+                          {item.itemName.replace('(유물)', '')}
+                        </Typography>
+                      </Box>
+                    </TableCell>
+                    <TableCell align="right">
+                      <PriceCellWithAvatar
+                        imgSrc={GoldImage}
+                        alt="gold-image"
+                        price={item.minCurrentMinPrice}
                       />
-                      <Typography sx={{ fontSize: '12px', marginLeft: '5px' }}>
-                        {item.itemName}
-                      </Typography>
-                    </Box>
-                  </TableCell>
-                  <TableCell align="right">
-                    <PriceCellWithAvatar
-                      imgSrc={GoldImage}
-                      alt="gold-image"
-                      price={item.minCurrentMinPrice}
-                    />
-                  </TableCell>
-                  <TableCell align="right">
-                    <PriceCellWithAvatar
-                      imgSrc={GoldImage}
-                      alt="gold-image"
-                      price={item.avgCurrentMinPrice}
-                    />
-                  </TableCell>
-                  <TableCell align="right">
-                    <PriceCellWithAvatar
-                      imgSrc={GoldImage}
-                      alt="gold-image"
-                      price={item.maxCurrentMinPrice}
-                    />
-                  </TableCell>
-                  <TableCell align="right">
-                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'end' }}>
-                      <Button
-                        onClick={() => {
-                          openSingleItemHistoryPriceModal(item);
-                        }}
-                      >
-                        <MonetizationOnIcon />
-                      </Button>
-                    </Box>
-                  </TableCell>
-                </TableRow>
-              );
-            }
-          })}
+                    </TableCell>
+                    <TableCell align="right">
+                      <PriceCellWithAvatar
+                        imgSrc={GoldImage}
+                        alt="gold-image"
+                        price={item.avgCurrentMinPrice}
+                      />
+                    </TableCell>
+                    <TableCell align="right">
+                      <PriceCellWithAvatar
+                        imgSrc={GoldImage}
+                        alt="gold-image"
+                        price={item.maxCurrentMinPrice}
+                      />
+                    </TableCell>
+                    <TableCell align="right">
+                      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'end' }}>
+                        <Button
+                          onClick={() => {
+                            openSingleItemHistoryPriceModal(item);
+                          }}
+                        >
+                          <MonetizationOnIcon />
+                        </Button>
+                      </Box>
+                    </TableCell>
+                  </TableRow>
+                );
+              }
+            })}
         </TableBody>
       </Table>
     </TableContainer>

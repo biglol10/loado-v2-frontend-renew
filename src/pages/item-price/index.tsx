@@ -35,10 +35,8 @@ const ItemPricePage = () => {
   const [activeTab, setActiveTab] = useState<ComponentTypes.TActiveTabType>('ALL');
   const [refinement, setRefinement] = useState<ComponentTypes.IItemData[]>([]);
   const [refinementAdditional, setRefinementAdditional] = useState<ComponentTypes.IItemData[]>([]);
-  const [etc, setEtc] = useState<ComponentTypes.IItemData[]>([]);
   const [esder, setEsder] = useState<ComponentTypes.IItemData[]>([]);
   const [engravings, setEngravings] = useState<ComponentTypes.IItemData[]>([]);
-  const [characterEngravings, setCharacterEngravings] = useState<ComponentTypes.IItemData[]>([]);
   const [jewelry, setJewelry] = useState<ComponentTypes.IItemData[]>([]);
 
   const { isMobile } = userStore();
@@ -66,17 +64,11 @@ const ItemPricePage = () => {
             case 44410:
               setEngravings(dataToUse);
               break;
-            case 44420:
-              setCharacterEngravings(dataToUse);
-              break;
             case 50010:
               setRefinement(dataToUse);
               break;
             case 50020:
               setRefinementAdditional(dataToUse);
-              break;
-            case 51000:
-              setEtc(dataToUse);
               break;
             case 51100:
               setEsder(dataToUse);
@@ -148,9 +140,8 @@ const ItemPricePage = () => {
             >
               <StyledTabs value={activeTab} onChange={handleTabChange}>
                 <StyledTab label={t('item-price.label.tab1')} value={'ALL'} />
-                <StyledTab label={t('item-price.label.tab2')} value={'BOOK'} />
-                <StyledTab label={t('item-price.label.tab3')} value={'MATERIAL'} />
-                <StyledTab label={t('item-price.label.tab4')} value={'ESDER_AND_GEM'} />
+                <StyledTab label={t('item-price.label.tab2')} value={'T3'} />
+                <StyledTab label={t('item-price.label.tab3')} value={'T4'} />
               </StyledTabs>
             </Box>
           </StyledToolbar>
@@ -216,20 +207,6 @@ const ItemPricePage = () => {
                       <DensePriceTable
                         title={t('item-price.table.title.engraving')}
                         rows={engravings}
-                        type="book"
-                      />
-                    </ComponentWithSkeleton>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <ComponentWithSkeleton
-                      sx={{ height: 250 }}
-                      animation="wave"
-                      variant="rectangular"
-                      isLoading={isLoading}
-                    >
-                      <DensePriceTable
-                        title={t('item-price.table.title.character-engraving')}
-                        rows={characterEngravings}
                         type="book"
                       />
                     </ComponentWithSkeleton>

@@ -105,6 +105,7 @@ class AxiosService {
     (logs: any[]) => {
       // 누적된 로그들을 한번에 전송
       // sendUserLog('request', null, { requests: logs });
+      // this.logQueue = [];
     },
     1000,
     { maxWait: 2000 }
@@ -115,7 +116,7 @@ class AxiosService {
   // 로그를 누적시키고 누적된 로그를 한번에 보낼 수 있도록
   private queueUserLog(dataLog: any) {
     this.logQueue.push(dataLog);
-    this.debounceUserLog(this.logQueue);
+    this.debounceUserLog([...this.logQueue]);
   }
 
   constructor() {

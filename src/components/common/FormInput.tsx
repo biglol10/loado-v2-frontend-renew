@@ -69,7 +69,7 @@ const formatValue = (
     return formatNumber(value);
   }
   if (percentageFormat) {
-    return `${value}%`;
+    return `${value ?? 0}%`;
   }
   return value;
 };
