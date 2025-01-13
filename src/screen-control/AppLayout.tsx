@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Tab, Tabs, Box, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import RefineAnimation from '@/assets/images/refine/refineAnimation.gif';
 import GoldImage from '@/assets/images/goldImage.png';
 import itemPriceStore from '@/store/item-price/itemPriceStore';

@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Grid, Paper, Typography, alpha, styled } from '@mui/material';
+import { Box, Button, Divider, Typography, alpha } from '@mui/material';
 import { StyledTabs, StyledTab } from '@/components/common/CustomTab';
 import React, { useState } from 'react';
 import WeaponImage from '@/assets/images/simulation/weapon.png';
@@ -12,13 +12,6 @@ import { SectionTitle } from './components/SectionTitle';
 import { simulationFormSchema, TSimulationFormData } from './model/schema';
 import ProbabilityInfo from './components/ProbabilityInfo';
 import TargetRefineInfo from './components/TargetRefineInfo';
-
-const StyledPaper = styled(Paper)(({ theme }) => ({
-  padding: theme.spacing(2),
-  backgroundColor: alpha(theme.palette.background.paper, 0.8),
-  backdropFilter: 'blur(8px)',
-  border: `1px solid ${alpha(theme.palette.primary.main, 0.1)}`,
-}));
 
 const SimulationPage = () => {
   const { t } = useTranslation();

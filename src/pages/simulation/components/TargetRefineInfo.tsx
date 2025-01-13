@@ -1,8 +1,8 @@
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import { HeaderContainer } from './StyledComponents';
 import FormSelect from '@/components/common/FormSelect';
 import { Controller, useFormContext } from 'react-hook-form';
-import { TSimulationFormData, TTargetRefineInfoData } from '../model/schema';
+import { TTargetRefineInfoData } from '../model/schema';
 import { StyledToolbar } from '@/pages/home/styles/styles';
 import { StyledTab, StyledTabs } from '@/components/common/CustomTab';
 import { useTranslation } from 'react-i18next';

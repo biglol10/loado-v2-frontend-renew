@@ -1,4 +1,4 @@
-import { Tab, Tabs, Grid, Paper, Box, Container } from '@mui/material';
+import { Grid, Paper, Box, Container } from '@mui/material';
 import { Outlet } from 'react-router-dom';
 import { useEffect, useMemo, useState } from 'react';
 import * as ComponentTypes from '@/apis/itemPrice/types';
