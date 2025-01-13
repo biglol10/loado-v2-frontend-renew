@@ -13,11 +13,9 @@ import FormSelect from '@/components/common/FormSelect';
 import PriceChart from '../components/PriceChart';
 import userStore from '@/store/user/userStore';
 import ComponentWithSkeleton from '@/components/atomic/ComponentWithSkeleton';
-import { isEmpty } from 'lodash';
 import SearchOffIcon from '@mui/icons-material/SearchOff';
 import ErrorIcon from '@mui/icons-material/Error';
 import { HeaderContainer } from '@/pages/simulation/components/StyledComponents';
-import en from '@/locales/en';
 
 const grey = {
   50: '#F3F6F9',
@@ -81,36 +79,6 @@ const StyledBackdrop = styled(Backdrop)`
   background-color: rgb(0 0 0 / 0.5);
   -webkit-tap-highlight-color: transparent;
 `;
-
-const EmptyState = ({ type }: { type: 'empty' | 'error' | 'not_enabled' }) => {
-  const { t } = useTranslation();
-
-  const Icon = type === 'empty' ? SearchOffIcon : ErrorIcon;
-
-  return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: '100%',
-        gap: 2,
-        py: 4,
-      }}
-    >
-      <Icon sx={{ fontSize: 64, color: 'text.secondary', opacity: 0.5 }} />
-      <Typography variant="h6" color="text.secondary" sx={{ textAlign: 'center', fontWeight: 500 }}>
-        {type === 'empty' && t('item-price.modal.noData')}
-        {type === 'error' && t('item-price.modal.error')}
-        {type === 'not_enabled' && t('item-price.modal.not-enabled')}
-      </Typography>
-      <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center', opacity: 0.8 }}>
-        {t('item-price.modal.tryDifferentDate')}
-      </Typography>
-    </Box>
-  );
-};
 
 const SingleItemPriceModal = () => {
   const { t } = useTranslation();
@@ -187,6 +155,7 @@ const SingleItemPriceModal = () => {
                     : (selectedItemToView!.itemId! as keyof typeof imageSrcCollection)
                 ]
               }
+              sx={{ width: 50, height: 50 }}
             />
             <Typography variant="h6" sx={{ marginLeft: '10px' }}>
               {selectedItemToView!.itemName}
@@ -205,6 +174,7 @@ const SingleItemPriceModal = () => {
                 const year = `${2023 + index}`;
                 return { label: `${year}${t('label.year')}`, value: year };
               })}
+              showErrorBox
             />
 
             <FormSelect<string>

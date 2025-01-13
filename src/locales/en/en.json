@@ -81,7 +81,8 @@
     "sections": {
       "materials": "Materials",
       "probability": "Probability Info",
-      "targetRefine": "Target Refine"
+      "targetRefine": "Target Refine",
+      "armorType": "Armor Type"
     },
     "probability": {
       "title": "Base Refinement Probability",

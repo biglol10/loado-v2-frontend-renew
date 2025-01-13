@@ -20,7 +20,7 @@ const TitleWrapper = styled(Box)(({ theme }) => ({
 const StyledTitle = styled(Typography)(({ theme }) => ({
   color: theme.palette.primary.main,
   fontWeight: 600,
-  padding: theme.spacing(1, 3),
+  padding: 5,
   borderRadius: theme.shape.borderRadius,
   background: alpha(theme.palette.primary.main, 0.1),
   backdropFilter: 'blur(8px)',

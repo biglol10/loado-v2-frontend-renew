@@ -81,7 +81,8 @@
     "sections": {
       "materials": "귀속재료",
       "probability": "확률정보입력",
-      "targetRefine": "목표 재련"
+      "targetRefine": "목표 재련",
+      "armorType": "장비 종류"
     },
     "probability": {
       "title": "기본 재련 확률 정보",

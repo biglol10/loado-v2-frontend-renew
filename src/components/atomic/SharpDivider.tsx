@@ -68,6 +68,8 @@ const StyledSharpDivider = styled.div<{ dividerColor: string }>`
 `;
 
 const SharpDivider = ({ content = '', dividerColor = '#839192', fontSize = 12 }: ISharpDivider) => {
+  const a = [1, 2, 3, 4];
+
   return (
     <StyledSharpDivider dividerColor={dividerColor}>
       <span></span>
@@ -75,6 +77,11 @@ const SharpDivider = ({ content = '', dividerColor = '#839192', fontSize = 12 }:
         {content}
       </span>
       <span></span>
+      {a &&
+        a.map((item) => {
+          console.log('ASDF');
+          return <></>;
+        })}
     </StyledSharpDivider>
   );
 };

@@ -11,6 +11,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { SectionTitle } from './components/SectionTitle';
 import { simulationFormSchema, TSimulationFormData } from './model/schema';
 import ProbabilityInfo from './components/ProbabilityInfo';
+import TargetRefineInfo from './components/TargetRefineInfo';
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(2),
@@ -26,6 +27,13 @@ const SimulationPage = () => {
 
   const methods = useForm<TSimulationFormData>({
     resolver: zodResolver(simulationFormSchema),
+    defaultValues: {
+      targetRefine: {
+        armorType: EArmor.WEAPON,
+        refineNumber: 13,
+        tier: ETier.T4,
+      },
+    },
   });
 
   const {
@@ -139,6 +147,9 @@ const SimulationPage = () => {
       {/* 재료 섹션 */}
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit, onError)}>
+          <SectionTitle>{t('simulation.sections.targetRefine')}</SectionTitle>
+          <TargetRefineInfo />
+          <Divider sx={{ margin: '25px 0px' }} />
           <SectionTitle>{t('simulation.sections.materials')}</SectionTitle>
           {tier === ETier.T3 && <T3ExistingResources armor={armorOrWeapon} />}
           <Divider sx={{ margin: '25px 0px' }} />

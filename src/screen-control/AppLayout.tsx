@@ -15,7 +15,18 @@ const AppLayout = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { setSelectedItemToView } = itemPriceStore();
-  const [currentPage, setCurrentPage] = useState<TCurrentPage>('ITEM_PRICE');
+  const [currentPage, setCurrentPage] = useState<TCurrentPage>(() => {
+    const currentRoute = location.pathname;
+
+    switch (currentRoute) {
+      case '/item-price':
+        return 'ITEM_PRICE';
+      case '/simulation':
+        return 'SIMULATION';
+      default:
+        return 'ITEM_PRICE';
+    }
+  });
 
   const handleTabChange = (_: React.SyntheticEvent, value: TCurrentPage) => {
     setSelectedItemToView(undefined);

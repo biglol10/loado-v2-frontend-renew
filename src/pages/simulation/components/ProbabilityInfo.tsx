@@ -1,4 +1,4 @@
-import { Box, Checkbox, Grid, Typography } from '@mui/material';
+import { Box, Checkbox, FormControl, InputLabel } from '@mui/material';
 import { StyledPaper, MaterialSection } from './StyledComponents';
 import { useFormContext } from 'react-hook-form';
 import { TSimulationFormData } from '../model/schema';
@@ -16,8 +16,13 @@ const ProbabilityInfo = () => {
       <Box sx={{ display: 'flex', gap: 5 }}>
         {/* 기본 성공확률 */}
         <MaterialSection>
-          <Typography sx={{ width: '90px' }}>{t('simulation.probability.baseRate')}</Typography>
+          <FormControl sx={{ width: '120px' }}>
+            <InputLabel shrink htmlFor="base-success-rate">
+              {t('simulation.probability.baseRate')}
+            </InputLabel>
+          </FormControl>
           <FormInput
+            id="base-success-rate"
             name="probability.baseSuccessRate"
             control={control}
             placeholder={t('simulation.probability.baseRate')}
@@ -27,10 +32,13 @@ const ProbabilityInfo = () => {
         </MaterialSection>
         {/* 추가 성공확률 (이벤트, 슈모익, 등) */}
         <MaterialSection>
-          <Typography sx={{ width: '90px' }}>
-            {t('simulation.probability.additionalSuccessRate')}
-          </Typography>
+          <FormControl sx={{ width: '120px' }}>
+            <InputLabel shrink htmlFor="additional-success-rate">
+              {t('simulation.probability.additionalSuccessRate')}
+            </InputLabel>
+          </FormControl>
           <FormInput
+            id="additional-success-rate"
             name="probability.additionalSuccessRate"
             control={control}
             placeholder={t('simulation.probability.additionalSuccessRate')}
@@ -40,10 +48,13 @@ const ProbabilityInfo = () => {
         </MaterialSection>
         {/* 장인의 기운 */}
         <MaterialSection>
-          <Typography sx={{ width: '90px' }}>
-            {t('simulation.probability.artisanEnergy')}
-          </Typography>
+          <FormControl sx={{ width: '120px' }}>
+            <InputLabel shrink htmlFor="artisan-energy">
+              {t('simulation.probability.artisanEnergy')}
+            </InputLabel>
+          </FormControl>
           <FormInput
+            id="artisan-energy"
             name="probability.artisanEnergy"
             control={control}
             placeholder={t('simulation.probability.artisanEnergy')}
@@ -51,8 +62,10 @@ const ProbabilityInfo = () => {
             fullWidth={false}
           />
         </MaterialSection>
+
+        {/* 보조재료 */}
         <MaterialSection>
-          <Box sx={{ width: '90px', display: 'flex', alignItems: 'center' }}>
+          <Box sx={{ width: '120px', display: 'flex', alignItems: 'center' }}>
             <Checkbox
               sx={{
                 color: pink[800],
@@ -68,6 +81,7 @@ const ProbabilityInfo = () => {
             />
           </Box>
           <FormInput
+            id="book-probability"
             name="probability.bookProbability"
             control={control}
             placeholder="보조책확률"

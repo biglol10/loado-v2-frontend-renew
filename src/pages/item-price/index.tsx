@@ -162,6 +162,7 @@ const ItemPricePage = () => {
                       <DensePriceTable
                         title={t('item-price.table.title.refinement')}
                         rows={refinement}
+                        activeTab={activeTab}
                       />
                     </ComponentWithSkeleton>
                   </Grid>
@@ -175,6 +176,7 @@ const ItemPricePage = () => {
                       <DensePriceTable
                         title={t('item-price.table.title.refinement-additional')}
                         rows={refinementAdditional}
+                        activeTab={activeTab}
                       />
                     </ComponentWithSkeleton>
                   </Grid>
@@ -188,6 +190,7 @@ const ItemPricePage = () => {
                       <DensePriceTable
                         title={t('item-price.table.title.esder-gem')}
                         rows={[...esder, ...jewelry]}
+                        activeTab={activeTab}
                       />
                     </ComponentWithSkeleton>
                   </Grid>

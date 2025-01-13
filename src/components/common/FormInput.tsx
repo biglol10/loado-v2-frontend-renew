@@ -1,13 +1,7 @@
-import { Box, TextField, styled } from '@mui/material';
+import { Box, FormControl, InputLabel, TextField, styled } from '@mui/material';
 import { Control, Controller, FieldValues, Path, PathValue } from 'react-hook-form';
 import { formatNumber, parseFormattedNumber } from '@/utils/numberFormat';
-
-const ErrorMessage = styled('div')({
-  color: 'white',
-  fontSize: '0.75rem',
-  padding: '2px',
-  fontFamily: '"Roboto","Helvetica","Arial",sans-serif',
-});
+import { ErrorContainer, ErrorMessage } from './FormErrorStyles';
 
 const StyeldTextField = styled(TextField)(({ theme }) => ({
   '& .MuiOutlinedInput-root': {
@@ -34,17 +28,6 @@ const StyeldTextField = styled(TextField)(({ theme }) => ({
   },
 }));
 
-const ErrorContainer = styled(Box)({
-  position: 'absolute',
-  top: '100%',
-  left: 0,
-  right: 0,
-  marginTop: '4px',
-  border: '1px solid red',
-  backgroundColor: 'crimson',
-  borderRadius: '4px',
-});
-
 interface FormInputProps<T extends FieldValues, K extends Path<T>> {
   name: K;
   control: Control<T>;
@@ -58,6 +41,7 @@ interface FormInputProps<T extends FieldValues, K extends Path<T>> {
   onChangeValue?: (value: PathValue<T, K>) => PathValue<T, K>;
   numberFormat?: boolean;
   percentageFormat?: boolean;
+  id?: string;
 }
 
 const formatValue = (
@@ -87,15 +71,18 @@ const FormInput = <T extends FieldValues, K extends Path<T>>({
   onChangeValue,
   numberFormat,
   percentageFormat,
+  id,
 }: FormInputProps<T, K>) => {
   return (
     <Controller
       name={name}
       control={control}
       render={({ field, fieldState: { error } }) => (
-        <Box position={'relative'} width={fullWidth ? '100%' : 'auto'}>
+        <FormControl error={!!error} fullWidth={fullWidth}>
+          {label && <InputLabel htmlFor={id}>{label}</InputLabel>}
           <StyeldTextField
             {...field}
+            id={id}
             label={label}
             placeholder={placeholder}
             type={type}
@@ -153,7 +140,7 @@ const FormInput = <T extends FieldValues, K extends Path<T>>({
               <ErrorMessage>{error.message}</ErrorMessage>
             </ErrorContainer>
           )}
-        </Box>
+        </FormControl>
       )}
     />
   );

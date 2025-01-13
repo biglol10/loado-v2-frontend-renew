@@ -37,10 +37,19 @@ export const probabilityInfoSchema = z.object({
   bookProbability: percentageSchema,
 });
 
+// 목표 재련 스키마
+export const targetRefineSchema = z.object({
+  armorType: z.enum(['WEAPON', 'ARMOR']),
+  refineNumber: z.number(),
+  tier: z.enum(['T3', 'T4']),
+});
+
 // 통합 스키마
 export const simulationFormSchema = z.object({
   existingResources: existingResourceSchema,
   probability: probabilityInfoSchema,
+  targetRefine: targetRefineSchema,
 });
 
+export type TTargetRefineInfoData = z.infer<typeof targetRefineSchema>;
 export type TSimulationFormData = z.infer<typeof simulationFormSchema>;

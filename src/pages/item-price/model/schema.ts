@@ -9,8 +9,28 @@ export const searchFormSchema = z
   })
   .superRefine((data, ctx) => {
     const yearMonth = `${data.year}-${data.month}-01`;
+    const selectedDate = dayjs(yearMonth);
+    const today = dayjs();
 
-    if (!dayjs(yearMonth).isValid() || dayjs(yearMonth).isBefore(dayjs('2023-07-01'))) {
+    // 미래 날짜 체크
+    if (selectedDate.isAfter(today, 'month')) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: i18n.t('validation.item-price.futureDateError'),
+        path: ['year'],
+      });
+
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: i18n.t('validation.item-price.futureDateError'),
+        path: ['month'],
+      });
+
+      return;
+    }
+
+    // 2023년 7월 이전 날짜 체크
+    if (!selectedDate.isValid() || selectedDate.isBefore(dayjs('2023-07-01'))) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message: i18n.t('validation.item-price.dateRootError'),

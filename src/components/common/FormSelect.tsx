@@ -1,51 +1,49 @@
-import { Box, MenuItem, Select, styled } from '@mui/material';
+import { Box, FormControl, InputLabel, MenuItem, Select, styled } from '@mui/material';
+import { ReactNode } from 'react';
 import { Controller } from 'react-hook-form';
+import { ErrorContainer, ErrorMessage } from './FormErrorStyles';
 
 interface Option {
-  label: string | number;
-  value: string;
+  label: string | number | ReactNode;
+  value: string | number;
 }
 
 interface IFormSelect<T> {
+  id?: string;
   name: string;
   control: any;
   options: Option[];
   onChangeValue?: (value: T) => T;
+  defaultValue?: T;
+  label?: string;
+  fullWidth?: boolean;
   showErrorBox?: boolean;
 }
 
-const ErrorContainer = styled(Box)({
-  position: 'absolute',
-  top: '100%',
-  left: 0,
-  right: 0,
-  marginTop: '4px',
-  border: '1px solid red',
-  backgroundColor: 'crimson',
-  borderRadius: '4px',
-});
-
-const ErrorMessage = styled('div')({
-  color: 'white',
-  fontSize: '0.75rem',
-  padding: '2px',
-  fontFamily: '"Roboto","Helvetica","Arial",sans-serif',
-});
-
 const FormSelect = <T,>({
+  id,
   name,
   control,
   options,
   onChangeValue,
+  defaultValue,
+  label,
+  fullWidth = true,
   showErrorBox,
 }: IFormSelect<T>) => {
   return (
     <Controller
       name={name}
       control={control}
+      defaultValue={defaultValue}
       render={({ field: { onChange, value }, fieldState: { error } }) => (
-        <Box position={'relative'}>
+        <FormControl error={!!error} fullWidth={fullWidth} sx={{ minWidth: 'auto' }}>
+          {label && <InputLabel id={`${id}-label`}>{label}</InputLabel>}
           <Select<T>
+            id={id}
+            label={label}
+            labelId={`${id}-label`}
+            value={value}
             sx={(theme) => ({
               backgroundColor: 'transparent',
               color: 'white',
@@ -62,7 +60,6 @@ const FormSelect = <T,>({
               }
               onChange(event.target.value);
             }}
-            value={value}
             size="small"
             error={!!error}
           >
@@ -77,7 +74,7 @@ const FormSelect = <T,>({
               <ErrorMessage>{error.message}</ErrorMessage>
             </ErrorContainer>
           )}
-        </Box>
+        </FormControl>
       )}
     />
   );

@@ -3,7 +3,8 @@
     "item-price": {
       "selecteYear": "연도를 선택해주세요",
       "selectMonth": "월을 선택해주세요",
-      "dateRootError": "조회 가능한 기간은 2023년 7월 부터입니다"
+      "dateRootError": "2023년 7월부터 조회가능",
+      "futureDateError": "Future dates cannot be selected"
     }
   }
 }
