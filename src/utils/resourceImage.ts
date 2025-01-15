@@ -32,6 +32,20 @@ const t3_imageCollection = {
   은총: getImageFromCollectionByKey('태양의은총'),
   축복: getImageFromCollectionByKey('태양의축복'),
   찬명돌: getImageFromCollectionByKey('찬명돌'),
+  재봉술복합: getImageFromCollectionByKey('재봉술복합'),
+  야금술복합: getImageFromCollectionByKey('야금술복합'),
 };
 
-export { t3_imageCollection };
+const t4_imageCollection = {
+  운명의파편: getImageFromCollectionByKey('운명의파편'),
+  재봉술업화: getImageFromCollectionByKey('재봉술업화'),
+  야금술업화: getImageFromCollectionByKey('야금술업화'),
+  운명의파괴석: getImageFromCollectionByKey('운명의파괴석'),
+  운명의수호석: getImageFromCollectionByKey('운명의수호석'),
+  아비도스: getImageFromCollectionByKey('아비도스'),
+  용암의숨결: getImageFromCollectionByKey('용암'),
+  빙하의숨결: getImageFromCollectionByKey('빙하'),
+  운명의돌파석: getImageFromCollectionByKey('운돌'),
+};
+
+export { t3_imageCollection, t4_imageCollection };

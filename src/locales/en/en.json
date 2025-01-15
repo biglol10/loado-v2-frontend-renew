@@ -88,7 +88,8 @@
       "title": "Base Refinement Probability",
       "baseRate": "Success Rate",
       "artisanEnergy": "Artisan Energy",
-      "additionalSuccessRate": "Additional Success Rate"
+      "additionalSuccessRate": "Additional Success Rate",
+      "bookRate": "{{book}} Probability"
     },
     "buttons": {
       "startSimulation": "Start Simulation",
@@ -100,16 +101,34 @@
     },
     "materials": {
       "fragmentAndBook": "Honor Shard + Book",
+      "t4fragmentAndBook": "Fate Shard + Book",
       "fragment": "Honor Shard",
       "book": "Book",
       "stone": "Stone",
-      "redStone": "Destruction Stone",
-      "blueStone": "Guardian Stone",
+      "redStone": "Refined Destruction Stone",
+      "blueStone": "Refined Guardian Stone",
       "blueCommonStone": "Crystallized Guardian Stone",
-      "refinementStone": "Additional Materials",
+      "refinementStone": "Additional Refinement Stone",
       "solarGrace": "Solar Grace",
       "solarBlessing": "Solar Blessing",
-      "solarProtection": "Solar Protection"
+      "solarProtection": "Solar Protection",
+      "재봉술전문": "Expert Tailoring",
+      "재봉술복합": "Complex Tailoring",
+      "정제된수호강석": "Refined Guardian Stone",
+      "찬명돌": "Crystallized Guardian Stone",
+      "최상급오레하": "Superior Oreha",
+      "파편": "Shard",
+      "골드": "Gold",
+      "정제된파괴강석": "Refined Destruction Stone",
+      "운명의파괴석": "Fate Destruction Stone",
+      "운명의수호석": "Fate Guardian Stone",
+      "운돌": "Fate Stone",
+      "아비도스": "Abidos",
+      "운명파편": "Fate Shard",
+      "용암의숨결": "Breath of Magma",
+      "빙하의숨결": "Breath of Glacier",
+      "야금술": "Metallurgy",
+      "재봉술": "Tailoring"
     }
   },
   "modal": {

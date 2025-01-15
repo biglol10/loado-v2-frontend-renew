@@ -1,57 +1,62 @@
 import { Grid, Typography } from '@mui/material';
+import { EArmor } from '../const/simulationConsts';
 import MaterialIcon from './MaterialIcon';
 import FormInput from '@/components/common/FormInput';
 import { useFormContext, Path, useWatch } from 'react-hook-form';
-import { t3_imageCollection } from '@/utils/resourceImage';
+import { t4_imageCollection } from '@/utils/resourceImage';
 import { StyledPaper, MaterialSection } from './StyledComponents';
 import { existingResourceSchema, TSimulationFormData } from '../model/schema';
 import { useTranslation } from 'react-i18next';
 
-const T3ExistingResources = () => {
+const T4ExistingResources = () => {
   const { t } = useTranslation();
   const { control } = useFormContext<TSimulationFormData>();
-  const watchedValue = useWatch({ control, name: 'targetRefine.refineNumber' });
+  const targetRefine = useWatch({ control, name: 'targetRefine' });
+  const { armorType = EArmor.WEAPON, refineNumber = 13 } = targetRefine ?? {};
 
   const sections: Array<{
     title: string;
     items: Array<{
       key: keyof typeof existingResourceSchema.shape;
       name: string;
-      image: keyof typeof t3_imageCollection;
+      image: keyof typeof t4_imageCollection;
     }>;
   }> = [
     {
-      title: t('simulation.materials.fragmentAndBook'),
+      title: t('simulation.materials.t4fragmentAndBook'),
       items: [
-        { key: 't3fragment', name: t('simulation.materials.fragment'), image: '명예의파편' },
-        { key: 't3book', name: t('simulation.materials.book'), image: '책' },
+        { key: 't4fragment', name: t('simulation.materials.파편'), image: '운명의파편' },
+        {
+          key: 't4book',
+          name: t('simulation.materials.book'),
+          image: armorType === EArmor.ARMOR ? '재봉술업화' : '야금술업화',
+        },
       ],
     },
     {
       title: t('simulation.materials.stone'),
       items: [
-        { key: 't3RedStone', name: t('simulation.materials.redStone'), image: '파괴석' },
-        { key: 't3BlueStone', name: t('simulation.materials.blueStone'), image: '수호석' },
+        { key: 't4RedStone', name: t('simulation.materials.운명의파괴석'), image: '운명의파괴석' },
+        { key: 't4BlueStone', name: t('simulation.materials.운명의수호석'), image: '운명의수호석' },
         {
-          key: 't3BlueCommonStone',
-          name: t('simulation.materials.blueCommonStone'),
-          image: '찬명돌',
+          key: 't4BlueCommonStone',
+          name: t('simulation.materials.운돌'),
+          image: '운명의돌파석',
         },
       ],
     },
     {
       title: t('simulation.materials.refinementStone'),
       items: [
-        { key: 't3refinementStoneHigh', name: t('simulation.materials.solarGrace'), image: '가호' },
         {
-          key: 't3refinementStoneMedium',
-          name: t('simulation.materials.solarBlessing'),
-          image: '축복',
+          key: 't4refinementStoneHigh',
+          name: t('simulation.materials.용암의숨결'),
+          image: '용암의숨결',
         },
         {
-          key: 't3refinementStoneLow',
-          name: t('simulation.materials.solarProtection'),
-          image: '은총',
+          key: 't4refinementStoneMedium',
+          name: t('simulation.materials.빙하의숨결'),
+          image: '빙하의숨결',
         },
       ],
     },
@@ -69,15 +74,13 @@ const T3ExistingResources = () => {
               {section.items.map((item) => (
                 <Grid item xs={12} key={item.key}>
                   <MaterialSection>
-                    <MaterialIcon src={t3_imageCollection[item.image]} name={item.name} size={32} />
+                    <MaterialIcon src={t4_imageCollection[item.image]} name={item.name} size={32} />
                     <FormInput<TSimulationFormData, Path<TSimulationFormData>>
                       name={`existingResources.${item.key}`}
                       control={control}
-                      // placeholder={item.name}
+                      placeholder={item.name}
                       numberFormat
                       fullWidth
-                      label={item.name}
-                      id={item.key}
                     />
                   </MaterialSection>
                 </Grid>
@@ -90,4 +93,4 @@ const T3ExistingResources = () => {
   );
 };
 
-export default T3ExistingResources;
+export default T4ExistingResources;

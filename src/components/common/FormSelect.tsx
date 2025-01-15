@@ -18,6 +18,7 @@ interface IFormSelect<T> {
   label?: string;
   fullWidth?: boolean;
   showErrorBox?: boolean;
+  sx?: any;
 }
 
 const FormSelect = <T,>({
@@ -30,6 +31,7 @@ const FormSelect = <T,>({
   label,
   fullWidth = true,
   showErrorBox,
+  sx,
 }: IFormSelect<T>) => {
   return (
     <Controller
@@ -51,6 +53,7 @@ const FormSelect = <T,>({
               '& .MuiSelect-icon': {
                 color: 'white',
               },
+              ...sx,
             })}
             onChange={(event) => {
               if (onChangeValue) {

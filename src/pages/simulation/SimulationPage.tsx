@@ -1,22 +1,18 @@
-import { Box, Button, Divider, Typography, alpha } from '@mui/material';
-import { StyledTabs, StyledTab } from '@/components/common/CustomTab';
+import { Box, Button, Divider } from '@mui/material';
 import React, { useState } from 'react';
-import WeaponImage from '@/assets/images/simulation/weapon.png';
-import ArmorImage from '@/assets/images/simulation/armor.png';
 import { useTranslation } from 'react-i18next';
 import { EArmor, ETier } from './const/simulationConsts';
 import T3ExistingResources from './components/T3ExistingResources';
-import { FormProvider, useForm } from 'react-hook-form';
+import { FormProvider, useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SectionTitle } from './components/SectionTitle';
 import { simulationFormSchema, TSimulationFormData } from './model/schema';
 import ProbabilityInfo from './components/ProbabilityInfo';
 import TargetRefineInfo from './components/TargetRefineInfo';
+import T4ExistingResources from './components/T4ExistingResources';
 
 const SimulationPage = () => {
   const { t } = useTranslation();
-  const [tier, setTier] = useState<ETier>(ETier.T3);
-  const [armorOrWeapon, setArmorOrWeapon] = useState<EArmor>(EArmor.WEAPON);
 
   const methods = useForm<TSimulationFormData>({
     resolver: zodResolver(simulationFormSchema),
@@ -36,17 +32,7 @@ const SimulationPage = () => {
     getValues,
   } = methods;
 
-  const handleTierformChange = (_: React.SyntheticEvent, newValue: ETier) => {
-    if (newValue !== null) {
-      setTier(newValue);
-    }
-  };
-
-  const handleArmorformChange = (_: React.SyntheticEvent, newValue: EArmor) => {
-    if (newValue !== null) {
-      setArmorOrWeapon(newValue);
-    }
-  };
+  const watchedTier = useWatch({ control, name: 'targetRefine.tier' });
 
   const onSubmit = (data: TSimulationFormData) => {
     console.log('data', data);
@@ -73,7 +59,8 @@ const SimulationPage = () => {
           <TargetRefineInfo />
           <Divider sx={{ margin: '25px 0px' }} />
           <SectionTitle>{t('simulation.sections.materials')}</SectionTitle>
-          {tier === ETier.T3 && <T3ExistingResources armor={armorOrWeapon} />}
+          {watchedTier === ETier.T3 && <T3ExistingResources />}
+          {watchedTier === ETier.T4 && <T4ExistingResources />}
           <Divider sx={{ margin: '25px 0px' }} />
           <SectionTitle>{t('simulation.sections.targetRefine')}</SectionTitle>
           <Divider sx={{ margin: '25px 0px' }} />

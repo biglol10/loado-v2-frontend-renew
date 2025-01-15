@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 import { HeaderContainer } from './StyledComponents';
 import FormSelect from '@/components/common/FormSelect';
 import { Controller, useFormContext } from 'react-hook-form';
-import { TTargetRefineInfoData } from '../model/schema';
+import { TSimulationFormData, TTargetRefineInfoData } from '../model/schema';
 import { StyledToolbar } from '@/pages/home/styles/styles';
 import { StyledTab, StyledTabs } from '@/components/common/CustomTab';
 import { useTranslation } from 'react-i18next';
@@ -14,12 +14,12 @@ const TargetRefineInfo = () => {
   const {
     control,
     formState: { errors },
-  } = useFormContext<TTargetRefineInfoData>();
+  } = useFormContext<TSimulationFormData>(); // useFormContext<TTargetRefineInfoData>() 해도 되지만 name에 targetRefine.을 뺄 수 있지만 root에서 useWatch했을 때 tier, refineNumber이 따로 있는걸 볼 수 있음...
   const { t } = useTranslation();
 
   return (
     <HeaderContainer>
-      <Box component="form" sx={{ display: 'flex', alignItems: 'center' }}>
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
         <StyledToolbar variant="dense" disableGutters>
           <Box
             sx={{
@@ -33,7 +33,7 @@ const TargetRefineInfo = () => {
           >
             <Box>
               <Controller
-                name="tier"
+                name="targetRefine.tier"
                 control={control}
                 defaultValue={ETier.T4}
                 render={({ field: { onChange, value = ETier.T4 } }) => (
@@ -43,8 +43,8 @@ const TargetRefineInfo = () => {
                       onChange(tabValue);
                     }}
                   >
-                    <StyledTab value={ETier.T3} label={t('item-price.label.tab3')} />
-                    <StyledTab value={ETier.T4} label={t('item-price.label.tab2')} />
+                    <StyledTab value={ETier.T3} label={t('item-price.label.tab2')} />
+                    <StyledTab value={ETier.T4} label={t('item-price.label.tab3')} />
                   </StyledTabs>
                 )}
               />
@@ -52,10 +52,11 @@ const TargetRefineInfo = () => {
 
             <FormSelect<string>
               id="armor-type-select"
-              name="armorType"
+              name="targetRefine.armorType"
               control={control}
               label={t('simulation.sections.armorType')}
               defaultValue={EArmor.WEAPON}
+              sx={{ minWidth: 125 }}
               options={[
                 {
                   label: (
@@ -90,10 +91,11 @@ const TargetRefineInfo = () => {
 
             <FormSelect<number>
               id="refine-number-select"
-              name="refineNumber"
+              name="targetRefine.refineNumber"
               control={control}
               label={t('simulation.sections.targetRefine')}
               defaultValue={13}
+              sx={{ minWidth: 125 }}
               options={Array.from({ length: 13 }, (_, index) => ({
                 label: `${13 + index} 단계`,
                 value: 13 + index,

@@ -79,7 +79,7 @@ const FormInput = <T extends FieldValues, K extends Path<T>>({
       control={control}
       render={({ field, fieldState: { error } }) => (
         <FormControl error={!!error} fullWidth={fullWidth}>
-          {label && <InputLabel htmlFor={id}>{label}</InputLabel>}
+          {/* {label && <InputLabel htmlFor={id}>{label}</InputLabel>} */}
           <StyeldTextField
             {...field}
             id={id}
