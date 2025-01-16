@@ -51,7 +51,7 @@ const SimulationPage = () => {
   };
 
   return (
-    <Box sx={{ p: 3 }}>
+    <Box sx={{ p: 3, width: '100%', bgcolor: 'background.paper', marginTop: '20px' }}>
       {/* 재료 섹션 */}
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit, onError)}>
@@ -61,8 +61,6 @@ const SimulationPage = () => {
           <SectionTitle>{t('simulation.sections.materials')}</SectionTitle>
           {watchedTier === ETier.T3 && <T3ExistingResources />}
           {watchedTier === ETier.T4 && <T4ExistingResources />}
-          <Divider sx={{ margin: '25px 0px' }} />
-          <SectionTitle>{t('simulation.sections.targetRefine')}</SectionTitle>
           <Divider sx={{ margin: '25px 0px' }} />
           <SectionTitle>{t('simulation.sections.probability')}</SectionTitle>
           <ProbabilityInfo />
