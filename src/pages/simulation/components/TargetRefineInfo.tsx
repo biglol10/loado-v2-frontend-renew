@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import { HeaderContainer } from './StyledComponents';
 import FormSelect from '@/components/common/FormSelect';
-import { Controller, useFormContext } from 'react-hook-form';
+import { Controller, useFormContext, useWatch } from 'react-hook-form';
 import { TSimulationFormData, TTargetRefineInfoData } from '../model/schema';
 import { StyledToolbar } from '@/pages/home/styles/styles';
 import { StyledTab, StyledTabs } from '@/components/common/CustomTab';
@@ -16,6 +16,10 @@ const TargetRefineInfo = () => {
     formState: { errors },
   } = useFormContext<TSimulationFormData>(); // useFormContext<TTargetRefineInfoData>() 해도 되지만 name에 targetRefine.을 뺄 수 있지만 root에서 useWatch했을 때 tier, refineNumber이 따로 있는걸 볼 수 있음...
   const { t } = useTranslation();
+  const { tier } = useWatch({ control, name: 'targetRefine' });
+
+  const refineChoiceOptionNumber = tier === ETier.T3 ? 13 : 11;
+  const refineChoiceOptionLength = tier === ETier.T3 ? 13 : 15;
 
   return (
     <HeaderContainer>
@@ -94,11 +98,11 @@ const TargetRefineInfo = () => {
               name="targetRefine.refineNumber"
               control={control}
               label={t('simulation.sections.targetRefine')}
-              defaultValue={13}
+              defaultValue={tier === ETier.T3 ? 13 : 11}
               sx={{ minWidth: 125 }}
-              options={Array.from({ length: 13 }, (_, index) => ({
-                label: `${13 + index} 단계`,
-                value: 13 + index,
+              options={Array.from({ length: refineChoiceOptionLength }, (_, index) => ({
+                label: `${refineChoiceOptionNumber + index} 단계`,
+                value: refineChoiceOptionNumber + index,
               }))}
             />
           </Box>

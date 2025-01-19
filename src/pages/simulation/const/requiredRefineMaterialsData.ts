@@ -1,6 +1,6 @@
 import { itemIdNameNameMapping } from '@/pages/item-price/const/itemTierInfo';
 
-export const requiredRefineMaterialsData = {
+export const requiredRefineMaterialsData: Record<string, Record<string, Record<number, any>>> = {
   armor: {
     t3_1: {
       12: {
@@ -1678,6 +1678,39 @@ export const requiredRefineMaterialsData = {
         book: {
           id: '66112543',
           probability: 0.1,
+        },
+      },
+      13: {
+        기본확률: 0.05,
+        파편: {
+          id: '운명의 파편', // 운명파편
+          name: '운명의 파편 주머니(중)',
+          count: 7600,
+        },
+        기본강화재료1: {
+          id: '66102006', // 운명의파괴석
+          name: itemIdNameNameMapping['66102006'],
+          count: 1400,
+        },
+        기본강화재료2: {
+          id: '66110225', // 운돌
+          name: itemIdNameNameMapping['66110225'],
+          count: 24,
+        },
+        기본강화재료3: {
+          id: '6861012', // 아비도스
+          name: itemIdNameNameMapping['6861012'],
+          count: 15,
+        },
+        숨결1: {
+          id: '66111131', // 용암
+          name: itemIdNameNameMapping['66111131'],
+          count: 20,
+        },
+        gold: 1990,
+        book: {
+          id: '66112543',
+          probability: 0.05,
         },
       },
       14: {

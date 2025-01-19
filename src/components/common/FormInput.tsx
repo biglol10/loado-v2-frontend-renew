@@ -30,6 +30,7 @@ const StyeldTextField = styled(TextField)(({ theme }) => ({
 
 interface FormInputProps<T extends FieldValues, K extends Path<T>> {
   name: K;
+  defaultValue?: PathValue<T, K>;
   control: Control<T>;
   label?: string;
   placeholder?: string;
@@ -42,6 +43,7 @@ interface FormInputProps<T extends FieldValues, K extends Path<T>> {
   numberFormat?: boolean;
   percentageFormat?: boolean;
   id?: string;
+  value?: PathValue<T, K>;
 }
 
 const formatValue = (
@@ -60,6 +62,7 @@ const formatValue = (
 
 const FormInput = <T extends FieldValues, K extends Path<T>>({
   name,
+  defaultValue,
   control,
   label,
   placeholder,
@@ -72,11 +75,13 @@ const FormInput = <T extends FieldValues, K extends Path<T>>({
   numberFormat,
   percentageFormat,
   id,
+  value,
 }: FormInputProps<T, K>) => {
   return (
     <Controller
       name={name}
       control={control}
+      defaultValue={defaultValue}
       render={({ field, fieldState: { error } }) => (
         <FormControl error={!!error} fullWidth={fullWidth}>
           {/* {label && <InputLabel htmlFor={id}>{label}</InputLabel>} */}
@@ -91,7 +96,11 @@ const FormInput = <T extends FieldValues, K extends Path<T>>({
             fullWidth={fullWidth}
             error={!!error}
             size={size}
-            value={formatValue(field.value, numberFormat, percentageFormat)}
+            value={
+              value !== undefined
+                ? formatValue(value, numberFormat, percentageFormat)
+                : formatValue(field.value, numberFormat, percentageFormat)
+            }
             onChange={(event) => {
               const value = event.target.value;
 

@@ -1,5 +1,5 @@
-import { Box, Button, Divider } from '@mui/material';
-import React, { useState } from 'react';
+import { Box, Button, Divider, Grid } from '@mui/material';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { EArmor, ETier } from './const/simulationConsts';
 import T3ExistingResources from './components/T3ExistingResources';
@@ -10,6 +10,8 @@ import { simulationFormSchema, TSimulationFormData } from './model/schema';
 import ProbabilityInfo from './components/ProbabilityInfo';
 import TargetRefineInfo from './components/TargetRefineInfo';
 import T4ExistingResources from './components/T4ExistingResources';
+import T3ResourceCost from './components/T3ResourceCost';
+import T4ResourceCost from './components/T4ResourceCost';
 
 const SimulationPage = () => {
   const { t } = useTranslation();
@@ -33,6 +35,12 @@ const SimulationPage = () => {
   } = methods;
 
   const watchedTier = useWatch({ control, name: 'targetRefine.tier' });
+
+  // tier가 변경될 때마다 refineNumber 업데이트
+  useEffect(() => {
+    const newRefineNumber = watchedTier === ETier.T4 ? 11 : 13;
+    methods.setValue('targetRefine.refineNumber', newRefineNumber);
+  }, [methods, watchedTier]);
 
   const onSubmit = (data: TSimulationFormData) => {
     console.log('data', data);
@@ -58,9 +66,19 @@ const SimulationPage = () => {
           <SectionTitle>{t('simulation.sections.targetRefine')}</SectionTitle>
           <TargetRefineInfo />
           <Divider sx={{ margin: '25px 0px' }} />
-          <SectionTitle>{t('simulation.sections.materials')}</SectionTitle>
-          {watchedTier === ETier.T3 && <T3ExistingResources />}
-          {watchedTier === ETier.T4 && <T4ExistingResources />}
+          <Grid container columnSpacing={{ xs: 1, sm: 2, md: 10 }} xs={12}>
+            <Grid item xs={7}>
+              <SectionTitle>{t('simulation.sections.materials')}</SectionTitle>
+              {watchedTier === ETier.T3 && <T3ExistingResources />}
+              {watchedTier === ETier.T4 && <T4ExistingResources />}
+            </Grid>
+            <Grid item xs={5}>
+              <SectionTitle>{t('simulation.sections.refineCost')}</SectionTitle>
+              {watchedTier === ETier.T3 && <T3ResourceCost />}
+              {watchedTier === ETier.T4 && <T4ResourceCost />}
+            </Grid>
+          </Grid>
+
           <Divider sx={{ margin: '25px 0px' }} />
           <SectionTitle>{t('simulation.sections.probability')}</SectionTitle>
           <ProbabilityInfo />

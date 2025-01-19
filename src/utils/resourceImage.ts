@@ -1,4 +1,5 @@
 import DefaultImage from '@/assets/images/refine/loado_logo.png';
+import GoldImage from '@/assets/images/goldImage2.png';
 
 const itemImageCollection = import.meta.glob('@/assets/images/items/*', { eager: true }); // eager: true로 동기적 로딩
 
@@ -34,6 +35,7 @@ const t3_imageCollection = {
   찬명돌: getImageFromCollectionByKey('찬명돌'),
   재봉술복합: getImageFromCollectionByKey('재봉술복합'),
   야금술복합: getImageFromCollectionByKey('야금술복합'),
+  골드: GoldImage,
 };
 
 const t4_imageCollection = {
@@ -46,6 +48,7 @@ const t4_imageCollection = {
   용암의숨결: getImageFromCollectionByKey('용암'),
   빙하의숨결: getImageFromCollectionByKey('빙하'),
   운명의돌파석: getImageFromCollectionByKey('운돌'),
+  골드: GoldImage,
 };
 
 export { t3_imageCollection, t4_imageCollection };

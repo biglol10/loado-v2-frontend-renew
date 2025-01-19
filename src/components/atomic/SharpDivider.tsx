@@ -77,11 +77,6 @@ const SharpDivider = ({ content = '', dividerColor = '#839192', fontSize = 12 }:
         {content}
       </span>
       <span></span>
-      {a &&
-        a.map((item) => {
-          console.log('ASDF');
-          return <></>;
-        })}
     </StyledSharpDivider>
   );
 };

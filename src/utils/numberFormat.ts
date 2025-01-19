@@ -1,5 +1,5 @@
 export const formatNumber = (value: number | string): string => {
-  if (!value) return '';
+  if (value === undefined || value === null) return '';
 
   // 숫자나 문자열을 숫자로 변환
   const number = typeof value === 'string' ? parseFloat(value.replace(/,/g, '')) : value;

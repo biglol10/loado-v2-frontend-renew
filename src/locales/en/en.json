@@ -82,7 +82,8 @@
       "materials": "Materials",
       "probability": "Probability Info",
       "targetRefine": "Target Refine",
-      "armorType": "Armor Type"
+      "armorType": "Armor Type",
+      "refineCost": "1 Refine Cost"
     },
     "probability": {
       "title": "Base Refinement Probability",

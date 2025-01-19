@@ -5,25 +5,40 @@ import { TSimulationFormData } from '../model/schema';
 import FormInput from '@/components/common/FormInput';
 import { useTranslation } from 'react-i18next';
 import { pink } from '@mui/material/colors';
-import BookImage from '@/assets/images/items/armorbook.webp';
 import { t3_imageCollection, t4_imageCollection } from '@/utils/resourceImage';
 import { EArmor, ETier } from '../const/simulationConsts';
+import { useEffect } from 'react';
+import { requiredRefineMaterialsData } from '../const/requiredRefineMaterialsData';
 
 const ProbabilityInfo = () => {
   const { t } = useTranslation();
-  const { control } = useFormContext<TSimulationFormData>();
-  const weaponOrArmor = useWatch({ control, name: 'targetRefine.armorType' }) ?? EArmor.WEAPON;
-  const tier = useWatch({ control, name: 'targetRefine.tier' }) ?? ETier.T4;
+  const { control, setValue } = useFormContext<TSimulationFormData>();
+  const targetRefineObject = useWatch({ control, name: 'targetRefine' });
+
+  const { armorType = EArmor.WEAPON, tier = ETier.T4, refineNumber = 11 } = targetRefineObject;
+
+  useEffect(() => {
+    const baseObject =
+      requiredRefineMaterialsData[armorType.toLocaleLowerCase()][
+        tier === ETier.T4 ? 't4_1' : 't3_1'
+      ]?.[refineNumber];
+
+    const baseSuccessRate = baseObject?.['기본확률'] ?? 0;
+    setValue('probability.baseSuccessRate', baseSuccessRate * 100);
+
+    const bookSuccessRate = baseObject?.['book']?.probability ?? 0;
+    setValue('probability.bookProbability', bookSuccessRate * 100);
+  }, [armorType, tier, refineNumber, setValue]);
 
   const bookImage = (() => {
     if (tier === ETier.T4) {
-      if (weaponOrArmor === EArmor.WEAPON) {
+      if (armorType === EArmor.WEAPON) {
         return t4_imageCollection['야금술업화'];
       } else {
         return t4_imageCollection['재봉술업화'];
       }
     } else {
-      if (weaponOrArmor === EArmor.WEAPON) {
+      if (armorType === EArmor.WEAPON) {
         return t3_imageCollection['야금술복합'];
       } else {
         return t3_imageCollection['재봉술복합'];
@@ -31,19 +46,25 @@ const ProbabilityInfo = () => {
     }
   })();
 
+  const isBookAvailable =
+    !!requiredRefineMaterialsData[armorType.toLocaleLowerCase()][
+      tier === ETier.T4 ? 't4_1' : 't3_1'
+    ]?.[refineNumber]?.['book'];
+
   return (
     <StyledPaper>
       <Box sx={{ display: 'flex', gap: 5 }}>
         {/* 기본 성공확률 */}
         <MaterialSection>
-          <FormControl sx={{ width: '120px' }}>
+          {/* <FormControl sx={{ width: '120px' }}>
             <InputLabel shrink htmlFor="base-success-rate">
               {t('simulation.probability.baseRate')}
             </InputLabel>
-          </FormControl>
+          </FormControl> */}
           <FormInput
             id="base-success-rate"
             name="probability.baseSuccessRate"
+            label={t('simulation.probability.baseRate')}
             control={control}
             placeholder={t('simulation.probability.baseRate')}
             percentageFormat
@@ -52,14 +73,15 @@ const ProbabilityInfo = () => {
         </MaterialSection>
         {/* 추가 성공확률 (이벤트, 슈모익, 등) */}
         <MaterialSection>
-          <FormControl sx={{ width: '120px' }}>
+          {/* <FormControl sx={{ width: '120px' }}>
             <InputLabel shrink htmlFor="additional-success-rate">
               {t('simulation.probability.additionalSuccessRate')}
             </InputLabel>
-          </FormControl>
+          </FormControl> */}
           <FormInput
             id="additional-success-rate"
             name="probability.additionalSuccessRate"
+            label={t('simulation.probability.additionalSuccessRate')}
             control={control}
             placeholder={t('simulation.probability.additionalSuccessRate')}
             percentageFormat
@@ -68,15 +90,16 @@ const ProbabilityInfo = () => {
         </MaterialSection>
         {/* 장인의 기운 */}
         <MaterialSection>
-          <FormControl sx={{ width: '120px' }}>
+          {/* <FormControl sx={{ width: '120px' }}>
             <InputLabel shrink htmlFor="artisan-energy">
               {t('simulation.probability.artisanEnergy')}
             </InputLabel>
-          </FormControl>
+          </FormControl> */}
           <FormInput
             id="artisan-energy"
             name="probability.artisanEnergy"
             control={control}
+            label={t('simulation.probability.artisanEnergy')}
             placeholder={t('simulation.probability.artisanEnergy')}
             percentageFormat
             fullWidth={false}
@@ -85,17 +108,17 @@ const ProbabilityInfo = () => {
 
         {/* 보조재료 */}
         <MaterialSection>
-          <Box sx={{ minWidth: '120px', display: 'flex', alignItems: 'center' }}>
-            <Box>
+          <Box sx={{ minWidth: '60px', display: 'flex', alignItems: 'center' }}>
+            {/* <Box>
               <InputLabel shrink htmlFor="book-probability">
                 {t('simulation.probability.bookRate', {
                   book:
-                    weaponOrArmor === EArmor.WEAPON
+                    armorType === EArmor.WEAPON
                       ? t('simulation.materials.야금술')
                       : t('simulation.materials.재봉술'),
                 })}
               </InputLabel>
-            </Box>
+            </Box> */}
 
             <Checkbox
               sx={{
@@ -104,6 +127,7 @@ const ProbabilityInfo = () => {
                   color: pink[600],
                 },
               }}
+              disabled={!isBookAvailable}
             />
             <Box
               component="img"
@@ -114,10 +138,17 @@ const ProbabilityInfo = () => {
           <FormInput
             id="book-probability"
             name="probability.bookProbability"
+            label={t('simulation.probability.bookRate', {
+              book:
+                armorType === EArmor.WEAPON
+                  ? t('simulation.materials.야금술')
+                  : t('simulation.materials.재봉술'),
+            })}
             control={control}
-            placeholder={weaponOrArmor === EArmor.WEAPON ? '야금술책확률' : '재봉술책확률'}
+            placeholder={armorType === EArmor.WEAPON ? '야금술책확률' : '재봉술책확률'}
             percentageFormat
             fullWidth={false}
+            disabled={!isBookAvailable}
           />
         </MaterialSection>
       </Box>

@@ -54,8 +54,6 @@ const PriceChart = ({ data, isMobile }: IPriceChart) => {
     return dayjs(value).format('MM-DD');
   };
 
-  console.log('chartData', chartData);
-
   return (
     <Container
       sx={{

@@ -49,12 +49,12 @@ const T4ExistingResources = () => {
       title: t('simulation.materials.refinementStone'),
       items: [
         {
-          key: 't4refinementStoneHigh',
+          key: 't4BreathStoneRed',
           name: t('simulation.materials.용암의숨결'),
           image: '용암의숨결',
         },
         {
-          key: 't4refinementStoneMedium',
+          key: 't4BreathStoneBlue',
           name: t('simulation.materials.빙하의숨결'),
           image: '빙하의숨결',
         },
@@ -78,9 +78,11 @@ const T4ExistingResources = () => {
                     <FormInput<TSimulationFormData, Path<TSimulationFormData>>
                       name={`existingResources.${item.key}`}
                       control={control}
-                      placeholder={item.name}
+                      // placeholder={item.name}
                       numberFormat
                       fullWidth
+                      label={item.name}
+                      id={item.key}
                     />
                   </MaterialSection>
                 </Grid>

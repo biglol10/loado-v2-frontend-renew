@@ -11,21 +11,45 @@ const percentageSchema = z
 
 // 귀속재료 스키마
 export const existingResourceSchema = z.object({
+  refineGold: z.number().min(1),
   t4fragment: optionalNumberDefaultZero,
   t4RedStone: optionalNumberDefaultZero,
   t4BlueStone: optionalNumberDefaultZero,
   t4BlueCommonStone: optionalNumberDefaultZero,
-  t4refinementStoneHigh: optionalNumberDefaultZero,
-  t4refinementStoneMedium: optionalNumberDefaultZero,
-  t4refinementStoneLow: optionalNumberDefaultZero,
+  t4FusionMaterial: optionalNumberDefaultZero,
+  t4BreathStoneRed: optionalNumberDefaultZero,
+  t4BreathStoneBlue: optionalNumberDefaultZero,
   t4book: optionalNumberDefaultZero,
   t3fragment: optionalNumberDefaultZero,
   t3RedStone: optionalNumberDefaultZero,
   t3BlueStone: optionalNumberDefaultZero,
   t3BlueCommonStone: optionalNumberDefaultZero,
-  t3refinementStoneHigh: optionalNumberDefaultZero,
-  t3refinementStoneMedium: optionalNumberDefaultZero,
-  t3refinementStoneLow: optionalNumberDefaultZero,
+  t3FusionMaterial: optionalNumberDefaultZero,
+  t3BreathStoneHigh: optionalNumberDefaultZero,
+  t3BreathStoneMedium: optionalNumberDefaultZero,
+  t3BreathStoneLow: optionalNumberDefaultZero,
+  t3book: optionalNumberDefaultZero,
+});
+
+// 재료값 스키마
+export const resourceCostSchema = z.object({
+  refineGold: z.number().min(1),
+  t4fragment: optionalNumberDefaultZero,
+  t4RedStone: optionalNumberDefaultZero,
+  t4BlueStone: optionalNumberDefaultZero,
+  t4BlueCommonStone: optionalNumberDefaultZero,
+  t4FusionMaterial: optionalNumberDefaultZero,
+  t4BreathStoneRed: optionalNumberDefaultZero,
+  t4BreathStoneBlue: optionalNumberDefaultZero,
+  t4book: optionalNumberDefaultZero,
+  t3fragment: optionalNumberDefaultZero,
+  t3RedStone: optionalNumberDefaultZero,
+  t3BlueStone: optionalNumberDefaultZero,
+  t3BlueCommonStone: optionalNumberDefaultZero,
+  t3FusionMaterial: optionalNumberDefaultZero,
+  t3BreathStoneHigh: optionalNumberDefaultZero,
+  t3BreathStoneMedium: optionalNumberDefaultZero,
+  t3BreathStoneLow: optionalNumberDefaultZero,
   t3book: optionalNumberDefaultZero,
 });
 
@@ -53,3 +77,4 @@ export const simulationFormSchema = z.object({
 
 export type TTargetRefineInfoData = z.infer<typeof targetRefineSchema>;
 export type TSimulationFormData = z.infer<typeof simulationFormSchema>;
+export type TResourceCostData = z.infer<typeof resourceCostSchema>;
