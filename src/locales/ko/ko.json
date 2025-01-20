@@ -90,7 +90,8 @@
       "baseRate": "재련 확률",
       "artisanEnergy": "장인의기운",
       "additionalSuccessRate": "추가 재련 확률",
-      "bookRate": "{{book}} 확률"
+      "bookRate": "{{book}} 확률",
+      "fullSoom": "풀숨"
     },
     "buttons": {
       "startSimulation": "시뮬레이션 시작",

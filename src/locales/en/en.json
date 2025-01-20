@@ -90,7 +90,8 @@
       "baseRate": "Success Rate",
       "artisanEnergy": "Artisan Energy",
       "additionalSuccessRate": "Additional Success Rate",
-      "bookRate": "{{book}} Probability"
+      "bookRate": "{{book}} Probability",
+      "fullSoom": "Full Breath"
     },
     "buttons": {
       "startSimulation": "Start Simulation",

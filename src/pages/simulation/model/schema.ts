@@ -59,6 +59,8 @@ export const probabilityInfoSchema = z.object({
   additionalSuccessRate: percentageSchema,
   artisanEnergy: percentageSchema,
   bookProbability: percentageSchema,
+  isUseBook: z.boolean(),
+  isFullSoom: z.boolean(),
 });
 
 // 목표 재련 스키마

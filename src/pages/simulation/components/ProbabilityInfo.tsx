@@ -1,6 +1,13 @@
-import { Box, Checkbox, FormControl, InputLabel } from '@mui/material';
+import {
+  Box,
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  InputLabel,
+  Typography,
+} from '@mui/material';
 import { StyledPaper, MaterialSection } from './StyledComponents';
-import { useFormContext, useWatch } from 'react-hook-form';
+import { Controller, useFormContext, useWatch } from 'react-hook-form';
 import { TSimulationFormData } from '../model/schema';
 import FormInput from '@/components/common/FormInput';
 import { useTranslation } from 'react-i18next';
@@ -43,6 +50,18 @@ const ProbabilityInfo = () => {
       } else {
         return t3_imageCollection['재봉술복합'];
       }
+    }
+  })();
+
+  const breathImage = (() => {
+    if (tier === ETier.T4) {
+      if (armorType === EArmor.WEAPON) {
+        return t4_imageCollection['용암의숨결'];
+      } else {
+        return t4_imageCollection['빙하의숨결'];
+      }
+    } else {
+      return t3_imageCollection['가호'];
     }
   })();
 
@@ -108,7 +127,7 @@ const ProbabilityInfo = () => {
 
         {/* 보조재료 */}
         <MaterialSection>
-          <Box sx={{ minWidth: '60px', display: 'flex', alignItems: 'center' }}>
+          <MaterialSection sx={{ minWidth: '60px', display: 'flex', alignItems: 'center' }}>
             {/* <Box>
               <InputLabel shrink htmlFor="book-probability">
                 {t('simulation.probability.bookRate', {
@@ -120,21 +139,29 @@ const ProbabilityInfo = () => {
               </InputLabel>
             </Box> */}
 
-            <Checkbox
-              sx={{
-                color: pink[800],
-                '&.Mui-checked': {
-                  color: pink[600],
-                },
-              }}
-              disabled={!isBookAvailable}
+            <Controller
+              name="probability.isUseBook"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <Checkbox
+                  sx={{
+                    color: pink[800],
+                    '&.Mui-checked': {
+                      color: pink[600],
+                    },
+                  }}
+                  disabled={!isBookAvailable}
+                  value={value}
+                  onChange={(_, checked) => onChange(checked)}
+                />
+              )}
             />
             <Box
               component="img"
               src={bookImage}
               sx={{ height: 25, width: 25, borderRadius: '10%' }}
             />
-          </Box>
+          </MaterialSection>
           <FormInput
             id="book-probability"
             name="probability.bookProbability"
@@ -149,6 +176,33 @@ const ProbabilityInfo = () => {
             percentageFormat
             fullWidth={false}
             disabled={!isBookAvailable}
+          />
+        </MaterialSection>
+        <MaterialSection>
+          <Controller
+            name="probability.isFullSoom"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    sx={{ color: pink[800], '&.Mui-checked': { color: pink[600] } }}
+                    onChange={(_, checked) => onChange(checked)}
+                    value={value}
+                  />
+                }
+                label={
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <Box
+                      component="img"
+                      src={breathImage}
+                      sx={{ height: 25, width: 25, borderRadius: '10%' }}
+                    />
+                    <Typography>{t('simulation.probability.fullSoom')}</Typography>
+                  </Box>
+                }
+              />
+            )}
           />
         </MaterialSection>
       </Box>
