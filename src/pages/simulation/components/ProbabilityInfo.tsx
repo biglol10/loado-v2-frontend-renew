@@ -16,6 +16,7 @@ import { t3_imageCollection, t4_imageCollection } from '@/utils/resourceImage';
 import { EArmor, ETier } from '../const/simulationConsts';
 import { useEffect } from 'react';
 import { requiredRefineMaterialsData } from '../const/requiredRefineMaterialsData';
+import RefineAnimation from '@/assets/images/refine/refineAnimation.gif';
 
 const ProbabilityInfo = () => {
   const { t } = useTranslation();
@@ -178,6 +179,8 @@ const ProbabilityInfo = () => {
             disabled={!isBookAvailable}
           />
         </MaterialSection>
+
+        {/* 풀숨여부 */}
         <MaterialSection>
           <Controller
             name="probability.isFullSoom"
@@ -199,6 +202,35 @@ const ProbabilityInfo = () => {
                       sx={{ height: 25, width: 25, borderRadius: '10%' }}
                     />
                     <Typography>{t('simulation.probability.fullSoom')}</Typography>
+                  </Box>
+                }
+              />
+            )}
+          />
+        </MaterialSection>
+
+        {/* 장인의 기운 2회 */}
+        <MaterialSection>
+          <Controller
+            name="probability.isArtisanEnergyTwice"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    sx={{ color: pink[800], '&.Mui-checked': { color: pink[600] } }}
+                    onChange={(_, checked) => onChange(checked)}
+                    value={value}
+                  />
+                }
+                label={
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <Box
+                      component="img"
+                      src={RefineAnimation}
+                      sx={{ height: 25, width: 25, borderRadius: '10%' }}
+                    />
+                    <Typography>{t('simulation.probability.artisanEnergyTwice')}</Typography>
                   </Box>
                 }
               />

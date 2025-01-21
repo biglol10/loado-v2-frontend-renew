@@ -121,7 +121,8 @@ const T3ResourceCost = () => {
                     ] ?? 0;
                 }
 
-                setValue(item.key, defaultValue);
+                // setValue(item.key, defaultValue);
+                setValue(item.key, defaultValue * (item.mappingValue === 'book' ? 100 : 1));
 
                 return (
                   <Grid item xs={12} key={item.key}>
@@ -135,10 +136,11 @@ const T3ResourceCost = () => {
                         name={`${item.key}`}
                         control={resourceCostControl}
                         // placeholder={item.name}
-                        numberFormat
+                        numberFormat={item.mappingValue !== 'book'}
                         fullWidth
                         label={item.name}
                         id={`${item.key}_cost`}
+                        percentageFormat={item.mappingValue === 'book'}
                       />
                     </MaterialSection>
                   </Grid>

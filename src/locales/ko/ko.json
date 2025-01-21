@@ -91,7 +91,8 @@
       "artisanEnergy": "장인의기운",
       "additionalSuccessRate": "추가 재련 확률",
       "bookRate": "{{book}} 확률",
-      "fullSoom": "풀숨"
+      "fullSoom": "풀숨",
+      "artisanEnergyTwice": "장인의기운 (x2)"
     },
     "buttons": {
       "startSimulation": "시뮬레이션 시작",

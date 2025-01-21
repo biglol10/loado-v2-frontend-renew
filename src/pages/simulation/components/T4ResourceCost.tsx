@@ -120,7 +120,8 @@ const T4ResourceCost = () => {
                     ] ?? 0;
                 }
 
-                setValue(item.key, defaultValue);
+                // setValue(item.key, defaultValue);
+                setValue(item.key, defaultValue * (item.mappingValue === 'book' ? 100 : 1));
 
                 return (
                   <Grid item xs={12} key={item.key}>
@@ -133,10 +134,11 @@ const T4ResourceCost = () => {
                       <FormInput<TResourceCostData, Path<TResourceCostData>>
                         name={`${item.key}`}
                         control={resourceCostControl}
-                        numberFormat
+                        numberFormat={item.mappingValue !== 'book'}
                         fullWidth
                         label={item.name}
                         id={`${item.key}_cost`}
+                        percentageFormat={item.mappingValue === 'book'}
                         // disabled={disabled}
                       />
                     </MaterialSection>

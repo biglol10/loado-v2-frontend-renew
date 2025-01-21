@@ -91,7 +91,8 @@
       "artisanEnergy": "Artisan Energy",
       "additionalSuccessRate": "Additional Success Rate",
       "bookRate": "{{book}} Probability",
-      "fullSoom": "Full Breath"
+      "fullSoom": "Full Breath",
+      "artisanEnergyTwice": "Artisan Energy (x2)"
     },
     "buttons": {
       "startSimulation": "Start Simulation",
