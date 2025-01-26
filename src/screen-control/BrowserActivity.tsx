@@ -2,7 +2,7 @@ import { eventRegister, eventRemove } from '@/utils/events';
 import { useEffect, useLayoutEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { isMobile } from 'react-device-detect';
-import userStore from '@/store/user/userStore';
+import userStore from '@/store/user/useUserStore';
 import setupLocatorUI from '@locator/runtime';
 
 const BrowserActivity = () => {

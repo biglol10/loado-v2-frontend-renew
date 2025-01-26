@@ -11,7 +11,7 @@ import { searchFormSchema, type SearchFormData } from '../model/schema';
 import dayjs from 'dayjs';
 import FormSelect from '@/components/common/FormSelect';
 import PriceChart from '../components/PriceChart';
-import userStore from '@/store/user/userStore';
+import useUserStore from '@/store/user/useUserStore';
 import ComponentWithSkeleton from '@/components/atomic/ComponentWithSkeleton';
 import SearchOffIcon from '@mui/icons-material/SearchOff';
 import ErrorIcon from '@mui/icons-material/Error';
@@ -82,7 +82,7 @@ const StyledBackdrop = styled(Backdrop)`
 
 const SingleItemPriceModal = () => {
   const { t } = useTranslation();
-  const { isMobile } = userStore();
+  const { isMobile } = useUserStore();
   const { selectedItemToView, setSelectedItemToView } = itemPriceStore();
 
   // State for actual query parameters (only updated when search is clicked)

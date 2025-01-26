@@ -2,7 +2,7 @@ import { Grid, Paper, Box, Container } from '@mui/material';
 import { Outlet } from 'react-router-dom';
 import { useEffect, useMemo, useState } from 'react';
 import * as ComponentTypes from '@/apis/itemPrice/types';
-import userStore from '@/store/user/userStore';
+import userStore from '@/store/user/useUserStore';
 import { isEmpty } from 'lodash';
 import { useItemPriceQuery } from '@/apis/itemPrice/useItemPriceQuery';
 import dayjs from 'dayjs';

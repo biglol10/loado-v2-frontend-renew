@@ -83,7 +83,8 @@
       "probability": "Probability Info",
       "targetRefine": "Target Refine",
       "armorType": "Armor Type",
-      "refineCost": "1 Refine Cost"
+      "refineResourceConsumption": "Resource Consumption",
+      "resourceCost": "Resource Cost"
     },
     "probability": {
       "title": "Base Refinement Probability",
@@ -131,7 +132,8 @@
       "용암의숨결": "Breath of Magma",
       "빙하의숨결": "Breath of Glacier",
       "야금술": "Metallurgy",
-      "재봉술": "Tailoring"
+      "재봉술": "Tailoring",
+      "숨결": "Breath"
     }
   },
   "modal": {

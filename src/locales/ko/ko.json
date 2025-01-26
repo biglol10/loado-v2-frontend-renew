@@ -83,7 +83,8 @@
       "probability": "확률정보입력",
       "targetRefine": "목표 재련",
       "armorType": "장비 종류",
-      "refineCost": "1회 재련 비용"
+      "resourceConsumption": "재료 소모량",
+      "resourceCost": "재료 비용"
     },
     "probability": {
       "title": "기본 재련 확률 정보",
@@ -131,7 +132,8 @@
       "용암의숨결": "용암의숨결",
       "빙하의숨결": "빙하의숨결",
       "야금술": "야금술",
-      "재봉술": "재봉술"
+      "재봉술": "재봉술",
+      "숨결": "숨결"
     }
   },
   "common": {

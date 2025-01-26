@@ -6,7 +6,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       12: {
         기본확률: 0.1,
         파편: {
-          id: '명예의 파편',
+          id: '66130133',
           name: '명예의 파편 주머니(대)',
           count: 4000,
         },
@@ -45,7 +45,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       13: {
         기본확률: 0.1,
         파편: {
-          id: '명예의 파편',
+          id: '66130133',
           name: '명예의 파편 주머니(대)',
           count: 4000,
         },
@@ -88,7 +88,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       14: {
         기본확률: 0.05,
         파편: {
-          id: '명예의 파편',
+          id: '66130133',
           name: '명예의 파편 주머니(대)',
           count: 4500,
         },
@@ -131,7 +131,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       15: {
         기본확률: 0.05,
         파편: {
-          id: '명예의 파편',
+          id: '66130133',
           name: '명예의 파편 주머니(대)',
           count: 4500,
         },
@@ -174,7 +174,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       16: {
         기본확률: 0.04,
         파편: {
-          id: '명예의 파편',
+          id: '66130133',
           name: '명예의 파편 주머니(대)',
           count: 5000,
         },
@@ -217,7 +217,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       17: {
         기본확률: 0.04,
         파편: {
-          id: '명예의 파편',
+          id: '66130133',
           name: '명예의 파편 주머니(대)',
           count: 5000,
         },
@@ -260,7 +260,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       18: {
         기본확률: 0.03,
         파편: {
-          id: '명예의 파편',
+          id: '66130133',
           name: '명예의 파편 주머니(대)',
           count: 6000,
         },
@@ -303,7 +303,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       19: {
         기본확률: 0.03,
         파편: {
-          id: '명예의 파편',
+          id: '66130133',
           name: '명예의 파편 주머니(대)',
           count: 6000,
         },
@@ -346,7 +346,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       20: {
         기본확률: 0.015,
         파편: {
-          id: '명예의 파편',
+          id: '66130133',
           name: '명예의 파편 주머니(대)',
           count: 8000,
         },
@@ -385,7 +385,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       21: {
         기본확률: 0.015,
         파편: {
-          id: '명예의 파편',
+          id: '66130133',
           name: '명예의 파편 주머니(대)',
           count: 9000,
         },
@@ -424,7 +424,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       22: {
         기본확률: 0.01,
         파편: {
-          id: '명예의 파편',
+          id: '66130133',
           name: '명예의 파편 주머니(대)',
           count: 9000,
         },
@@ -463,7 +463,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       23: {
         기본확률: 0.01,
         파편: {
-          id: '명예의 파편',
+          id: '66130133',
           name: '명예의 파편 주머니(대)',
           count: 11000,
         },
@@ -502,7 +502,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       24: {
         기본확률: 0.005,
         파편: {
-          id: '명예의 파편',
+          id: '66130133',
           name: '명예의 파편 주머니(대)',
           count: 11000,
         },
@@ -541,7 +541,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       25: {
         기본확률: 0.005,
         파편: {
-          id: '명예의 파편',
+          id: '66130133',
           name: '명예의 파편 주머니(대)',
           count: 11000,
         },
@@ -582,7 +582,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       11: {
         기본확률: 0.1,
         파편: {
-          id: '운명의 파편', // 운명파편
+          id: '66130142', // 운명파편
           name: '운명의 파편 주머니(중)',
           count: 3000,
         },
@@ -615,7 +615,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       12: {
         기본확률: 0.1,
         파편: {
-          id: '운명의 파편',
+          id: '66130142',
           name: '운명의 파편 주머니(중)',
           count: 3180,
         },
@@ -648,7 +648,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       13: {
         기본확률: 0.05,
         파편: {
-          id: '운명의 파편',
+          id: '66130142',
           name: '운명의 파편 주머니(중)',
           count: 4560,
         },
@@ -681,7 +681,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       14: {
         기본확률: 0.05,
         파편: {
-          id: '운명의 파편',
+          id: '66130142',
           name: '운명의 파편 주머니(중)',
           count: 4920,
         },
@@ -714,7 +714,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       15: {
         기본확률: 0.04,
         파편: {
-          id: '운명의 파편',
+          id: '66130142',
           name: '운명의 파편 주머니(중)',
           count: 5280,
         },
@@ -743,7 +743,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       16: {
         기본확률: 0.04,
         파편: {
-          id: '운명의 파편',
+          id: '66130142',
           name: '운명의 파편 주머니(중)',
           count: 5640,
         },
@@ -772,7 +772,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       17: {
         기본확률: 0.03,
         파편: {
-          id: '운명의 파편',
+          id: '66130142',
           name: '운명의 파편 주머니(중)',
           count: 7200,
         },
@@ -801,7 +801,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       18: {
         기본확률: 0.03,
         파편: {
-          id: '운명의 파편',
+          id: '66130142',
           name: '운명의 파편 주머니(중)',
           count: 7740,
         },
@@ -830,7 +830,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       19: {
         기본확률: 0.03,
         파편: {
-          id: '운명의 파편',
+          id: '66130142',
           name: '운명의 파편 주머니(중)',
           count: 8220,
         },
@@ -859,7 +859,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       20: {
         기본확률: 0.015,
         파편: {
-          id: '운명의 파편',
+          id: '66130142',
           name: '운명의 파편 주머니(중)',
           count: 9600,
         },
@@ -888,7 +888,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       21: {
         기본확률: 0.015,
         파편: {
-          id: '운명의 파편',
+          id: '66130142',
           name: '운명의 파편 주머니(중)',
           count: 10260,
         },
@@ -917,7 +917,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       22: {
         기본확률: 0.01,
         파편: {
-          id: '운명의 파편',
+          id: '66130142',
           name: '운명의 파편 주머니(중)',
           count: 10920,
         },
@@ -946,7 +946,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       23: {
         기본확률: 0.01,
         파편: {
-          id: '운명의 파편',
+          id: '66130142',
           name: '운명의 파편 주머니(중)',
           count: 11520,
         },
@@ -975,7 +975,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       24: {
         기본확률: 0.005,
         파편: {
-          id: '운명의 파편',
+          id: '66130142',
           name: '운명의 파편 주머니(중)',
           count: 12240,
         },
@@ -1004,7 +1004,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       25: {
         기본확률: 0.005,
         파편: {
-          id: '운명의 파편',
+          id: '66130142',
           name: '운명의 파편 주머니(중)',
           count: 12900,
         },
@@ -1037,7 +1037,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       12: {
         기본확률: 0.1,
         파편: {
-          id: '명예의 파편', // 파편
+          id: '66130133', // 파편
           name: '명예의 파편 주머니(중)',
           count: 6500,
         },
@@ -1080,7 +1080,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       13: {
         기본확률: 0.1,
         파편: {
-          id: '명예의 파편', // 파편
+          id: '66130133', // 파편
           name: '명예의 파편 주머니(중)',
           count: 8000,
         },
@@ -1123,7 +1123,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       14: {
         기본확률: 0.05,
         파편: {
-          id: '명예의 파편',
+          id: '66130133',
           name: '명예의 파편 주머니(중)',
           count: 8000,
         },
@@ -1166,7 +1166,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       15: {
         기본확률: 0.05,
         파편: {
-          id: '명예의 파편',
+          id: '66130133',
           name: '명예의 파편 주머니(중)',
           count: 8000,
         },
@@ -1209,7 +1209,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       16: {
         기본확률: 0.04,
         파편: {
-          id: '명예의 파편',
+          id: '66130133',
           name: '명예의 파편 주머니(중)',
           count: 9000,
         },
@@ -1252,7 +1252,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       17: {
         기본확률: 0.04,
         파편: {
-          id: '명예의 파편',
+          id: '66130133',
           name: '명예의 파편 주머니(중)',
           count: 9000,
         },
@@ -1295,7 +1295,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       18: {
         기본확률: 0.03,
         파편: {
-          id: '명예의 파편',
+          id: '66130133',
           name: '명예의 파편 주머니(중)',
           count: 12000,
         },
@@ -1338,7 +1338,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       19: {
         기본확률: 0.03,
         파편: {
-          id: '명예의 파편',
+          id: '66130133',
           name: '명예의 파편 주머니(중)',
           count: 14000,
         },
@@ -1381,7 +1381,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       20: {
         기본확률: 0.015,
         파편: {
-          id: '명예의 파편',
+          id: '66130133',
           name: '명예의 파편 주머니(중)',
           count: 14000,
         },
@@ -1420,7 +1420,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       21: {
         기본확률: 0.015,
         파편: {
-          id: '명예의 파편',
+          id: '66130133',
           name: '명예의 파편 주머니(중)',
           count: 15000,
         },
@@ -1459,7 +1459,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       22: {
         기본확률: 0.01,
         파편: {
-          id: '명예의 파편',
+          id: '66130133',
           name: '명예의 파편 주머니(중)',
           count: 15000,
         },
@@ -1498,7 +1498,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       23: {
         기본확률: 0.01,
         파편: {
-          id: '명예의 파편',
+          id: '66130133',
           name: '명예의 파편 주머니(중)',
           count: 17000,
         },
@@ -1537,7 +1537,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       24: {
         기본확률: 0.005,
         파편: {
-          id: '명예의 파편',
+          id: '66130133',
           name: '명예의 파편 주머니(중)',
           count: 19000,
         },
@@ -1576,7 +1576,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       25: {
         기본확률: 0.005,
         파편: {
-          id: '명예의 파편',
+          id: '66130133',
           name: '명예의 파편 주머니(중)',
           count: 22000,
         },
@@ -1617,7 +1617,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       11: {
         기본확률: 0.1,
         파편: {
-          id: '운명의 파편', // 운명파편
+          id: '66130142', // 운명파편
           name: '운명의 파편 주머니(중)',
           count: 5000,
         },
@@ -1650,7 +1650,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       12: {
         기본확률: 0.1,
         파편: {
-          id: '운명의 파편', // 운명파편
+          id: '66130142', // 운명파편
           name: '운명의 파편 주머니(중)',
           count: 5300,
         },
@@ -1683,7 +1683,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       13: {
         기본확률: 0.05,
         파편: {
-          id: '운명의 파편', // 운명파편
+          id: '66130142', // 운명파편
           name: '운명의 파편 주머니(중)',
           count: 7600,
         },
@@ -1716,7 +1716,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       14: {
         기본확률: 0.05,
         파편: {
-          id: '운명의 파편',
+          id: '66130142',
           name: '운명의 파편 주머니(중)',
           count: 8200,
         },
@@ -1749,7 +1749,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       15: {
         기본확률: 0.04,
         파편: {
-          id: '운명의 파편',
+          id: '66130142',
           name: '운명의 파편 주머니(중)',
           count: 8800,
         },
@@ -1778,7 +1778,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       16: {
         기본확률: 0.04,
         파편: {
-          id: '운명의 파편',
+          id: '66130142',
           name: '운명의 파편 주머니(중)',
           count: 9400,
         },
@@ -1807,7 +1807,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       17: {
         기본확률: 0.03,
         파편: {
-          id: '운명의 파편',
+          id: '66130142',
           name: '운명의 파편 주머니(중)',
           count: 12000,
         },
@@ -1836,7 +1836,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       18: {
         기본확률: 0.03,
         파편: {
-          id: '운명의 파편',
+          id: '66130142',
           name: '운명의 파편 주머니(중)',
           count: 12900,
         },
@@ -1865,7 +1865,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       19: {
         기본확률: 0.03,
         파편: {
-          id: '운명의 파편',
+          id: '66130142',
           name: '운명의 파편 주머니(중)',
           count: 13700,
         },
@@ -1894,7 +1894,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       20: {
         기본확률: 0.015,
         파편: {
-          id: '운명의 파편',
+          id: '66130142',
           name: '운명의 파편 주머니(중)',
           count: 16000,
         },
@@ -1923,7 +1923,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       21: {
         기본확률: 0.015,
         파편: {
-          id: '운명의 파편',
+          id: '66130142',
           name: '운명의 파편 주머니(중)',
           count: 17100,
         },
@@ -1952,7 +1952,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       22: {
         기본확률: 0.01,
         파편: {
-          id: '운명의 파편',
+          id: '66130142',
           name: '운명의 파편 주머니(중)',
           count: 18200,
         },
@@ -1981,7 +1981,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       23: {
         기본확률: 0.01,
         파편: {
-          id: '운명의 파편',
+          id: '66130142',
           name: '운명의 파편 주머니(중)',
           count: 19200,
         },
@@ -2010,7 +2010,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       24: {
         기본확률: 0.005,
         파편: {
-          id: '운명의 파편',
+          id: '66130142',
           name: '운명의 파편 주머니(중)',
           count: 20400,
         },
@@ -2039,7 +2039,7 @@ export const requiredRefineMaterialsData: Record<string, Record<string, Record<n
       25: {
         기본확률: 0.005,
         파편: {
-          id: '운명의 파편',
+          id: '66130142',
           name: '운명의 파편 주머니(중)',
           count: 21500,
         },

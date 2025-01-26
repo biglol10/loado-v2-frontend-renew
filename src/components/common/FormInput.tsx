@@ -122,7 +122,10 @@ const FormInput = <T extends FieldValues, K extends Path<T>>({
               if (percentageFormat) {
                 // 숫자만 허용
                 const sanitizedValue = value.replace(/[^0-9]/g, '');
-                const numberValue = parseFormattedNumber(sanitizedValue);
+                let numberValue = parseFormattedNumber(sanitizedValue);
+                if (numberValue > 100) {
+                  numberValue = 100;
+                }
 
                 if (onChangeValue) {
                   const customValue = onChangeValue(numberValue as PathValue<T, K>);

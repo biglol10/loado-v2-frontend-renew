@@ -1,6 +1,6 @@
 import { TSimulationFormData } from '../model/schema';
 
-interface ISimulationResult {
+export interface ISimulationResult {
   tryCount: number;
   lastRefine: boolean;
   memoryArr: ISimulationMemory[];
@@ -23,7 +23,7 @@ interface IProbabilityFactors {
 }
 
 const ARTISAN_ENERGY_MULTIPLIER = 2.15;
-const MaX_ARTISAN_ENERGY = 100;
+const MAX_ARTISAN_ENERGY = 100;
 const MAX_RETRY_BONUS_COUNT = 10;
 
 const generateRandomProbability = () => {
@@ -75,8 +75,8 @@ const calculateSuccessProbability = (
     factors.bookRate +
     calculateFullSoomBonus(isFullSoom, refineNumber, factors.baseRate);
 
-  if (startProbability > maxProbability + factors.additionalRate) {
-    return startProbability;
+  if (startProbability > maxProbability) {
+    return maxProbability;
   }
 
   const retryBonus = calculateRetryBonus(tryCount, factors.baseRate);
@@ -100,7 +100,8 @@ export const refineSimulation = (
   refineObject: TSimulationFormData,
   tryCount: number,
   startProbability: number,
-  memoryArr: ISimulationMemory[]
+  startArtisanEnergy: number,
+  memoryArr: ISimulationMemory[] = []
 ): ISimulationResult => {
   const { probability, targetRefine } = refineObject;
 
@@ -115,7 +116,7 @@ export const refineSimulation = (
   } = probability;
 
   // Validation
-  if (additionalSuccessRate > 0 && artisanEnergy <= 0) {
+  if (additionalSuccessRate > 0 && startArtisanEnergy <= 0) {
     throw new Error('장인의 기운이 0이면 추가 재련 확률을 적용할 수 없습니다.');
   }
 
@@ -137,12 +138,13 @@ export const refineSimulation = (
 
   // Determine success and calcualte artisan energy
   const isSuccess = determineRefineSuccess(successProbability);
-  const newArtisanEnergy = calculateArtisanEnergy(successProbability, isArtisanEnergyTwice);
+  const bonusArtisanEnergy = calculateArtisanEnergy(successProbability, isArtisanEnergyTwice);
+  const newArtisanEnergy = (startArtisanEnergy + bonusArtisanEnergy).toFixed(2);
 
   // Record attempt
   memoryArr.push({
     successProbability,
-    artisanEnergy: newArtisanEnergy.toFixed(2),
+    artisanEnergy: startArtisanEnergy.toFixed(2),
     tryCount,
     startProbability,
   });
@@ -159,10 +161,10 @@ export const refineSimulation = (
   }
 
   // Handle artisan energy full case
-  if (artisanEnergy + newArtisanEnergy >= MaX_ARTISAN_ENERGY) {
+  if (Number(newArtisanEnergy) >= MAX_ARTISAN_ENERGY) {
     memoryArr.push({
       successProbability,
-      artisanEnergy: MaX_ARTISAN_ENERGY.toFixed(2),
+      artisanEnergy: MAX_ARTISAN_ENERGY.toFixed(2),
       tryCount: tryCount + 1,
       startProbability,
     });
@@ -177,5 +179,11 @@ export const refineSimulation = (
   }
 
   // Continue simulation
-  return refineSimulation(refineObject, tryCount + 1, successProbability, memoryArr);
+  return refineSimulation(
+    refineObject,
+    tryCount + 1,
+    successProbability,
+    startArtisanEnergy + bonusArtisanEnergy,
+    memoryArr
+  );
 };
