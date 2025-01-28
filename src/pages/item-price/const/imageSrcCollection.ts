@@ -76,6 +76,9 @@ export const imageSrcCollection = {
   // 운명의 파편 주머니(중)
   '66130142': 'https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_12_92.png',
 
+  // 운명의 파편 주머니(대)
+  '66130143': 'https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_12_93.png',
+
   // 빙하의 숨결
   '66111132': 'https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_12_172.png',
 
