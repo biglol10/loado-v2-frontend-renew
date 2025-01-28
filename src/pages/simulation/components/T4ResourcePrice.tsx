@@ -21,7 +21,7 @@ const T4ResourcePrice = () => {
   return (
     <Grid container spacing={3}>
       {sections.map((section, index) => (
-        <Grid item xs={12} md={4} key={index}>
+        <Grid item xs={12} md={4} key={`T4ResourcePrice-${index}`}>
           <StyledPaper>
             <Typography sx={{ mb: 2, color: 'primary.main' }}>{section.title}</Typography>
             <Grid container spacing={2}>

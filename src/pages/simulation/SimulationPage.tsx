@@ -1,5 +1,5 @@
-import { Box, Button, Divider, Grid } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { Box, Divider, Grid } from '@mui/material';
+import { useEffect, useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { EArmor, ETier } from './const/simulationConsts';
 import T3ExistingResources from './components/T3ExistingResources';
@@ -21,9 +21,19 @@ import useSimulationItemPriceMappingStore, {
 } from '@/store/simulation/useSimulationItemPriceMappingStore';
 import T3ResourcePrice from './components/T3ResourcePrice';
 import T4ResourcePrice from './components/T4ResourcePrice';
+import { showErrorToast, showSuccessToast } from '@/utils/toastUtils';
+import Button from '@/components/common/Button';
+import { SimulationResultGraphData } from './types/types';
+import {
+  calculateHistogramBins,
+  createHistogramData,
+  findTopNPercentPoint,
+} from './util/histogramUtils';
 
 const SimulationPage = () => {
   const { t } = useTranslation();
+  const [topNPercentPoint, setTopNPercentPoint] = useState(30);
+  const [simulationResult, setSimulationResult] = useState<ISimulationResult[]>([]);
   const [activeTabCategory, setActiveTabCategory] = useState<'COST' | 'PRICE'>('COST');
 
   const { setItemPriceMapping } = useSimulationItemPriceMappingStore();
@@ -42,8 +52,7 @@ const SimulationPage = () => {
   const {
     handleSubmit,
     control,
-    formState: { errors },
-    getValues,
+    formState: { errors, isSubmitting },
   } = methods;
 
   const { data: queryResults, isFetched } = useItemPriceQuery({
@@ -79,39 +88,90 @@ const SimulationPage = () => {
   }, [methods, watchedTier]);
 
   const onSubmit = (data: TSimulationFormData) => {
-    console.log('data', data);
-    alert('ASDF');
-  };
+    const existingResources = data.existingResources;
+    const probability = data.probability;
+    const targetRefine = data.targetRefine;
 
-  const aa = () => {
-    const a = getValues();
+    console.log('existingResources', existingResources);
+    console.log('probability', probability);
+    console.log('targetRefine', targetRefine);
 
-    console.log('a', a);
-  };
+    const successProbability =
+      (probability.baseSuccessRate ?? 0) + (probability.additionalSuccessRate ?? 0);
 
-  const onError = (errors: any) => {
-    alert('error');
-    console.log('errors is ', errors);
-  };
-
-  const startSimulation = () => {
-    const formValues = getValues();
-
-    const probability =
-      (formValues.probability.baseSuccessRate ?? 0) +
-      (formValues.probability.additionalSuccessRate ?? 0);
-
-    const artisanEnergy = formValues.probability.artisanEnergy ?? 0;
+    const artisanEnergy = probability.artisanEnergy ?? 0;
 
     const resultArr: ISimulationResult[] = [];
 
-    for (let index = 0; index < 100; index++) {
-      const simulationResult = refineSimulation(formValues, 1, probability, artisanEnergy);
-      resultArr.push(simulationResult);
+    try {
+      for (let index = 0; index < 100; index++) {
+        const simulationResult = refineSimulation(data, 1, successProbability, artisanEnergy);
+        resultArr.push(simulationResult);
+      }
+
+      setSimulationResult(resultArr);
+    } catch (error) {
+      if (error instanceof Error) {
+        showErrorToast(error.message);
+      }
     }
 
     console.log('resultArr is ', resultArr);
   };
+
+  const topNPercentPointData = useMemo<SimulationResultGraphData | null>(() => {
+    if (isEmpty(simulationResult)) return null;
+
+    // 시도 횟수 추출 및 정렬
+    const tryCountList = simulationResult
+      .map((item: ISimulationResult) => item.tryCount)
+      .sort((a: number, b: number) => a - b);
+
+    // 히스토그램 데이터 생성
+    const binSettings = calculateHistogramBins(tryCountList);
+    const simulationResultGroupPointResultList = createHistogramData(tryCountList, binSettings);
+    const topNPercentPointRange = findTopNPercentPoint(
+      tryCountList,
+      simulationResultGroupPointResultList,
+      topNPercentPoint
+    );
+
+    return {
+      simulationResultGroupPointResultList,
+      topNPercentPointRange,
+    };
+  }, [simulationResult, topNPercentPoint]);
+
+  console.log('topNPercentPointData is ', topNPercentPointData);
+
+  const onError = (errors: any) => {
+    showErrorToast('입력 값이 올바르지 않습니다.');
+  };
+
+  // const startSimulation = () => {
+  //   const formValues = getValues();
+
+  //   const probability =
+  //     (formValues.probability.baseSuccessRate ?? 0) +
+  //     (formValues.probability.additionalSuccessRate ?? 0);
+
+  //   const artisanEnergy = formValues.probability.artisanEnergy ?? 0;
+
+  //   const resultArr: ISimulationResult[] = [];
+
+  //   try {
+  //     for (let index = 0; index < 100; index++) {
+  //       const simulationResult = refineSimulation(formValues, 1, probability, artisanEnergy);
+  //       resultArr.push(simulationResult);
+  //     }
+  //   } catch (error) {
+  //     if (error instanceof Error) {
+  //       showErrorToast(error.message);
+  //     }
+  //   }
+
+  //   console.log('resultArr is ', resultArr);
+  // };
 
   return (
     <Box sx={{ p: 3, width: '100%', bgcolor: 'background.paper', marginTop: '20px' }}>
@@ -156,13 +216,15 @@ const SimulationPage = () => {
           <SectionTitle>{t('simulation.sections.probability')}</SectionTitle>
           <ProbabilityInfo />
 
-          <Button type="submit" variant="outlined">
+          <br />
+
+          <Button type="submit" variant="outlined" loading={isSubmitting}>
             {t('simulation.buttons.startSimulation')}
           </Button>
         </form>
       </FormProvider>
 
-      <Button onClick={startSimulation}>시뮬레이션 시작</Button>
+      {/* <Button onClick={startSimulation}>시뮬레이션 시작</Button> */}
     </Box>
   );
 };

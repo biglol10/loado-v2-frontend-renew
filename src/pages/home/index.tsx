@@ -21,12 +21,14 @@ const Home = () => {
       tag: i18n.t('home.card.content1.tag'),
       title: i18n.t('home.card.content1.title'),
       description: i18n.t('home.card.content1.description'),
+      link: '/item-price',
     },
     {
       img: SimulationImage,
       tag: i18n.t('home.card.content2.tag'),
       title: i18n.t('home.card.content2.title'),
       description: i18n.t('home.card.content2.description'),
+      link: '/simulation',
     },
   ];
 
@@ -67,11 +69,7 @@ const Home = () => {
           {cardData.map((card, idx) => {
             return (
               <Grid2 size={{ xs: 12, md: 6 }} key={`card_${idx}`}>
-                <StyledCard
-                  variant="outlined"
-                  tabIndex={idx}
-                  onClick={() => navigate('/item-price')}
-                >
+                <StyledCard variant="outlined" tabIndex={idx} onClick={() => navigate(card.link)}>
                   <CardMedia
                     component={'img'}
                     alt={`image_${idx}`}

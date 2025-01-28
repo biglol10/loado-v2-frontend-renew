@@ -5,14 +5,13 @@ const optionalNumberDefaultZero = z.number().optional().default(0);
 
 const percentageSchema = z
   .number()
-  .int('소수점은 입력할 수 없습니다.')
   .min(0, '확률은 0보다 작을 수 없습니다')
   .max(100, '확률은 100을 초과할 수 없습니다')
   .default(0);
 
 // 귀속재료 스키마
 export const existingResourceSchema = z.object({
-  refineGold: z.number().min(1),
+  refineGold: z.number().optional().default(0),
   t4fragment: optionalNumberDefaultZero,
   t4RedStone: optionalNumberDefaultZero,
   t4BlueStone: optionalNumberDefaultZero,
@@ -81,9 +80,9 @@ export const probabilityInfoSchema = z.object({
   additionalSuccessRate: percentageSchema,
   artisanEnergy: percentageSchema,
   bookProbability: percentageSchema,
-  isUseBook: z.boolean(),
-  isFullSoom: z.boolean(),
-  isArtisanEnergyTwice: z.boolean(),
+  isUseBook: z.boolean().optional().default(false),
+  isFullSoom: z.boolean().optional().default(false),
+  isArtisanEnergyTwice: z.boolean().optional().default(false),
 });
 
 // 목표 재련 스키마

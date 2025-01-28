@@ -20,7 +20,7 @@ const T3ResourceConsumption = () => {
   return (
     <Grid container spacing={3}>
       {sections.map((section, index) => (
-        <Grid item xs={12} md={4} key={index}>
+        <Grid item xs={12} md={4} key={`T3ResourceConsumption-${index}`}>
           <StyledPaper>
             <Typography sx={{ mb: 2, color: 'primary.main' }}>{section.title}</Typography>
             <Grid container spacing={2}>

@@ -1,6 +1,6 @@
 import SharpDivider from '@/components/atomic/SharpDivider';
 import itemPriceStore from '@/store/item-price/itemPriceStore';
-import { Modal, Backdrop, styled, css, Typography, Box, Button } from '@mui/material';
+import { Modal, Backdrop, styled, css, Typography, Box } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { imageSrcCollection } from '../const/imageSrcCollection';
 import { useSingleItemPriceQuery } from '@/apis/itemPrice/useSingleItemPriceQuery';
@@ -16,6 +16,7 @@ import ComponentWithSkeleton from '@/components/atomic/ComponentWithSkeleton';
 import SearchOffIcon from '@mui/icons-material/SearchOff';
 import ErrorIcon from '@mui/icons-material/Error';
 import { HeaderContainer } from '@/pages/simulation/components/StyledComponents';
+import Button from '@/components/common/Button';
 
 const grey = {
   50: '#F3F6F9',
@@ -192,6 +193,7 @@ const SingleItemPriceModal = () => {
                 color: 'white',
                 borderColor: 'rgba(255, 255, 255, 0.3)',
               }}
+              loading={isLoading}
             >
               {t('label.search')}
             </Button>
