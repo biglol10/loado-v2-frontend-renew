@@ -29,6 +29,7 @@ import {
   createHistogramData,
   findTopNPercentPoint,
 } from './util/histogramUtils';
+import SimulationResultBarChart from './components/SimulationResultBarChart';
 
 const SimulationPage = () => {
   const { t } = useTranslation();
@@ -145,6 +146,7 @@ const SimulationPage = () => {
   console.log('topNPercentPointData is ', topNPercentPointData);
 
   const onError = (errors: any) => {
+    console.log('errors is ', errors);
     showErrorToast('입력 값이 올바르지 않습니다.');
   };
 
@@ -222,6 +224,15 @@ const SimulationPage = () => {
             {t('simulation.buttons.startSimulation')}
           </Button>
         </form>
+
+        <Divider sx={{ margin: '50px 0px' }} />
+
+        {!isSubmitting && topNPercentPointData && (
+          <SimulationResultBarChart
+            topNPercentPointData={topNPercentPointData}
+            topNPercentPoint={topNPercentPoint}
+          />
+        )}
       </FormProvider>
 
       {/* <Button onClick={startSimulation}>시뮬레이션 시작</Button> */}

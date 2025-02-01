@@ -11,8 +11,8 @@ import useSimulationItemPriceMappingStore from '@/store/simulation/useSimulation
 const TIER_KEY = 't4_1';
 
 const T4ResourcePrice = () => {
-  const { control } = useFormContext<TSimulationFormData>();
-  const { control: resourcePriceControl, setValue } = useFormContext<TResourcePriceData>();
+  const { control, setValue } = useFormContext<TSimulationFormData>();
+  // const { control: resourcePriceControl, setValue } = useFormContext<TResourcePriceData>();
   const { refineNumber, armorType } = useWatch({ control, name: 'targetRefine' });
   const { t4ResourceConsumtionSections: sections, getObjectToGetValuesFrom } =
     useSimulationConsts();
@@ -38,7 +38,7 @@ const T4ResourcePrice = () => {
                 if (!itemId || !defaultValue) return <></>;
 
                 // setValue(item.key, defaultValue);
-                setValue(`${item.key}_price`, defaultValue);
+                setValue(`resourcePrice.${item.key}_price`, defaultValue);
 
                 return (
                   <Grid item xs={12} key={item.key}>
@@ -48,9 +48,9 @@ const T4ResourcePrice = () => {
                         name={item.name}
                         size={32}
                       />
-                      <FormInput<TResourcePriceData, Path<TResourcePriceData>>
-                        name={`${item.key}_price`}
-                        control={resourcePriceControl}
+                      <FormInput<TSimulationFormData, Path<TSimulationFormData>>
+                        name={`resourcePrice.${item.key}_price`}
+                        control={control}
                         // placeholder={item.name}
                         numberFormat
                         fullWidth

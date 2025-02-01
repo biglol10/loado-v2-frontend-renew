@@ -7,6 +7,7 @@ const percentageSchema = z
   .number()
   .min(0, '확률은 0보다 작을 수 없습니다')
   .max(100, '확률은 100을 초과할 수 없습니다')
+  .optional()
   .default(0);
 
 // 귀속재료 스키마
@@ -97,6 +98,8 @@ export const simulationFormSchema = z.object({
   existingResources: existingResourceSchema,
   probability: probabilityInfoSchema,
   targetRefine: targetRefineSchema,
+  resourceConsumption: resourceConsumptionSchema.optional(),
+  resourcePrice: resourcePriceSchema.optional(),
 });
 
 export type TTargetRefineInfoData = z.infer<typeof targetRefineSchema>;

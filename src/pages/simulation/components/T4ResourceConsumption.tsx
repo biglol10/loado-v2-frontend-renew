@@ -10,9 +10,9 @@ import useSimulationConsts from '../util/useSimulationConsts';
 const TIER_KEY = 't4_1';
 
 const T4ResourceConsumption = () => {
-  const { control } = useFormContext<TSimulationFormData>();
-  const { control: resourceConsumptionControl, setValue } =
-    useFormContext<TResourceConsumptionData>();
+  const { control, setValue } = useFormContext<TSimulationFormData>();
+  // const { control: resourceConsumptionControl, setValue } =
+  //   useFormContext<TResourceConsumptionData>();
   const { refineNumber, armorType } = useWatch({ control, name: 'targetRefine' });
   const { t4ResourceConsumtionSections: sections, getObjectToGetValuesFrom } =
     useSimulationConsts(armorType);
@@ -46,7 +46,10 @@ const T4ResourceConsumption = () => {
                 }
 
                 // setValue(item.key, defaultValue);
-                setValue(item.key, defaultValue * (item.mappingValue === 'book' ? 100 : 1));
+                setValue(
+                  `resourceConsumption.${item.key}`,
+                  defaultValue * (item.mappingValue === 'book' ? 100 : 1)
+                );
 
                 return (
                   <Grid item xs={12} key={item.key}>
@@ -56,9 +59,9 @@ const T4ResourceConsumption = () => {
                         name={item.name}
                         size={32}
                       />
-                      <FormInput<TResourceConsumptionData, Path<TResourceConsumptionData>>
-                        name={`${item.key}`}
-                        control={resourceConsumptionControl}
+                      <FormInput<TSimulationFormData, Path<TSimulationFormData>>
+                        name={`resourceConsumption.${item.key}`}
+                        control={control}
                         numberFormat={item.mappingValue !== 'book'}
                         fullWidth
                         label={item.name}
