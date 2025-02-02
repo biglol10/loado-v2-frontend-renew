@@ -8,13 +8,16 @@ interface CustomTooltipProps extends TooltipProps<number, string> {
   active?: boolean;
   payload?: any[];
   label?: string;
+  objectToPass?: any;
 }
 
-const SimulationResultTooltip = ({ active, payload, label }: CustomTooltipProps) => {
+const SimulationResultTooltip = ({ active, payload, label, objectToPass }: CustomTooltipProps) => {
   const { getValues } = useFormContext<TSimulationFormData>();
   const { getValues: getValues2 } = useFormContext<TResourceConsumptionData>();
   const formValues = getValues();
   const resourceConsumptionData = getValues2();
+
+  console.log('objectToPass is ', objectToPass);
 
   if (!active) return null;
 

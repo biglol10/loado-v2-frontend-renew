@@ -9,16 +9,22 @@ import useSimulationConsts from '../util/useSimulationConsts';
 
 const TIER_KEY = 't3_1';
 
-const T3ResourceConsumption = () => {
+const T3ResourceConsumption = ({ activeCategory }: { activeCategory: 'COST' | 'PRICE' }) => {
   const { control, setValue } = useFormContext<TSimulationFormData>();
   // const { control: resourceConsumptionControl, setValue } =
   //   useFormContext<TResourceConsumptionData>();
   const { refineNumber, armorType } = useWatch({ control, name: 'targetRefine' });
   const { t3ResourceConsumtionSections: sections, getObjectToGetValuesFrom } =
-    useSimulationConsts();
+    useSimulationConsts(armorType);
 
   return (
-    <Grid container spacing={3}>
+    <Grid
+      container
+      spacing={3}
+      sx={{
+        display: `${activeCategory === 'COST' ? 'auto' : 'none'}`,
+      }}
+    >
       {sections.map((section, index) => (
         <Grid item xs={12} md={4} key={`T3ResourceConsumption-${index}`}>
           <StyledPaper>
@@ -55,7 +61,7 @@ const T3ResourceConsumption = () => {
                   <Grid item xs={12} key={item.key}>
                     <MaterialSection>
                       <MaterialIcon
-                        src={t3_imageCollection[item.image]}
+                        src={t3_imageCollection[item.id as keyof typeof t3_imageCollection].image}
                         name={item.name}
                         size={32}
                       />

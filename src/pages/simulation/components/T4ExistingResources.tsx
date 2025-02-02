@@ -26,7 +26,11 @@ const T4ExistingResources = () => {
               {section.items.map((item) => (
                 <Grid item xs={12} key={item.key}>
                   <MaterialSection>
-                    <MaterialIcon src={t4_imageCollection[item.image]} name={item.name} size={32} />
+                    <MaterialIcon
+                      src={t4_imageCollection[item.id as keyof typeof t4_imageCollection].image}
+                      name={item.name}
+                      size={32}
+                    />
                     <FormInput<TSimulationFormData, Path<TSimulationFormData>>
                       name={`existingResources.${item.key}`}
                       control={control}

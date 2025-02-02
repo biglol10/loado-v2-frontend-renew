@@ -10,7 +10,7 @@ import useSimulationItemPriceMappingStore from '@/store/simulation/useSimulation
 
 const TIER_KEY = 't4_1';
 
-const T4ResourcePrice = () => {
+const T4ResourcePrice = ({ activeCategory }: { activeCategory: 'COST' | 'PRICE' }) => {
   const { control, setValue } = useFormContext<TSimulationFormData>();
   // const { control: resourcePriceControl, setValue } = useFormContext<TResourcePriceData>();
   const { refineNumber, armorType } = useWatch({ control, name: 'targetRefine' });
@@ -19,7 +19,13 @@ const T4ResourcePrice = () => {
   const { itemPriceMapping } = useSimulationItemPriceMappingStore();
 
   return (
-    <Grid container spacing={3}>
+    <Grid
+      container
+      spacing={3}
+      sx={{
+        display: `${activeCategory === 'PRICE' ? 'auto' : 'none'}`,
+      }}
+    >
       {sections.map((section, index) => (
         <Grid item xs={12} md={4} key={`T4ResourcePrice-${index}`}>
           <StyledPaper>
@@ -44,7 +50,7 @@ const T4ResourcePrice = () => {
                   <Grid item xs={12} key={item.key}>
                     <MaterialSection>
                       <MaterialIcon
-                        src={t4_imageCollection[item.image]}
+                        src={t4_imageCollection[item.id as keyof typeof t4_imageCollection].image}
                         name={item.name}
                         size={32}
                       />

@@ -92,10 +92,7 @@ const SimulationPage = () => {
     const existingResources = data.existingResources;
     const probability = data.probability;
     const targetRefine = data.targetRefine;
-
-    console.log('existingResources', existingResources);
-    console.log('probability', probability);
-    console.log('targetRefine', targetRefine);
+    console.log('data is ', data);
 
     const successProbability =
       (probability.baseSuccessRate ?? 0) + (probability.additionalSuccessRate ?? 0);
@@ -207,10 +204,18 @@ const SimulationPage = () => {
                   {t('simulation.sections.resourceCost')}
                 </StyledTitle>
               </TitleWrapper>
-              {watchedTier === ETier.T3 &&
-                (activeTabCategory === 'COST' ? <T3ResourceConsumption /> : <T3ResourcePrice />)}
-              {watchedTier === ETier.T4 &&
-                (activeTabCategory === 'COST' ? <T4ResourceConsumption /> : <T4ResourcePrice />)}
+              {watchedTier === ETier.T3 && (
+                <>
+                  <T3ResourceConsumption activeCategory={activeTabCategory} />
+                  <T3ResourcePrice activeCategory={activeTabCategory} />
+                </>
+              )}
+              {watchedTier === ETier.T4 && (
+                <>
+                  <T4ResourceConsumption activeCategory={activeTabCategory} />
+                  <T4ResourcePrice activeCategory={activeTabCategory} />
+                </>
+              )}
             </Grid>
           </Grid>
 

@@ -9,8 +9,8 @@ import useSimulationConsts from '../util/useSimulationConsts';
 
 const T3ExistingResources = () => {
   const { control } = useFormContext<TSimulationFormData>();
-  const watchedValue = useWatch({ control, name: 'targetRefine' });
-  const { t3ResourceConsumtionSections: sections } = useSimulationConsts();
+  const { armorType } = useWatch({ control, name: 'targetRefine' });
+  const { t3ResourceConsumtionSections: sections } = useSimulationConsts(armorType);
 
   return (
     <Grid container spacing={3}>
@@ -22,7 +22,11 @@ const T3ExistingResources = () => {
               {section.items.map((item) => (
                 <Grid item xs={12} key={item.key}>
                   <MaterialSection>
-                    <MaterialIcon src={t3_imageCollection[item.image]} name={item.name} size={32} />
+                    <MaterialIcon
+                      src={t3_imageCollection[item.id as keyof typeof t3_imageCollection].image}
+                      name={item.name}
+                      size={32}
+                    />
                     <FormInput<TSimulationFormData, Path<TSimulationFormData>>
                       name={`existingResources.${item.key}`}
                       control={control}

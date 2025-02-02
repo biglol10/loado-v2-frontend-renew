@@ -41,15 +41,15 @@ const ProbabilityInfo = () => {
   const bookImage = (() => {
     if (tier === ETier.T4) {
       if (armorType === EArmor.WEAPON) {
-        return t4_imageCollection['야금술업화'];
+        return t4_imageCollection['66112543'].image;
       } else {
-        return t4_imageCollection['재봉술업화'];
+        return t4_imageCollection['66112546'].image;
       }
     } else {
       if (armorType === EArmor.WEAPON) {
-        return t3_imageCollection['야금술복합'];
+        return t3_imageCollection['66112542'].image;
       } else {
-        return t3_imageCollection['재봉술복합'];
+        return t3_imageCollection['66112545'].image;
       }
     }
   })();
@@ -57,12 +57,12 @@ const ProbabilityInfo = () => {
   const breathImage = (() => {
     if (tier === ETier.T4) {
       if (armorType === EArmor.WEAPON) {
-        return t4_imageCollection['용암의숨결'];
+        return t4_imageCollection['66111131'].image;
       } else {
-        return t4_imageCollection['빙하의숨결'];
+        return t4_imageCollection['66111132'].image;
       }
     } else {
-      return t3_imageCollection['가호'];
+      return t3_imageCollection['66111123'].image;
     }
   })();
 

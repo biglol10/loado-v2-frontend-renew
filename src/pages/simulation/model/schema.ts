@@ -55,7 +55,7 @@ export const resourceConsumptionSchema = z.object({
 });
 
 export const resourcePriceSchema = z.object({
-  refineGold_price: z.number().min(1),
+  refineGold_price: z.number().min(1).optional(),
   t4fragment_price: optionalNumberDefaultZero,
   t4RedStone_price: optionalNumberDefaultZero,
   t4BlueStone_price: optionalNumberDefaultZero,
