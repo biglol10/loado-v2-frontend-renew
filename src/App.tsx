@@ -10,6 +10,10 @@ import { I18nextProvider } from 'react-i18next';
 import i18n from './locales/i18n';
 import { Toaster } from 'react-hot-toast';
 import useHandleError from './utils/hooks/useHandleError';
+import { useEffect } from 'react';
+import { initializePerformanceMonitoring, PerformanceDashboard } from './performance';
+import httpService from './apis/utils/AxiosInstance';
+import { isLocalOrDevEnvironment } from './utils/envUtils';
 
 function App() {
   const isLocal = process.env.MODE === 'local';
@@ -23,6 +27,13 @@ function App() {
       mode: 'dark',
     },
   });
+
+  // 성능 모니터링 시스템 초기화 (로컬 또는 개발 환경에서만)
+  useEffect(() => {
+    if (isLocalOrDevEnvironment()) {
+      initializePerformanceMonitoring(httpService.axiosInstance);
+    }
+  }, []);
 
   return (
     <>
@@ -44,6 +55,7 @@ function App() {
                 <Router />
                 {/* <RouterProvider router={rootRouer} /> */}
                 <BrowserActivity />
+                {isLocalOrDevEnvironment() && <PerformanceDashboard />}
               </BrowserRouter>
             </MockProvider>
           </QueryClientProvider>

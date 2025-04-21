@@ -7,12 +7,12 @@ export const getQueryClient = (handleError: any) => {
     defaultOptions: {
       queries: {
         retry: 0,
-        staleTime: 0,
-        gcTime: 0,
+        staleTime: 5 * 60 * 1000, // 5분 동안 데이터를 신선한 상태로 유지
+        gcTime: 10 * 60 * 1000, // 10분 동안 미사용 데이터를 메모리에 유지
         throwOnError: false,
         refetchOnMount: true,
         refetchOnWindowFocus: false,
-        refetchOnReconnect: false,
+        refetchOnReconnect: true,
       },
       mutations: {
         retry: 0,
@@ -46,12 +46,12 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       retry: 0,
-      staleTime: 0,
-      gcTime: 0,
+      staleTime: 5 * 60 * 1000, // 5분 동안 데이터를 신선한 상태로 유지
+      gcTime: 10 * 60 * 1000, // 10분 동안 미사용 데이터를 메모리에 유지
       throwOnError: false,
       refetchOnMount: true,
       refetchOnWindowFocus: false,
-      refetchOnReconnect: false,
+      refetchOnReconnect: true,
     },
     mutations: {
       retry: 0,
