@@ -89,7 +89,8 @@ const t3_imageCollection = {
   },
 };
 
-const t4_imageCollection2 = {
+// 사용되지 않는 변수에 언더스코어(_) 접두사 추가
+const _t4_imageCollection2 = {
   운명의파편: getImageFromCollectionByKey('운명의파편'),
   재봉술업화: getImageFromCollectionByKey('재봉술업화'),
   야금술업화: getImageFromCollectionByKey('야금술업화'),
@@ -145,4 +146,4 @@ const t4_imageCollection = {
   },
 };
 
-export { t3_imageCollection, t4_imageCollection };
+export { t3_imageCollection, t3_imageCollection2, t4_imageCollection };

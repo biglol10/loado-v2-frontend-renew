@@ -30,8 +30,15 @@ import {
   findTopNPercentPoint,
 } from './util/histogramUtils';
 import SimulationResultBarChart from './components/SimulationResultBarChart';
+import { useRenderMetrics } from '@/utils/performance/hooks/useRenderMetrics';
+import { useInteractionMetrics } from '@/utils/performance/hooks/useInteractionMetrics';
+import { trackMetric } from '@/utils/performance/reporter';
 
 const SimulationPage = () => {
+  // 성능 모니터링 추가
+  const renderMetrics = useRenderMetrics('SimulationPage');
+  const { trackInteractionStart, trackInteractionEnd } = useInteractionMetrics('runSimulation');
+
   const { t } = useTranslation();
   const [topNPercentPoint, setTopNPercentPoint] = useState(30);
   const [simulationResult, setSimulationResult] = useState<ISimulationResult[]>([]);
@@ -55,6 +62,40 @@ const SimulationPage = () => {
     control,
     formState: { errors, isSubmitting },
   } = methods;
+
+  // 페이지 로딩 시간 측정
+  useEffect(() => {
+    const pageLoadTime = performance.now();
+    trackMetric('simulationPageLoad', pageLoadTime);
+
+    // 페이지 첫 상호작용까지 시간 측정
+    let firstInteraction = false;
+
+    const trackFirstInteraction = () => {
+      if (!firstInteraction) {
+        firstInteraction = true;
+        const timeToInteraction = performance.now() - pageLoadTime;
+        trackMetric('timeToFirstInteraction', timeToInteraction);
+
+        // 이벤트 리스너 제거
+        ['click', 'keydown', 'scroll', 'touchstart'].forEach((event) => {
+          window.removeEventListener(event, trackFirstInteraction);
+        });
+      }
+    };
+
+    // 첫 상호작용 감지
+    ['click', 'keydown', 'scroll', 'touchstart'].forEach((event) => {
+      window.addEventListener(event, trackFirstInteraction);
+    });
+
+    return () => {
+      // 클린업
+      ['click', 'keydown', 'scroll', 'touchstart'].forEach((event) => {
+        window.removeEventListener(event, trackFirstInteraction);
+      });
+    };
+  }, []);
 
   const { data: queryResults, isFetched } = useItemPriceQuery({
     searchDate: dayjs().format('YYYY-MM-DD'),
@@ -88,7 +129,11 @@ const SimulationPage = () => {
     methods.setValue('targetRefine.refineNumber', newRefineNumber);
   }, [methods, watchedTier]);
 
-  const onSubmit = (data: TSimulationFormData) => {
+  const onSubmit = async (data: TSimulationFormData) => {
+    // 시뮬레이션 수행 시간 측정 시작
+    trackInteractionStart();
+    const simulationStartTime = performance.now();
+
     const existingResources = data.existingResources;
     const probability = data.probability;
     const targetRefine = data.targetRefine;
@@ -108,10 +153,31 @@ const SimulationPage = () => {
       }
 
       setSimulationResult(resultArr);
+
+      // 성공적인 시뮬레이션 수행 로깅
+      const simulationEndTime = performance.now();
+      const duration = simulationEndTime - simulationStartTime;
+
+      // 시뮬레이션 성능 데이터 기록
+      trackMetric('simulationExecution', duration, {
+        tier: targetRefine.tier,
+        resultCount: resultArr.length,
+        successProbability,
+      });
+
+      showSuccessToast('시뮬레이션이 완료되었습니다.');
     } catch (error) {
       if (error instanceof Error) {
         showErrorToast(error.message);
+
+        // 에러 케이스에 대한 메트릭 기록
+        trackMetric('simulationError', performance.now() - simulationStartTime, {
+          errorMessage: error.message,
+          tier: targetRefine.tier,
+        });
       }
+    } finally {
+      trackInteractionEnd();
     }
 
     console.log('resultArr is ', resultArr);
@@ -119,6 +185,9 @@ const SimulationPage = () => {
 
   const topNPercentPointData = useMemo<SimulationResultGraphData | null>(() => {
     if (isEmpty(simulationResult)) return null;
+
+    // 계산 시작 시간 기록
+    const calculationStartTime = performance.now();
 
     // 시도 횟수 추출 및 정렬
     const tryCountList = simulationResult
@@ -134,6 +203,13 @@ const SimulationPage = () => {
       topNPercentPoint
     );
 
+    // 계산 시간 측정 및 기록
+    const calculationTime = performance.now() - calculationStartTime;
+    trackMetric('histogramCalculationTime', calculationTime, {
+      dataPointCount: tryCountList.length,
+      binCount: simulationResultGroupPointResultList.length,
+    });
+
     return {
       simulationResultGroupPointResultList,
       topNPercentPointRange,
@@ -145,32 +221,12 @@ const SimulationPage = () => {
   const onError = (errors: any) => {
     console.log('errors is ', errors);
     showErrorToast('입력 값이 올바르지 않습니다.');
+
+    // 폼 에러 추적
+    trackMetric('formValidationError', Object.keys(errors).length, {
+      errorFields: Object.keys(errors),
+    });
   };
-
-  // const startSimulation = () => {
-  //   const formValues = getValues();
-
-  //   const probability =
-  //     (formValues.probability.baseSuccessRate ?? 0) +
-  //     (formValues.probability.additionalSuccessRate ?? 0);
-
-  //   const artisanEnergy = formValues.probability.artisanEnergy ?? 0;
-
-  //   const resultArr: ISimulationResult[] = [];
-
-  //   try {
-  //     for (let index = 0; index < 100; index++) {
-  //       const simulationResult = refineSimulation(formValues, 1, probability, artisanEnergy);
-  //       resultArr.push(simulationResult);
-  //     }
-  //   } catch (error) {
-  //     if (error instanceof Error) {
-  //       showErrorToast(error.message);
-  //     }
-  //   }
-
-  //   console.log('resultArr is ', resultArr);
-  // };
 
   return (
     <Box sx={{ p: 3, width: '100%', bgcolor: 'background.paper', marginTop: '20px' }}>
@@ -239,8 +295,6 @@ const SimulationPage = () => {
           />
         )}
       </FormProvider>
-
-      {/* <Button onClick={startSimulation}>시뮬레이션 시작</Button> */}
     </Box>
   );
 };
