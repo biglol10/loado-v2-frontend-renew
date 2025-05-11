@@ -1,3 +1,4 @@
+import { usePreventMultipleClick } from '@/utils/hooks/usePreventMultipleClick';
 import {
   Button as MuiButton,
   ButtonProps as MuiButtonProps,
@@ -29,9 +30,11 @@ const StyledButton = styled(MuiButton)<ButtonProps>`
   `}
 `;
 
-const Button = ({ children, loading = false, disabled, ...props }: ButtonProps) => {
+const Button = ({ children, loading = false, disabled, onClick, ...props }: ButtonProps) => {
+  const { onClickHandler } = usePreventMultipleClick(disabled, onClick);
+
   return (
-    <StyledButton disabled={loading || disabled} {...props}>
+    <StyledButton disabled={loading || disabled} onClick={onClickHandler} {...props}>
       {children}
       {loading && <CircularProgress size={20} className="loading-indicator" />}
     </StyledButton>

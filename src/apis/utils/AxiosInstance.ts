@@ -13,6 +13,7 @@ interface IRequestParam {
   method?: TApiMethod;
   url: string;
   data?: any;
+  headers?: Record<string, string>;
   retryCount?: number;
 }
 
@@ -39,7 +40,7 @@ const handleRequest = (config: InternalAxiosRequestConfig<any>) => {
 
   if (PROTECTED_ENDPOINTS.some((endpoint) => url.endsWith(endpoint))) {
     Object.assign(headers, {
-      Authorization: `bearer ${process.env.SIMEGATE_TOKEN}`,
+      Authorization: `Bearer ${process.env.SIMEGATE_TOKEN}`,
     });
   }
 
@@ -156,7 +157,7 @@ class AxiosService {
   }
 
   async request<T>(requestParam: IRequestParam): Promise<IApiResponseTemplate<T>> {
-    const { method = 'get', url, data, retryCount = 0 } = requestParam;
+    const { method = 'get', url, data, retryCount = 0, headers } = requestParam;
 
     try {
       if (url !== '/api/loadoCommon/userlog') {
@@ -176,7 +177,7 @@ class AxiosService {
       //   store.dispatch(showLoader());
       // }
 
-      const res = await this.axiosInstance[method](url, data);
+      const res = await this.axiosInstance[method](url, data, { headers });
 
       // if (url !== '/api/loadoCommon/userlog') store.dispatch(hideLoader());
 
@@ -187,7 +188,11 @@ class AxiosService {
     }
   }
 
-  public get<T = any>(url: string, params?: Record<string, any>): Promise<IApiResponseTemplate<T>> {
+  public get<T = unknown>(
+    url: string,
+    params?: Record<string, any>,
+    headers?: Record<string, string>
+  ): Promise<IApiResponseTemplate<T>> {
     let urlWithParams = url;
 
     try {
@@ -196,34 +201,62 @@ class AxiosService {
 
       return this.request({
         url: urlWithParams,
+        headers: headers ?? {
+          Accept: 'application/json',
+        },
       });
     } catch {
       return this.request({
         url,
+        headers: headers ?? {
+          Accept: 'application/json',
+        },
       });
     }
   }
 
-  public post<T = any>(url: string, data?: Record<string, any>): Promise<IApiResponseTemplate<T>> {
+  public post<T = unknown>(
+    url: string,
+    data?: Record<string, any>,
+    headers?: Record<string, string>
+  ): Promise<IApiResponseTemplate<T>> {
     return this.request({
       url,
       data,
       method: 'post',
+      headers: headers ?? {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
     });
   }
 
-  public put<T = any>(url: string, data?: Record<string, any>): Promise<IApiResponseTemplate<T>> {
+  public put<T = unknown>(
+    url: string,
+    data?: Record<string, any>,
+    headers?: Record<string, string>
+  ): Promise<IApiResponseTemplate<T>> {
     return this.request({
       url,
       data,
       method: 'put',
+      headers: headers ?? {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
     });
   }
 
-  public delete<T = any>(url: string): Promise<IApiResponseTemplate<T>> {
+  public delete<T = unknown>(
+    url: string,
+    headers?: Record<string, string>
+  ): Promise<IApiResponseTemplate<T>> {
     return this.request({
       url,
       method: 'delete',
+      headers: headers ?? {
+        Accept: 'application/json',
+      },
     });
   }
 }
