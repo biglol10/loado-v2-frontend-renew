@@ -57,6 +57,8 @@ export default defineConfig(({ mode }) => {
       rollupOptions: {
         output: {
           chunkFileNames: 'loado_[name].[hash].js',
+          assetFileNames: 'loado_[name].[hash].[ext]',
+          entryFileNames: 'loado_[name].[hash].js',
         },
       },
     },
