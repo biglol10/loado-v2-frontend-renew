@@ -12,7 +12,7 @@ export const getQueryClient = (handleError: any) => {
         throwOnError: false,
         refetchOnMount: true,
         refetchOnWindowFocus: false,
-        refetchOnReconnect: true,
+        refetchOnReconnect: false,
       },
       mutations: {
         retry: 0,
@@ -51,7 +51,7 @@ const queryClient = new QueryClient({
       throwOnError: false,
       refetchOnMount: true,
       refetchOnWindowFocus: false,
-      refetchOnReconnect: true,
+      refetchOnReconnect: false,
     },
     mutations: {
       retry: 0,
