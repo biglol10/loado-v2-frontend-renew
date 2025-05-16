@@ -14,6 +14,7 @@ import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import itemPriceStore from '@/store/item-price/itemPriceStore';
 import { useTranslation } from 'react-i18next';
 import { tier3ItemIds, tier4ItemIds } from './const/itemTierInfo';
+import ItemAvatar from './components/ItemAvatar';
 
 interface IDensePriceTableProps {
   title: string;
@@ -99,7 +100,7 @@ const DensePriceTable = ({ title, rows, type, activeTab = 'ALL' }: IDensePriceTa
                   >
                     <TableCell component={'th'} scope="row">
                       <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <Avatar
+                        {/* <Avatar
                           src={
                             type !== 'book'
                               ? imageSrcCollection[itemId]
@@ -108,7 +109,8 @@ const DensePriceTable = ({ title, rows, type, activeTab = 'ALL' }: IDensePriceTa
                                 ]
                           }
                           alt={item.itemName}
-                        />
+                        /> */}
+                        <ItemAvatar type={type} itemId={itemId} itemName={item.itemName} />
                         <Typography sx={{ fontSize: '12px', marginLeft: '5px' }}>
                           {item.itemName.replace('(유물)', '')}
                         </Typography>
