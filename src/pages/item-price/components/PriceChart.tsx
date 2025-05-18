@@ -4,7 +4,6 @@ import {
   ResponsiveContainer,
   ComposedChart,
   Line,
-  Bar,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -107,7 +106,7 @@ const PriceChart = ({ data, isMobile }: IPriceChart) => {
               </ChartTitle>
               <Box sx={{ height: 500 }}>
                 <ResponsiveContainer>
-                  <ComposedChart data={data}>
+                  <ComposedChart data={dataSlice}>
                     <CartesianGrid stroke="#f5f5f5" />
                     <XAxis dataKey="date" scale="band" />
                     <YAxis />
@@ -120,7 +119,7 @@ const PriceChart = ({ data, isMobile }: IPriceChart) => {
                               {t('item-price.table.price-list.min')}
                             </StyledLabel>
                           ),
-                          type: 'rect',
+                          type: 'line',
                           color: colorMapping.minCurrentMinPrice,
                         },
                         {
@@ -143,10 +142,10 @@ const PriceChart = ({ data, isMobile }: IPriceChart) => {
                         },
                       ]}
                     />
-                    <Bar
+                    <Line
+                      type="monotone"
                       dataKey="minCurrentMinPrice"
-                      barSize={16}
-                      fill={colorMapping.minCurrentMinPrice}
+                      stroke={colorMapping.minCurrentMinPrice}
                     />
                     <Line
                       type="monotone"

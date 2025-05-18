@@ -164,7 +164,7 @@ const PriceTable = ({ data }: PriceTableProps) => {
                         />
                       )}
                       <ModernTypography>
-                        {item[col as keyof IGraphData].toString().split('.')[0]}
+                        {item[col as keyof IGraphData].toLocaleString().split('.')[0]}
                       </ModernTypography>
                     </Box>
                   </TableCell>

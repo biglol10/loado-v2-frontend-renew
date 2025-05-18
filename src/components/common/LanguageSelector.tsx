@@ -1,4 +1,5 @@
 import { Box, styled, alpha } from '@mui/material';
+import { useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 type TLanguage = 'ko' | 'en';
@@ -35,9 +36,20 @@ const Divider = styled('span')(({ theme }) => ({
 const LanguageSelector = () => {
   const { i18n } = useTranslation();
 
-  const handleLanguageChange = (language: TLanguage) => {
-    i18n.changeLanguage(language);
-  };
+  const handleLanguageChange = useCallback(
+    (language: TLanguage) => {
+      localStorage.setItem('language', language);
+      i18n.changeLanguage(language);
+    },
+    [i18n]
+  );
+
+  useEffect(() => {
+    const language = localStorage.getItem('language');
+    if (language) {
+      handleLanguageChange(language as TLanguage);
+    }
+  }, [handleLanguageChange]);
 
   return (
     <LanguageToggleContainer>
