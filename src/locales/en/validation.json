@@ -1,10 +1,10 @@
 {
   "validation": {
     "item-price": {
-      "selecteYear": "연도를 선택해주세요",
-      "selectMonth": "월을 선택해주세요",
       "dateRootError": "2023년 7월부터 조회가능",
-      "futureDateError": "Future dates cannot be selected"
+      "futureDateError": "Future dates cannot be selected",
+      "selecteYear": "연도를 선택해주세요",
+      "selectMonth": "월을 선택해주세요"
     }
   }
 }

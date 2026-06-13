@@ -8,6 +8,8 @@
     "dev": "vite --mode development",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
+    "i18n:check": "node scripts/i18n-validate.mjs",
+    "i18n:fix": "node scripts/i18n-validate.mjs --fix",
     "preview": "vite preview",
     "postinstall": "husky install",
     "prepare": "husky"
