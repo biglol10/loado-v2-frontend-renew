@@ -1,24 +1,23 @@
 import axios, { AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import queryString from 'query-string';
 import RequestLimitError from './RequestLimitError';
-import _ from 'lodash';
 import { hold } from '@/utils/utilityFunctions';
-import axiosCanceler from './AxiosCanceler';
 import { IApiResponseTemplate } from './types';
-import { debounce } from 'lodash';
 
 export type TApiMethod = 'get' | 'post' | 'put' | 'delete';
 
 interface IRequestParam {
   method?: TApiMethod;
   url: string;
-  data?: any;
+  data?: unknown;
   headers?: Record<string, string>;
   retryCount?: number;
+  signal?: AbortSignal;
 }
 
-const RPS = 60 * 1020;
-const MAX_RETCNT = 2;
+// 로스트아크 API는 1분에 100건으로 제한되므로, 429 발생 시 약 1분 후 재시도한다.
+const RETRY_DELAY_MS = 60 * 1000;
+const MAX_RETRY_COUNT = 2;
 
 const BASE_URL = process.env.NODE_ENV === 'development' ? '' : process.env.REACT_APP_BASE_URL;
 
@@ -33,36 +32,27 @@ const AxiosBaseInstance = axios.create({
   timeout: 30000,
 });
 
-const handleRequest = (config: InternalAxiosRequestConfig<any>) => {
-  const { url = '', data, headers, method } = config;
+const handleRequest = (config: InternalAxiosRequestConfig<unknown>) => {
+  const { url = '', headers } = config;
 
   const PROTECTED_ENDPOINTS = [LOSTARK_API_MARKET, LOSTARK_API_AUCTION];
 
+  // ⚠️ 토큰을 클라이언트 번들에 노출하는 임시 방식이다.
+  // 프로덕션에서는 토큰 부착을 서버(BFF/프록시)로 옮겨 번들에서 제거해야 한다.
   if (PROTECTED_ENDPOINTS.some((endpoint) => url.endsWith(endpoint))) {
     Object.assign(headers, {
-      Authorization: `Bearer ${process.env.SIMEGATE_TOKEN}`,
+      Authorization: `Bearer ${process.env.REACT_APP_SMILEGATE_TOKEN}`,
     });
-  }
-
-  try {
-    const requestKey = { url, data, method: method as TApiMethod };
-    axiosCanceler.addRequest(requestKey);
-    config.cancelToken = axiosCanceler.getCancelToken(requestKey)?.token;
-  } catch (error) {
-    console.error('Error adding request to axiosCanceler:', error);
   }
 
   return config;
 };
 
-const handleRequestError = (error: any) => {
+const handleRequestError = (error: unknown) => {
   return Promise.reject(error);
 };
 
-const handleResponseSuccess = (response: AxiosResponse<any, any>) => {
-  const { url = '', data, method } = response.config;
-  axiosCanceler.removeRequest({ url, data, method: method as TApiMethod });
-
+const handleResponseSuccess = (response: AxiosResponse<unknown, unknown>) => {
   if (response.status === 429) {
     return Promise.reject(new RequestLimitError('Api Request Limit'));
   }
@@ -72,23 +62,14 @@ const handleResponseSuccess = (response: AxiosResponse<any, any>) => {
 
 // 잘못된 url, 잘못된 데이터, 잘못된 메서드 등 예외 처리
 const handleResponseError = (error: any) => {
-  console.error('error in handleResponseError in handleResponseError');
-
-  const { response, config } = error;
-
-  const { url = '', data, method } = config;
-
-  axiosCanceler.removeRequest({ url, data, method: method as TApiMethod });
-
   if (axios.isCancel(error)) {
-    console.log('API request canceled: ', error);
     return Promise.reject(error);
-  } else {
-    console.log('API response error: ', error);
   }
 
-  // ! 로스트아크 api에 너무 많은 요청을 보내면 여기로 옮 (handleResponseSuccess가 아님)
-  if (response.status === 429) {
+  const { response } = error ?? {};
+
+  // ! 로스트아크 api에 너무 많은 요청을 보내면 여기로 옴 (handleResponseSuccess가 아님)
+  if (response?.status === 429) {
     return Promise.reject(new RequestLimitError('Api Request Limit'));
   }
 
@@ -102,24 +83,6 @@ const handleResponseError = (error: any) => {
 class AxiosService {
   axiosInstance: AxiosInstance;
 
-  private debounceUserLog = debounce(
-    (logs: any[]) => {
-      // 누적된 로그들을 한번에 전송
-      // sendUserLog('request', null, { requests: logs });
-      // this.logQueue = [];
-    },
-    1000,
-    { maxWait: 2000 }
-  );
-
-  private logQueue: any[] = [];
-
-  // 로그를 누적시키고 누적된 로그를 한번에 보낼 수 있도록
-  private queueUserLog(dataLog: any) {
-    this.logQueue.push(dataLog);
-    this.debounceUserLog([...this.logQueue]);
-  }
-
   constructor() {
     this.axiosInstance = AxiosBaseInstance;
 
@@ -132,93 +95,76 @@ class AxiosService {
     this.axiosInstance.interceptors.response.use(handleResponseSuccess, handleResponseError);
   }
 
-  async handleError(
+  private async handleError<T>(
     error: unknown,
     method: TApiMethod,
     url: string,
-    data: any,
-    retryCount: number
-  ): Promise<any> {
-    if (error instanceof RequestLimitError) {
-      if (MAX_RETCNT <= retryCount) return error;
-      // 로스트아크 api의 경우 1분에 100건의 요청만 허용함. 그래서 요청을 많이 날린 경우 1분 정도 뒤에 재요청
-      await hold(RPS);
-      const res = await this.request({
+    data: unknown,
+    retryCount: number,
+    signal?: AbortSignal
+  ): Promise<IApiResponseTemplate<T>> {
+    if (error instanceof RequestLimitError && retryCount < MAX_RETRY_COUNT) {
+      await hold(RETRY_DELAY_MS);
+      return this.request<T>({
         method,
         url,
         data,
         retryCount: retryCount + 1,
+        signal,
       });
-
-      return res;
     }
 
-    return error;
+    // 처리하지 못한 에러는 반드시 다시 throw 해야 react-query의 isError / onError가 동작한다.
+    throw error;
   }
 
   async request<T>(requestParam: IRequestParam): Promise<IApiResponseTemplate<T>> {
-    const { method = 'get', url, data, retryCount = 0, headers } = requestParam;
+    const { method = 'get', url, data, retryCount = 0, headers, signal } = requestParam;
 
     try {
-      if (url !== '/api/loadoCommon/userlog') {
-        const requestData = {
-          method,
-          url,
-        };
-        const userRequestDataLog = _.merge(
-          requestData,
-          data ? { data: JSON.stringify(data).substring(0, 100) } : {}
-        );
+      const config = { headers, signal };
 
-        // this.queueUserLog(userRequestDataLog);
-      }
-
-      // if (!store.getState().modal.modalOpen && url !== '/api/loadoCommon/userlog') {
-      //   store.dispatch(showLoader());
-      // }
-
-      const res = await this.axiosInstance[method](url, data, { headers });
-
-      // if (url !== '/api/loadoCommon/userlog') store.dispatch(hideLoader());
+      // get/delete는 (url, config), post/put은 (url, data, config) 시그니처를 사용한다.
+      const res =
+        method === 'get' || method === 'delete'
+          ? await this.axiosInstance[method]<IApiResponseTemplate<T>>(url, config)
+          : await this.axiosInstance[method]<IApiResponseTemplate<T>>(url, data, config);
 
       return res.data;
     } catch (error) {
-      // store.dispatch(hideLoader());
-      return this.handleError(error, method, url, data, retryCount);
+      return this.handleError<T>(error, method, url, data, retryCount, signal);
     }
   }
 
   public get<T = unknown>(
     url: string,
     params?: Record<string, any>,
-    headers?: Record<string, string>
+    headers?: Record<string, string>,
+    signal?: AbortSignal
   ): Promise<IApiResponseTemplate<T>> {
     let urlWithParams = url;
 
     try {
       const paramDataStringified = queryString.stringify(params ?? {}); // queryString.stringify({}) is ''
-      urlWithParams = `${urlWithParams}?${paramDataStringified}`;
-
-      return this.request({
-        url: urlWithParams,
-        headers: headers ?? {
-          Accept: 'application/json',
-        },
-      });
+      if (paramDataStringified) {
+        urlWithParams = `${urlWithParams}?${paramDataStringified}`;
+      }
     } catch {
-      return this.request({
-        url,
-        headers: headers ?? {
-          Accept: 'application/json',
-        },
-      });
+      urlWithParams = url;
     }
+
+    return this.request({
+      url: urlWithParams,
+      headers: headers ?? { Accept: 'application/json' },
+      signal,
+    });
   }
 
   public post<T = unknown>(
     url: string,
     data?: Record<string, any>,
-    headers?: Record<string, string>
+    headers?: Record<string, string>,
+    signal?: AbortSignal
   ): Promise<IApiResponseTemplate<T>> {
     return this.request({
       url,
@@ -228,13 +174,15 @@ class AxiosService {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
+      signal,
     });
   }
 
   public put<T = unknown>(
     url: string,
     data?: Record<string, any>,
-    headers?: Record<string, string>
+    headers?: Record<string, string>,
+    signal?: AbortSignal
   ): Promise<IApiResponseTemplate<T>> {
     return this.request({
       url,
@@ -244,12 +192,14 @@ class AxiosService {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
+      signal,
     });
   }
 
   public delete<T = unknown>(
     url: string,
-    headers?: Record<string, string>
+    headers?: Record<string, string>,
+    signal?: AbortSignal
   ): Promise<IApiResponseTemplate<T>> {
     return this.request({
       url,
@@ -257,6 +207,7 @@ class AxiosService {
       headers: headers ?? {
         Accept: 'application/json',
       },
+      signal,
     });
   }
 }

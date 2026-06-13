@@ -1,14 +1,7 @@
 import { Box } from '@mui/material';
-import { useLayoutEffect } from 'react';
-import { useLocation, Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 
 const ScreenLog = () => {
-  const location = useLocation();
-
-  useLayoutEffect(() => {
-    console.log('location.pathname is ', location.pathname);
-  }, [location]);
-
   return (
     <>
       <Box

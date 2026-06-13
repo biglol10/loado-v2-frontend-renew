@@ -24,11 +24,7 @@ const BrowserActivity = () => {
     //   eventEmit('@back', 'string'); // event.detail = 'string'
     // };
 
-    const listener = (e: Event) => {
-      const event = e as CustomEvent<string>;
-      const data = event.detail;
-
-      console.log(data);
+    const listener = () => {
       navigate(-1);
     };
 

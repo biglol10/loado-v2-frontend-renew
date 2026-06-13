@@ -166,7 +166,9 @@ class PerformanceManager implements IPerformanceManager {
           const target = event.target as HTMLElement;
           const tagName = target.tagName.toLowerCase();
           const id = target.id ? `#${target.id}` : '';
-          const className = target.className ? `.${target.className.replace(/\s+/g, '.')}` : '';
+          // SVG 요소의 className은 문자열이 아닌 SVGAnimatedString이므로 getAttribute로 안전하게 읽는다.
+          const classAttr = target.getAttribute?.('class') ?? '';
+          const className = classAttr ? `.${classAttr.trim().replace(/\s+/g, '.')}` : '';
           const targetIdentifier = `${tagName}${id}${className}`;
 
           const startTime = performance.now();

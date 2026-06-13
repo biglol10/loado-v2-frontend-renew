@@ -24,7 +24,7 @@ export const useSingleItemPriceQuery = (params: IItemPriceQueryParams) => {
     itemId: string,
     yearValue: number,
     monthValue: number,
-    enabled: boolean
+    signal?: AbortSignal
   ) => {
     return await httpService.get<IGraphData[]>(
       '/api/loadoPrice/getPeriodYearMonthMarketItemPrice',
@@ -32,14 +32,15 @@ export const useSingleItemPriceQuery = (params: IItemPriceQueryParams) => {
         itemId,
         year: yearValue,
         month: monthValue,
-        enabled,
-      }
+      },
+      undefined,
+      signal
     );
   };
 
   const query = useQuery({
     queryKey: generateQueryKey(itemId, yearValue, monthValue),
-    queryFn: () => fetchFn(itemId, yearValue, monthValue, enabled),
+    queryFn: ({ signal }) => fetchFn(itemId, yearValue, monthValue, signal),
     staleTime: cacheConfig.staleTime,
     gcTime: cacheConfig.gcTime,
     select: (result) => result.data,

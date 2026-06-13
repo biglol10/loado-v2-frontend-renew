@@ -1,8 +1,10 @@
-import { useQueries } from '@tanstack/react-query';
+import { keepPreviousData, useQueries } from '@tanstack/react-query';
 import httpService from '../utils/AxiosInstance';
 import { IItemData } from './types';
+import { IApiResponseTemplate } from '../utils/types';
 import { cacheKeys, getCachingConfig } from '../utils/cache';
-// import { AxiosError, AxiosHeaders } from 'axios';
+
+type TItemPriceResponse = IApiResponseTemplate<IItemData[]> | undefined;
 
 interface IItemPriceQueryParams {
   searchDate: string;
@@ -21,40 +23,26 @@ export const useItemPriceQuery = (params: IItemPriceQueryParams) => {
   // 아이템 가격은 중간 주기로 업데이트되는 데이터이므로 'moderate' 설정 사용
   const cacheConfig = getCachingConfig('moderate');
 
-  const fetchFn = async (categoryCode: string) => {
-    // ? handleError 테스트용
-    // throw new AxiosError(
-    //   'Simulated API Error',
-    //   'ECONNABORTED',
-    //   {
-    //     headers: new AxiosHeaders(),
-    //     config: {} as any,
-    //     request: {},
-    //   },
-    //   null,
-    //   {
-    //     status: 500,
-    //     statusText: 'Internal Server Error',
-    //     headers: new AxiosHeaders(),
-    //     config: {} as AxiosHeaders,
-    //     data: { message: '서버 에러가 발생했습니다.' },
-    //   }
-    // );
-
-    return await httpService.get<IItemData[]>('/api/loadoPrice/getMarketPriceByCategoryCode', {
-      categoryCode,
-      timeValue: searchDate,
-    });
+  const fetchFn = async (categoryCode: string, signal?: AbortSignal) => {
+    return await httpService.get<IItemData[]>(
+      '/api/loadoPrice/getMarketPriceByCategoryCode',
+      {
+        categoryCode,
+        timeValue: searchDate,
+      },
+      undefined,
+      signal
+    );
   };
 
   const queryResults = useQueries({
     queries: categoryCodes.map((categoryCode) => {
       return {
         queryKey: generateQueryKey(searchDate, categoryCode),
-        queryFn: () => fetchFn(categoryCode),
+        queryFn: ({ signal }: { signal: AbortSignal }) => fetchFn(categoryCode, signal),
         staleTime: staleTime ?? cacheConfig.staleTime,
         gcTime: cacheConfig.gcTime,
-        keepPreviousData: true,
+        placeholderData: keepPreviousData,
       };
     }),
     combine: (result) => {
@@ -65,7 +53,7 @@ export const useItemPriceQuery = (params: IItemPriceQueryParams) => {
         isError: result.some((e) => e.isError),
         isFetched: isAllQueriesFetched,
         isFetching: result.every((e) => e.isFetching),
-        data: result.map((item) => item.data),
+        data: result.map((item) => item.data as TItemPriceResponse),
         isLoading: result.every((e) => e.isLoading),
       };
     },
