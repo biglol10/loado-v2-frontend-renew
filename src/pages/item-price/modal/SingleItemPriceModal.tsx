@@ -214,6 +214,7 @@ const SingleItemPriceModal = () => {
         >
           {data && <PriceChart data={data} isMobile={isMobile} />}
           {error && <div>{t('common.error.unknown')}</div>}
+          {error instanceof Error ? t('common.error.unknown') : null}
         </ComponentWithSkeleton>
       </ModalContent>
     </Modal>

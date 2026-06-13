@@ -12,6 +12,16 @@ dist
 dist-ssr
 *.local
 
+# Env files (절대 시크릿을 커밋하지 말 것)
+.env
+.env.*
+!.env.example
+
+# Build/analysis artifacts
+bundleReport
+test.html
+wget-log
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

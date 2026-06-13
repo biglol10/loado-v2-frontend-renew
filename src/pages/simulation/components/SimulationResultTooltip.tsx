@@ -17,18 +17,10 @@ const SimulationResultTooltip = ({ active, payload, label, objectToPass }: Custo
   const formValues = getValues();
   const resourceConsumptionData = getValues2();
 
-  console.log('objectToPass is ', objectToPass);
-
   if (!active) return null;
 
   const isWeapon = formValues.targetRefine.armorType === EArmor.WEAPON;
   const tier = formValues.targetRefine.tier.toLocaleLowerCase(); // t3 or t4
-
-  console.log('active is ', active);
-  console.log('payload is ', payload);
-  console.log('label is ', label);
-  console.log('formValues is ', formValues);
-  console.log('resourceConsumptionData is ', resourceConsumptionData);
 
   const isBoundaryGroup = label?.includes('-');
 

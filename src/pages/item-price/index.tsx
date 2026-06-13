@@ -1,9 +1,7 @@
 import { Grid, Paper, Box, Container } from '@mui/material';
 import { Outlet } from 'react-router-dom';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import * as ComponentTypes from '@/apis/itemPrice/types';
-import userStore from '@/store/user/useUserStore';
-import { isEmpty } from 'lodash';
 import { useItemPriceQuery } from '@/apis/itemPrice/useItemPriceQuery';
 import dayjs from 'dayjs';
 import { styled } from '@mui/material/styles';
@@ -33,92 +31,52 @@ const ItemPricePage = () => {
   const { selectedItemToView } = itemPriceStore();
 
   const [activeTab, setActiveTab] = useState<ComponentTypes.TActiveTabType>('ALL');
-  const [refinement, setRefinement] = useState<ComponentTypes.IItemData[]>([]);
-  const [refinementAdditional, setRefinementAdditional] = useState<ComponentTypes.IItemData[]>([]);
-  const [esder, setEsder] = useState<ComponentTypes.IItemData[]>([]);
-  const [engravings, setEngravings] = useState<ComponentTypes.IItemData[]>([]);
-  const [jewelry, setJewelry] = useState<ComponentTypes.IItemData[]>([]);
 
-  const { isMobile } = userStore();
-
-  const {
-    data: queryResults,
-    isFetched,
-    isLoading,
-  } = useItemPriceQuery({
+  const { data: queryResults, isLoading } = useItemPriceQuery({
     searchDate: dayjs().format('YYYY-MM-DD'),
     staleTime: 1000 * 60 * 5,
   });
 
-  useEffect(() => {
-    if (isFetched) {
-      queryResults.forEach((query) => {
-        const data = query?.data;
+  // 서버 데이터에서 파생되는 값이므로 별도 state로 복제하지 않고 useMemo로 계산한다.
+  const { engravings, refinement, refinementAdditional, esder, jewelry } = useMemo(() => {
+    const grouped = {
+      engravings: [] as ComponentTypes.IItemData[],
+      refinement: [] as ComponentTypes.IItemData[],
+      refinementAdditional: [] as ComponentTypes.IItemData[],
+      esder: [] as ComponentTypes.IItemData[],
+      jewelry: [] as ComponentTypes.IItemData[],
+    };
 
-        if (!isEmpty(data)) {
-          const dataToUse = data!;
-          dataToUse.sort((a, b) => b.minCurrentMinPrice - a.minCurrentMinPrice);
-          const code = dataToUse.at(0)?.categoryCode;
+    queryResults.forEach((resp) => {
+      const rows = resp?.data;
+      if (!rows || rows.length === 0) return;
 
-          switch (code) {
-            case 44410:
-              setEngravings(dataToUse);
-              break;
-            case 50010:
-              setRefinement(dataToUse);
-              break;
-            case 50020:
-              setRefinementAdditional(dataToUse);
-              break;
-            case 51100:
-              setEsder(dataToUse);
-              break;
-            case 210000:
-              setJewelry(dataToUse);
-              break;
-            default:
-              break;
-          }
-        }
-      });
-    }
-  }, [queryResults, isFetched]);
+      // 캐시 원본 배열을 직접 정렬하지 않도록 복사 후 정렬한다.
+      const sorted = [...rows].sort((a, b) => b.minCurrentMinPrice - a.minCurrentMinPrice);
 
-  const columns = useMemo(() => {
-    if (isMobile) {
-      return [
-        t('item-price.table.columns.item-name'),
-        t('item-price.table.columns.min-price'),
-        t('item-price.table.columns.price-check'),
-      ];
-    } else {
-      return [
-        t('item-price.table.columns.item-name'),
-        t('item-price.table.columns.min-price'),
-        t('item-price.table.columns.avg-price'),
-        t('item-price.table.columns.max-price'),
-        t('item-price.table.columns.price-check'),
-      ];
-    }
-  }, [isMobile, t]);
+      switch (sorted[0]?.categoryCode) {
+        case 44410:
+          grouped.engravings = sorted;
+          break;
+        case 50010:
+          grouped.refinement = sorted;
+          break;
+        case 50020:
+          grouped.refinementAdditional = sorted;
+          break;
+        case 51100:
+          grouped.esder = sorted;
+          break;
+        case 210000:
+          grouped.jewelry = sorted;
+          break;
+        default:
+          break;
+      }
+    });
 
-  const columnsForBook = useMemo(() => {
-    if (isMobile) {
-      return [
-        t('item-price.table.columns.item-name'),
-        t('item-price.table.columns.min-price'),
-        t('item-price.table.columns.price-check'),
-      ];
-    } else {
-      return [
-        t('item-price.table.columns.item-name'),
-        t('item-price.table.columns.min-price'),
-        t('item-price.table.columns.avg-price'),
-        t('item-price.table.columns.max-price'),
-        t('item-price.table.columns.price-check'),
-      ];
-    }
-  }, [isMobile, t]);
+    return grouped;
+  }, [queryResults]);
 
   const handleTabChange = (_: React.SyntheticEvent, value: ComponentTypes.TActiveTabType) => {
     setActiveTab(value);

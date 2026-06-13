@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
 interface ISharpDivider {
   content?: string;
@@ -68,12 +68,10 @@ const StyledSharpDivider = styled.div<{ dividerColor: string }>`
 `;
 
 const SharpDivider = ({ content = '', dividerColor = '#839192', fontSize = 12 }: ISharpDivider) => {
-  const a = [1, 2, 3, 4];
-
   return (
     <StyledSharpDivider dividerColor={dividerColor}>
       <span></span>
-      <span style={{ display: `${!content} ? 'hidden' : 'auto`, fontSize: `${fontSize}px` }}>
+      <span style={{ display: content ? undefined : 'none', fontSize: `${fontSize}px` }}>
         {content}
       </span>
       <span></span>

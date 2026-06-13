@@ -17,7 +17,7 @@ export default Router;
  *  - 기존 React 컴포넌트와 함께 사용하기 위해 선언적 방식으로 라우팅을 정의합니다.
  *  - <BrowserRouter> 또는 다른 라우터 컴포넌트 내에서 사용해야 합니다.
  *  - 기본적인 라우팅 기능(URL 매칭, 컴포넌트 렌더링 등)을 제공합니다.
- *  - 주로 선언적 모드(Declarative Mode)에서 사용됩니다.
+ *  - Declarative Mode와 Data Mode 모두에서 사용 가능하지만, 주로 Declarative Mode에서 사용됩니다.
  *
  * createBrowserRouter
  *  - 라우터 객체를 생성하고 <RouterProvider>와 함께 사용합니다.

@@ -44,10 +44,6 @@ const SimulationResultBarChart = ({
 
   const sections = tier === ETier.T4 ? t4ExistingResourceSections : t3ExistingResourceSections;
 
-  console.log('resourcePrice is ', resourcePrice);
-  console.log('existingResources is ', existingResources);
-  console.log('resourceConsumption is ', resourceConsumption);
-
   const resource1Key = `${tier}${isWeapon ? 'RedStone' : 'BlueStone'}`;
   const resource2Key = `${tier}BlueCommonStone`;
   const resource3Key = `${tier}FusionMaterial`;

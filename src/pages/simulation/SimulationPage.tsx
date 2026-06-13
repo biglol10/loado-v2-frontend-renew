@@ -92,7 +92,6 @@ const SimulationPage = () => {
     const existingResources = data.existingResources;
     const probability = data.probability;
     const targetRefine = data.targetRefine;
-    console.log('data is ', data);
 
     const successProbability =
       (probability.baseSuccessRate ?? 0) + (probability.additionalSuccessRate ?? 0);
@@ -113,8 +112,6 @@ const SimulationPage = () => {
         showErrorToast(error.message);
       }
     }
-
-    console.log('resultArr is ', resultArr);
   };
 
   const topNPercentPointData = useMemo<SimulationResultGraphData | null>(() => {
@@ -140,10 +137,7 @@ const SimulationPage = () => {
     };
   }, [simulationResult, topNPercentPoint]);
 
-  console.log('topNPercentPointData is ', topNPercentPointData);
-
-  const onError = (errors: any) => {
-    console.log('errors is ', errors);
+  const onError = () => {
     showErrorToast('입력 값이 올바르지 않습니다.');
   };
 

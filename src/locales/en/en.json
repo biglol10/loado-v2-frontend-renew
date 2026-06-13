@@ -1,157 +1,154 @@
 {
-  "label": {
-    "year": "Year",
-    "month": "Month",
-    "search": "Search"
-  },
-  "layout": {
-    "itemPrice": "Item Price",
-    "simulation": "Refinement Simulation"
+  "common": {
+    "error": {
+      "api": "An error occurred while processing the request",
+      "badRequest": "Invalid request",
+      "forbidden": "Access denied",
+      "network": "Internet connection lost. Please check your internet connection and try again.",
+      "notFound": "The requested resource was not found",
+      "server": "A server error occurred",
+      "unauthorized": "Unauthorized request",
+      "unknown": "An unknown error occurred"
+    },
+    "success": {
+      "mutation": "Successfully processed the request"
+    }
   },
   "home": {
-    "label": {
-      "welcome_title": "Welcome to the renewed Loado"
-    },
     "card": {
       "content1": {
+        "description": "Check prices from Destruction Stone to Gems and Esther's Energy",
         "tag": "Price",
-        "title": "Lost Ark Refinement Materials and Item Prices",
-        "description": "Check prices from Destruction Stone to Gems and Esther's Energy"
+        "title": "Lost Ark Refinement Materials and Item Prices"
       },
       "content2": {
+        "description": "Check how much it would cost based on your luck percentage through refinement simulation",
         "tag": "Simulation",
-        "title": "Lost Ark Refinement Simulation",
-        "description": "Check how much it would cost based on your luck percentage through refinement simulation"
+        "title": "Lost Ark Refinement Simulation"
       }
+    },
+    "label": {
+      "welcome_title": "Welcome to the renewed Loado"
     }
   },
   "item-price": {
-    "modal": {
-      "title": "Market Price Check",
-      "noData": "No data found",
-      "tryDifferentDate": "Try selecting a different date",
-      "error": "Error Occurred",
-      "not-enabled": "Select date and search"
+    "chart": {
+      "legend": {
+        "avg": "AvgPrice",
+        "max": "MaxPrice",
+        "min": "MinPrice"
+      },
+      "period": "Period"
     },
     "label": {
       "tab1": "All",
       "tab2": "Tier 3",
       "tab3": "Tier 4"
     },
+    "modal": {
+      "error": "Error Occurred",
+      "noData": "No data found",
+      "not-enabled": "Select date and search",
+      "title": "Market Price Check",
+      "tryDifferentDate": "Try selecting a different date"
+    },
     "table": {
-      "title": {
-        "refinement": "Refinement Materials",
-        "refinement-additional": "Additional Refinement Materials",
-        "esder-gem": "Esther / Gems",
-        "engraving": "Engraving Books",
-        "character-engraving": "Class Engraving Books"
-      },
       "columns": {
-        "item-name": "Item Name",
-        "min-price": "Min Price",
         "avg-price": "Avg Price",
+        "item-name": "Item Name",
         "max-price": "Max Price",
+        "min-price": "Min Price",
         "price-check": "Check Price"
       },
       "price-list": {
-        "date": "Date",
-        "min": "Min",
         "avg": "Avg",
-        "max": "Max"
-      }
-    },
-    "chart": {
-      "period": "Period",
-      "legend": {
-        "min": "MinPrice",
-        "avg": "AvgPrice",
-        "max": "MaxPrice"
+        "date": "Date",
+        "max": "Max",
+        "min": "Min"
+      },
+      "title": {
+        "character-engraving": "Class Engraving Books",
+        "engraving": "Engraving Books",
+        "esder-gem": "Esther / Gems",
+        "refinement": "Refinement Materials",
+        "refinement-additional": "Additional Refinement Materials"
       }
     }
   },
+  "label": {
+    "month": "Month",
+    "search": "Search",
+    "year": "Year"
+  },
+  "layout": {
+    "itemPrice": "Item Price",
+    "simulation": "Refinement Simulation"
+  },
   "simulation": {
-    "tier": {
-      "T3": "Tier 3",
-      "T4": "Tier 4"
-    },
     "armor": {
-      "weapon": "Weapon",
-      "armor": "Armor"
-    },
-    "sections": {
-      "materials": "Materials",
-      "probability": "Probability Info",
-      "targetRefine": "Target Refine",
-      "armorType": "Armor Type",
-      "refineResourceConsumption": "Resource Consumption",
-      "resourceCost": "Resource Cost"
-    },
-    "probability": {
-      "title": "Base Refinement Probability",
-      "baseRate": "Success Rate",
-      "artisanEnergy": "Artisan Energy",
-      "additionalSuccessRate": "Additional Success Rate",
-      "bookRate": "{{book}} Probability",
-      "fullSoom": "Full Breath",
-      "artisanEnergyTwice": "Artisan Energy (x2)"
+      "armor": "Armor",
+      "weapon": "Weapon"
     },
     "buttons": {
-      "startSimulation": "Start Simulation",
-      "debug": "Debug"
-    },
-    "results": {
-      "successRate": "Success Rate: {{rate}}",
-      "requiredGold": "Required Gold: {{gold}}"
+      "debug": "Debug",
+      "startSimulation": "Start Simulation"
     },
     "materials": {
-      "fragmentAndBook": "Honor Shard + Book",
-      "t4fragmentAndBook": "Fate Shard + Book",
-      "fragment": "Honor Shard",
-      "book": "Book",
-      "stone": "Stone",
-      "redStone": "Refined Destruction Stone",
-      "blueStone": "Refined Guardian Stone",
-      "blueCommonStone": "Crystallized Guardian Stone",
-      "refinementStone": "Additional Refinement Stone",
-      "solarGrace": "Solar Grace",
-      "solarBlessing": "Solar Blessing",
-      "solarProtection": "Solar Protection",
-      "재봉술전문": "Expert Tailoring",
+      "골드": "Gold",
+      "빙하의숨결": "Breath of Glacier",
+      "숨결": "Breath",
+      "아비도스": "Abidos",
+      "야금술": "Metallurgy",
+      "용암의숨결": "Breath of Magma",
+      "운돌": "Fate Stone",
+      "운명의수호석": "Fate Guardian Stone",
+      "운명의파괴석": "Fate Destruction Stone",
+      "운명파편": "Fate Shard",
+      "재봉술": "Tailoring",
       "재봉술복합": "Complex Tailoring",
+      "재봉술전문": "Expert Tailoring",
       "정제된수호강석": "Refined Guardian Stone",
+      "정제된파괴강석": "Refined Destruction Stone",
       "찬명돌": "Crystallized Guardian Stone",
       "최상급오레하": "Superior Oreha",
       "파편": "Shard",
-      "골드": "Gold",
-      "정제된파괴강석": "Refined Destruction Stone",
-      "운명의파괴석": "Fate Destruction Stone",
-      "운명의수호석": "Fate Guardian Stone",
-      "운돌": "Fate Stone",
-      "아비도스": "Abidos",
-      "운명파편": "Fate Shard",
-      "용암의숨결": "Breath of Magma",
-      "빙하의숨결": "Breath of Glacier",
-      "야금술": "Metallurgy",
-      "재봉술": "Tailoring",
-      "숨결": "Breath"
-    }
-  },
-  "modal": {
-    "title": "Market Price Check"
-  },
-  "common": {
-    "error": {
-      "network": "Internet connection lost. Please check your internet connection and try again.",
-      "api": "An error occurred while processing the request",
-      "unknown": "An unknown error occurred",
-      "server": "A server error occurred",
-      "badRequest": "Invalid request",
-      "unauthorized": "Unauthorized request",
-      "forbidden": "Access denied",
-      "notFound": "The requested resource was not found"
+      "blueCommonStone": "Crystallized Guardian Stone",
+      "blueStone": "Refined Guardian Stone",
+      "book": "Book",
+      "fragment": "Honor Shard",
+      "fragmentAndBook": "Honor Shard + Book",
+      "redStone": "Refined Destruction Stone",
+      "refinementStone": "Additional Refinement Stone",
+      "solarBlessing": "Solar Blessing",
+      "solarGrace": "Solar Grace",
+      "solarProtection": "Solar Protection",
+      "stone": "Stone",
+      "t4fragmentAndBook": "Fate Shard + Book"
     },
-    "success": {
-      "mutation": "Successfully processed the request"
+    "probability": {
+      "additionalSuccessRate": "Additional Success Rate",
+      "artisanEnergy": "Artisan Energy",
+      "artisanEnergyTwice": "Artisan Energy (x2)",
+      "baseRate": "Success Rate",
+      "bookRate": "{{book}} Probability",
+      "fullSoom": "Full Breath",
+      "title": "Base Refinement Probability"
+    },
+    "results": {
+      "requiredGold": "Required Gold: {{gold}}",
+      "successRate": "Success Rate: {{rate}}"
+    },
+    "sections": {
+      "armorType": "Armor Type",
+      "materials": "Materials",
+      "probability": "Probability Info",
+      "resourceConsumption": "Resource Consumption",
+      "resourceCost": "Resource Cost",
+      "targetRefine": "Target Refine"
+    },
+    "tier": {
+      "T3": "Tier 3",
+      "T4": "Tier 4"
     }
   }
 }
