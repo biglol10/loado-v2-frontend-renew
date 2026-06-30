@@ -1,6 +1,14 @@
 import PerformanceManager from './PerformanceManager';
 import AxiosPerformanceInterceptor from './AxiosPerformanceInterceptor';
 import { isLocalOrDevEnvironment } from '@/utils/envUtils';
+import { AxiosInstance } from 'axios';
+
+interface IPerformanceMonitoringHandle {
+  performanceManager: PerformanceManager;
+  axiosInterceptor: AxiosPerformanceInterceptor;
+}
+
+let monitoringHandle: IPerformanceMonitoringHandle | undefined;
 
 // 성능 훅 내보내기
 export {
@@ -15,10 +23,14 @@ export { default as PerformanceDashboard } from './components/PerformanceDashboa
  * 성능 모니터링 시스템 초기화
  * @param axiosInstance Axios 인스턴스
  */
-export const initializePerformanceMonitoring = (axiosInstance: any) => {
+export const initializePerformanceMonitoring = (axiosInstance: AxiosInstance) => {
   // 로컬 또는 개발 환경에서만 초기화
   if (!isLocalOrDevEnvironment()) {
     return;
+  }
+
+  if (monitoringHandle) {
+    return monitoringHandle;
   }
 
   // 싱글톤 인스턴스 초기화
@@ -39,15 +51,12 @@ export const initializePerformanceMonitoring = (axiosInstance: any) => {
     performanceManager.logMetrics();
   }, 3000);
 
-  // 주기적인 메모리 측정 설정
-  setInterval(() => {
-    performanceManager.measureMemoryUsage();
-  }, 30000);
-
-  return {
+  monitoringHandle = {
     performanceManager,
     axiosInterceptor,
   };
+
+  return monitoringHandle;
 };
 
 export default {

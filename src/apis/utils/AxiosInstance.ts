@@ -22,9 +22,9 @@ const MAX_RETRY_COUNT = 2;
 const BASE_URL = process.env.NODE_ENV === 'development' ? '' : process.env.REACT_APP_BASE_URL;
 
 const BASE_PREFIX = '/lostark';
-
 const LOSTARK_API_MARKET = `${BASE_PREFIX}/markets/items`;
 const LOSTARK_API_AUCTION = `${BASE_PREFIX}/auctions/items`;
+const LOSTARK_API_ENDPOINTS = [LOSTARK_API_MARKET, LOSTARK_API_AUCTION];
 
 const AxiosBaseInstance = axios.create({
   baseURL: BASE_URL,
@@ -34,14 +34,13 @@ const AxiosBaseInstance = axios.create({
 
 const handleRequest = (config: InternalAxiosRequestConfig<unknown>) => {
   const { url = '', headers } = config;
+  const token = process.env.REACT_APP_SMILEGATE_TOKEN;
 
-  const PROTECTED_ENDPOINTS = [LOSTARK_API_MARKET, LOSTARK_API_AUCTION];
-
-  // ⚠️ 토큰을 클라이언트 번들에 노출하는 임시 방식이다.
-  // 프로덕션에서는 토큰 부착을 서버(BFF/프록시)로 옮겨 번들에서 제거해야 한다.
-  if (PROTECTED_ENDPOINTS.some((endpoint) => url.endsWith(endpoint))) {
+  // Frontend-only deployment: this token is exposed in the browser bundle.
+  // Move this to a server/BFF/proxy before treating the app as production-safe.
+  if (token && LOSTARK_API_ENDPOINTS.some((endpoint) => url.endsWith(endpoint))) {
     Object.assign(headers, {
-      Authorization: `Bearer ${process.env.REACT_APP_SMILEGATE_TOKEN}`,
+      Authorization: `Bearer ${token}`,
     });
   }
 
@@ -60,21 +59,14 @@ const handleResponseSuccess = (response: AxiosResponse<unknown, unknown>) => {
   return response;
 };
 
-// 잘못된 url, 잘못된 데이터, 잘못된 메서드 등 예외 처리
-const handleResponseError = (error: any) => {
+const handleResponseError = (error: unknown) => {
   if (axios.isCancel(error)) {
     return Promise.reject(error);
   }
 
-  const { response } = error ?? {};
-
   // ! 로스트아크 api에 너무 많은 요청을 보내면 여기로 옴 (handleResponseSuccess가 아님)
-  if (response?.status === 429) {
+  if (axios.isAxiosError(error) && error.response?.status === 429) {
     return Promise.reject(new RequestLimitError('Api Request Limit'));
-  }
-
-  if (response && response.data) {
-    return Promise.reject(response.data);
   }
 
   return Promise.reject(error);
@@ -138,7 +130,7 @@ class AxiosService {
 
   public get<T = unknown>(
     url: string,
-    params?: Record<string, any>,
+    params?: Record<string, unknown>,
     headers?: Record<string, string>,
     signal?: AbortSignal
   ): Promise<IApiResponseTemplate<T>> {
@@ -162,7 +154,7 @@ class AxiosService {
 
   public post<T = unknown>(
     url: string,
-    data?: Record<string, any>,
+    data?: Record<string, unknown>,
     headers?: Record<string, string>,
     signal?: AbortSignal
   ): Promise<IApiResponseTemplate<T>> {
@@ -180,7 +172,7 @@ class AxiosService {
 
   public put<T = unknown>(
     url: string,
-    data?: Record<string, any>,
+    data?: Record<string, unknown>,
     headers?: Record<string, string>,
     signal?: AbortSignal
   ): Promise<IApiResponseTemplate<T>> {

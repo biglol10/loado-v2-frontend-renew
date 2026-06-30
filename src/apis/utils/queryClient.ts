@@ -2,6 +2,7 @@ import { QueryCache, QueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import i18n from '@/locales/i18n';
 import { showErrorToast, showSuccessToast } from '@/utils/toastUtils';
+import RequestLimitError from './RequestLimitError';
 
 /**
  * 쿼리/뮤테이션 공통 에러 핸들러.
@@ -14,17 +15,37 @@ const handleQueryError = (error: unknown) => {
     return;
   }
 
+  if (error instanceof RequestLimitError) {
+    showErrorToast(i18n.t('common.error.api'));
+    return;
+  }
+
   if (axios.isAxiosError(error)) {
     const status = error.response?.status;
 
-    if (status === 500) {
-      showErrorToast(i18n.t('common.error.server'));
-    } else if (status) {
-      showErrorToast(i18n.t('common.error.api'));
-    } else if (error.message === 'Network Error') {
+    if (error.message === 'Network Error') {
       showErrorToast(i18n.t('common.error.network'));
-    } else {
-      showErrorToast(i18n.t('common.error.unknown'));
+      return;
+    }
+
+    switch (status) {
+      case 400:
+        showErrorToast(i18n.t('common.error.badRequest'));
+        break;
+      case 401:
+        showErrorToast(i18n.t('common.error.unauthorized'));
+        break;
+      case 403:
+        showErrorToast(i18n.t('common.error.forbidden'));
+        break;
+      case 404:
+        showErrorToast(i18n.t('common.error.notFound'));
+        break;
+      case 500:
+        showErrorToast(i18n.t('common.error.server'));
+        break;
+      default:
+        showErrorToast(status ? i18n.t('common.error.api') : i18n.t('common.error.unknown'));
     }
     return;
   }

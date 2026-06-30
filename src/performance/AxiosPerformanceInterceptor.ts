@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import axios, { AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import PerformanceManager from './PerformanceManager';
 import { isLocalOrDevEnvironment } from '@/utils/envUtils';
 
@@ -10,6 +10,10 @@ class AxiosPerformanceInterceptor {
   private static instance: AxiosPerformanceInterceptor;
   private performanceManager: PerformanceManager;
   private isEnabled: boolean;
+  private interceptorIds?: {
+    request: number;
+    response: number;
+  };
 
   // 요청 ID와 시작 시간을 저장하는 맵
   private requestTimings: Map<string, { startTime: number; url: string; method: string }> =
@@ -93,15 +97,17 @@ class AxiosPerformanceInterceptor {
    * @param error Axios 에러
    * @returns rejected 프로미스
    */
-  public responseErrorInterceptor = (error: any) => {
+  public responseErrorInterceptor = (error: unknown) => {
     if (!this.isEnabled) return Promise.reject(error);
 
     if (axios.isCancel(error)) {
-      console.log('Request canceled:', error.message);
+      const message = error instanceof Error ? error.message : String(error);
+      console.log('Request canceled:', message);
       return Promise.reject(error);
     }
 
-    const { config } = error;
+    const axiosError = axios.isAxiosError(error) ? error : undefined;
+    const config = axiosError?.config;
     if (config) {
       const requestId = config.headers?.['X-Request-ID'] as string;
 
@@ -111,7 +117,7 @@ class AxiosPerformanceInterceptor {
         const duration = endTime - startTime;
 
         // 에러 상태 코드 (기본값 500)
-        const status = error.response?.status || 500;
+        const status = axiosError?.response?.status || 500;
 
         // PerformanceManager에 API 호출 정보 전달
         this.performanceManager.endApiMeasurement(
@@ -133,17 +139,19 @@ class AxiosPerformanceInterceptor {
    * Axios 인스턴스에 인터셉터 적용
    * @param axiosInstance Axios 인스턴스
    */
-  public applyInterceptors(axiosInstance: any): void {
-    if (!this.isEnabled) return;
+  public applyInterceptors(axiosInstance: AxiosInstance): void {
+    if (!this.isEnabled || this.interceptorIds) return;
 
-    axiosInstance.interceptors.request.use(this.requestInterceptor, (error: any) =>
+    const request = axiosInstance.interceptors.request.use(this.requestInterceptor, (error) =>
       Promise.reject(error)
     );
 
-    axiosInstance.interceptors.response.use(
+    const response = axiosInstance.interceptors.response.use(
       this.responseInterceptor,
       this.responseErrorInterceptor
     );
+
+    this.interceptorIds = { request, response };
   }
 }
 

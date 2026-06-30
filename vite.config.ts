@@ -23,7 +23,7 @@ export default defineConfig(({ mode, command }) => {
       'process.env.USE_MSW': JSON.stringify(env.USE_MSW),
       'process.env.REACT_APP_BASE_URL': JSON.stringify(env.REACT_APP_BASE_URL),
       'process.env.LOADO_API_URL': JSON.stringify(env.LOADO_API_URL),
-      // TODO: 토큰은 서버(BFF/프록시)에서 부착하도록 옮기고 아래 주입을 제거할 것.
+      // Frontend-only tradeoff: this value is included in the browser bundle.
       'process.env.REACT_APP_SMILEGATE_TOKEN': JSON.stringify(env.REACT_APP_SMILEGATE_TOKEN),
     },
     resolve: {

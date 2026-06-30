@@ -1,4 +1,4 @@
-# i18n 로케일 검증 (정렬 자동수정 + ko/en 정합성 + 미사용 키 경고)
-node scripts/i18n-validate.mjs --fix || exit 1
+# i18n 로케일 검증 (수정은 `npm run i18n:fix`로 명시적으로 실행)
+npm run i18n:check || exit 1
 
 npx lint-staged

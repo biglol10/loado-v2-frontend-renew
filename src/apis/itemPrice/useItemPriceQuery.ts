@@ -52,9 +52,9 @@ export const useItemPriceQuery = (params: IItemPriceQueryParams) => {
         isSuccess: result.every((e) => e.isSuccess),
         isError: result.some((e) => e.isError),
         isFetched: isAllQueriesFetched,
-        isFetching: result.every((e) => e.isFetching),
+        isFetching: result.some((e) => e.isFetching),
         data: result.map((item) => item.data as TItemPriceResponse),
-        isLoading: result.every((e) => e.isLoading),
+        isLoading: result.some((e) => e.isLoading),
       };
     },
   });
